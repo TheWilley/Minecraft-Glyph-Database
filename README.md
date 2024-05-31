@@ -2,6 +2,8 @@
 
 Minecraft Glyph Database (MGD) is a comprehensive, searchable list of all default glyphs in Java-Minecraft's font textures.
 
+![screenshot](readme/Screenshot%203.png)
+
 ## Table Of Contents
 
 <ul>
