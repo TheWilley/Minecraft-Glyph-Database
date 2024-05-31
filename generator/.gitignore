@@ -1,0 +1,6 @@
+node_modules
+textures/
+*.json
+!textures.json
+!package-lock.json
+!package.json
