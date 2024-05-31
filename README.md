@@ -69,7 +69,7 @@ For this project, the `chars` key values are hardcoded in `textures.json`, along
 
 #### JSON Generation
 
-> Install all required packages first using `npm i`
+> Navigate to the `generator` folder, then install all required packages using `npm i`
 
 Javascript is used to parse minecraft bitmap textures. Using the providers in combination with them makes it possible to extract useful info. The exact implementation can be seen in `script.js`.
 
@@ -117,7 +117,7 @@ This part of the project is responsible for generating the webpage / GUI used to
 
 #### Webpage Generation
 
-> Install all required packages first using `npm i`
+> Navigate to the `webpage` folder, then install all required packages using `npm i`
 
 First off, follow the [JSON generation](#json-generation) instructions to generate the required JSON file. Then follow these steps:
 
