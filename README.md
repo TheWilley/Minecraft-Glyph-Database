@@ -124,7 +124,7 @@ First off, follow the [JSON generation](#json-generation) instructions to genera
 1. Move the generated JSON inside the public folder within the `webpage` folder.
 2. Within the `.env` file of the aftermentioned folder, change the `VITE_FILE` variable to the name of your JSON file (default is `glyphs.json`).
 3. Run `npm run build` to build the webpage.
-4. Run `npm run serve` to start the webpage on a server or upload to your own static host.
+4. Run `npm run preview` to start the webpage on a server or upload to your own static host.
 5. (optional) `npm run dev` can be used to start the dev server.
 
 ## Disclaimer
