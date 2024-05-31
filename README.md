@@ -5,15 +5,13 @@ Minecraft Glyph Database (MGD) is a comprehensive, searchable list of all defaul
 ## Table Of Contents
 
 <ul>
+    <li> <a href="#about-minecraft-fonts"> About Minecraft Fonts </a> </li>
     <li> <a href="#self-hosting"> Self Hosting </a> </li>
     <ul>
         <li> <a href="#generator"> Generator </a> </li>
         <ul>
-            <li> <a href="#about-minecraft-fonts"> About Minecraft Fonts </a> </li>
             <li> <a href="#json-generation"> JSON Generation </a> </li>
-            <ul> 
-                <li> <a href="#finding-textures-manually"> Finding Textures Manually </a> </li> 
-            </ul>
+            <li> <a href="#finding-textures-manually"> Finding Textures Manually </a> </li> 
         </ul>
         <li> <a href="#webpage"> Webpage </a> </li>
         <ul>
@@ -23,6 +21,27 @@ Minecraft Glyph Database (MGD) is a comprehensive, searchable list of all defaul
     <li> <a href="#disclaimer"> Disclaimer </a> </li>
     <li> <a href="#license"> License </a> </li>
 </ul>
+
+## About Minecraft Fonts
+
+![](readme/Fonts%20Overview.png)  
+_An Overview of Minecrafts font hierarchy_
+
+The Java version of Minecraft uses a typeface called **Minecraft Seven** which includes 4 different fonts: `default`, `alt`, `uniform` and `illageralt` [^1].
+
+- `alt` is visible in enchanting tables
+- `uniform` font is only employed when the Force Unicode Font option in Language is ON
+- `illageralt` goes unused, although can technically still be accessed trough a JSON text key.
+- `default`, as suggested by its name, is used in almost all situations.
+
+The `default` font references 4 files: `ascii.png`, `accented.png`, `nonlatin_european.png` and `unifont.zip`. All except `unifont.zip` are images files containing Minecraft glyphs. The zip file meanwhile is a copy of GNU Unifont (15.0.06) [^2], a bitmap-based used in many operating systems. It acts as a fallback for glyphs that no other provider has defined a texture for (i.e certain langauges without supported glyphs).
+
+Each font is constructed from a list of "providers", sources that provide characters to use. These providers are defined within JSON files with the same name as the after mentioned fonts. The `chars` key found within the `providers` array within a JSON contains sequences of Unicode characters. Each entry in the array represents a row, with each Unicode character representing a column. This creates a [bitmap](https://www.britannica.com/technology/bitmap) where each item is mapped to the corresponding spot in the reference file. For example, the character "i" in `ascii.png` is located at the 7th row and 10th column, which corresponds to the Unicode representation `u0069` in the bitmap. Some parts of the texture is blank, and this is because `u0000` represents a empty or NULL value, i.e, a sort of padding.
+
+For this project, the `chars` key values are hardcoded in `textures.json`, along with bitmap names, rows, columns and texture size.
+
+[^1]: https://minecraft.wiki/w/Font?oldid=2543897
+[^2]: https://unifoundry.com/index.html
 
 ## Self Hosting
 
@@ -46,27 +65,6 @@ This part of the project is responsible for generating a file in JSON format tha
 - On which bitmap the given Glyph is found
 - The position of the glyph within the bitmap
 
-#### About Minecraft Fonts
-
-![](readme/Fonts%20Overview.png)  
-_An Overview of Minecrafts font hierarchy_
-
-The Java version of Minecraft uses a typeface called **Minecraft Seven** which includes 4 different fonts: `default`, `alt`, `uniform` and `illageralt` [^1].
-
-- `alt` is visible in enchanting tables
-- `uniform` font is only employed when the Force Unicode Font option in Language is ON
-- `illageralt` goes unused, although can technically still be accessed trough a JSON text key.
-- `default`, as suggested by its name, is used in almost all situations.
-
-The `default` font references 4 files: `ascii.png`, `accented.png`, `nonlatin_european.png` and `unifont.zip`. All except `unifont.zip` are images files containing Minecraft glyphs. The zip file meanwhile is a copy of GNU Unifont (15.0.06) [^2], a bitmap-based used in many operating systems. It acts as a fallback for glyphs that no other provider has defined a texture for (i.e certain langauges without supported glyphs).
-
-Each font is constructed from a list of "providers", sources that provide characters to use. These providers are defined within JSON files with the same name as the after mentioned fonts. The `chars` key found within the `providers` array within a JSON contains sequences of Unicode characters. Each entry in the array represents a row, with each Unicode character representing a column. This creates a [bitmap](https://www.britannica.com/technology/bitmap) where each item is mapped to the corresponding spot in the reference file. For example, the character "i" in `ascii.png` is located at the 7th row and 10th column, which corresponds to the Unicode representation `u0069` in the bitmap. Some parts of the texture is blank, and this is because `u0000` represents a empty or NULL value, i.e, a sort of padding.
-
-For this project, the `chars` key values are hardcoded in `textures.json`, along with bitmap names, rows, columns and texture size.
-
-[^1]: https://minecraft.wiki/w/Font?oldid=2543897
-[^2]: https://unifoundry.com/index.html
-
 #### JSON Generation
 
 > Navigate to the `generator` folder, then install all required packages using `npm i`
@@ -89,7 +87,7 @@ node .\script.js --path C:\Users\TheWilley\AppData\Roaming\.minecraft --name gly
 
 This will result in a JSON file called `glyphs.json`. The name can be changed if desired.
 
-##### Finding Textures Manually
+#### Finding Textures Manually
 
 If, for some reason, the script fails to find the textures, you can add them manually. The textures can be found within the `.jar` file of a Minecraft version. To find the `.jar`, navigate to Minecraft's game folder, then enter the `versions` folder. Within this folder, you should find more folders with versions in the format `x.x.x`, where `x` is a number.
 
