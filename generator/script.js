@@ -213,7 +213,7 @@ function findNewestVersion(versions) {
  * @param {*} folderPath The path to the assets within the `.jar` file
  * @param {*} outputDir The output directory to extract assets to
  */
-function extractTexturesFromJJar(jarFilePath, folderPath, outputDir) {
+function extractTexturesFromJar(jarFilePath, folderPath, outputDir) {
   try {
     const zip = new AdmZip(jarFilePath);
     const zipEntries = zip.getEntries();
@@ -251,7 +251,7 @@ function getTexturesFromMinecraft(path) {
 
     const newestVersionPath =
       versionsPath + "/" + newest + "/" + newest + ".jar";
-    extractTexturesFromJJar(
+    extractTexturesFromJar(
       newestVersionPath,
       "assets/minecraft/textures/font",
       "textures"
