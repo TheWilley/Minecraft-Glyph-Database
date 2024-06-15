@@ -75,13 +75,52 @@ function getCharWidth(pixels, character) {
 }
 
 /**
+ * split string into characters, handling surrogate pairs
+ * @param str Astring of UTF-8 characters
+ * */
+function splitIntoCharacters(str) {
+  let result = [];
+  for (let i = 0; i < str.length; i++) {
+    let char = str.charAt(i);
+    if (/[\uD800-\uDBFF]/.test(char) && i + 1 < str.length) {
+      let surrogatePair = char + str.charAt(i + 1);
+      result.push(surrogatePair);
+      i++;
+    } else {
+      result.push(char);
+    }
+  }
+  return result;
+}
+
+/**
+ * Get raw Unicode code point of a given character
+ * The character
+ */
+function getRawCodePoints(char) {
+  // Check if the character is part of a surrogate pair
+  if (char.length === 2) {
+    // Calculate the code point of the surrogate pair
+    let codePoint =
+      (char.charCodeAt(0) - 0xd800) * 0x400 +
+      (char.charCodeAt(1) - 0xdc00) +
+      0x10000;
+    return codePoint.toString(16).toUpperCase(); // Convert to hexadecimal string
+  } else {
+    // Get the code point of the regular character
+    let codePoint = char.codePointAt(0);
+    return codePoint.toString(16).toUpperCase(); // Convert to hexadecimal string
+  }
+}
+
+/**
  * Generates a object containing glyph info
  * @param {*} item An array entry
  * @returns A object containing glyph info
  */
 function generateGlyphData(item) {
   return new Promise((resolve) => {
-    const chars = item.chars.map((char) => char.split(""));
+    const chars = item.chars.map((char) => splitIntoCharacters(char));
     const width = item.size[0];
     const height = item.size[1];
     const cells = item.dimensions[0];
@@ -121,8 +160,7 @@ function generateGlyphData(item) {
           const width = getCharWidth(data, character);
           const base64 = cellCanvas.toDataURL("image/png");
           const file = item.name + ".png";
-          const unicode =
-            "U+" + character.charCodeAt(0).toString(16).toUpperCase();
+          const unicode = "U+" + getRawCodePoints(character);
           const location = [row, cell];
 
           if (width > 0) {
@@ -208,7 +246,7 @@ function findNewestVersion(versions) {
 }
 
 /**
- * Extract font specific textures from a Minecraft version 
+ * Extract font specific textures from a Minecraft version
  * @param {*} jarFilePath The path to the Miencraft version `.jar` file
  * @param {*} folderPath The path to the assets within the `.jar` file
  * @param {*} outputDir The output directory to extract assets to
