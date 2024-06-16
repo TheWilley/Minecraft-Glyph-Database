@@ -75,10 +75,10 @@ function generateGlyphObject(texture) {
 
 /**
  * Generates an object containing texture information
- * @param {*} texture An array entry representing a texture
+ * @param {*} texture A texture object
  * @returns An object containing texture information
  */
-function generateTexture(texture) {
+function generateTextureObject(texture) {
   return new Promise((resolve) => {
     const canvas = createCanvas(texture.size[0], texture.size[1]);
     const context = canvas.getContext("2d");
@@ -109,7 +109,7 @@ async function createJson(outputFileName) {
 
   for (const texture of texturesArray) {
     const glyphObject = await generateGlyphObject(texture);
-    const textureObject = await generateTexture(texture);
+    const textureObject = await generateTextureObject(texture);
     glyphs.push(glyphObject);
     textures.push(textureObject);
   }
