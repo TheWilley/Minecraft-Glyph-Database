@@ -1,10 +1,10 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileText, faFont, faHashtag, faImage, faLocation, faTextWidth } from '@fortawesome/free-solid-svg-icons';
 import { faCode } from '@fortawesome/free-solid-svg-icons/faCode';
-import { Glyph } from '../global/types';
+import { TextureGlyph } from '../global/types';
 
 type Props = {
-    glyphs: Glyph[]
+    textureGlyph: TextureGlyph
     query: string
 }
 
@@ -24,7 +24,7 @@ function Table(props: Props) {
             </thead>
             <tbody>
                 {
-                    props.glyphs.map((item, index) => {
+                    props.textureGlyph.glyphs.map((item, index) => {
                         if (props.query === item.character || !props.query.length) return (
                             (
                                 <tr className='hover:!bg-green-900 cursor-pointer'>
@@ -32,22 +32,22 @@ function Table(props: Props) {
                                         {index}
                                     </td>
                                     <td>
-                                        <img src={item.base64} className='w-12' />
+                                        <img src={item.base64Image} className='w-12' />
                                     </td>
                                     <td>
                                         {item.character}
                                     </td>
                                     <td>
-                                        {item.unicode}
+                                        {item.unicodeCode}
                                     </td>
                                     <td>
-                                        {item.width}
+                                        {item.charWidth}
                                     </td>
                                     <td className='hidden md:table-cell'>
-                                        {item.location.join('-')}
+                                        {item.gridLocation.join('-')}
                                     </td>
                                     <td className='hidden md:table-cell'>
-                                        {item.file}
+                                        {item.fileName}
                                     </td>
                                 </tr>
                             )

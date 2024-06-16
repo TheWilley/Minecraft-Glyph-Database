@@ -19,7 +19,7 @@ function App() {
         <>
           <Header />
           <Search setQuery={setQuery} />
-          <Table glyphs={data} query={query} />
+          <Table textureGlyph={data} query={query} />
           <ScrollToTop smooth className='flex justify-center items-center m-auto opacity-30 hover:opacity-100' />
           <Footer />
         </>

@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import { Glyph } from '../global/types';
+import { TextureGlyph } from '../global/types';
 
 export default function useData() {
-  const [data, setData] = useState<Glyph[]>();
+  const [data, setData] = useState<TextureGlyph>();
 
   useEffect(() => {
     fetch('glyphs.json')
