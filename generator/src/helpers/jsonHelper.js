@@ -80,7 +80,7 @@ async function createJson(name) {
     const glyph = await generateGlyphData(item);
     glyphs.push(glyph);
   }
-  fs.writeFileSync("./" + name + ".json", JSON.stringify(glyphs.flat()));
+  fs.writeFileSync("../dist/" + name + ".json", JSON.stringify(glyphs.flat()));
 }
 
 /**
