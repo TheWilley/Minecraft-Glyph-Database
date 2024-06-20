@@ -30,7 +30,7 @@ The Java version of Minecraft uses a typeface called Minecraft Seven, which incl
 
 The **default** font references four files: `ascii.png`, `accented.png`, `nonlatin_european.png`, and `unifont.zip`. All except `unifont.zip` are image files containing Minecraft glyphs. The `unifont.zip` file is a copy of GNU Unifont (15.0.06), a bitmap-based font used in many operating systems. It acts as a fallback for glyphs that no other provider has defined a texture for (i.e., certain languages without supported glyphs).
 
-Each font is constructed from a list of "providers", which are sources that provide characters to use. These providers are defined within JSON files with the same name as the aforementioned fonts. The `chars` key found within the `providers` array in the JSON file contains sequences of Unicode characters. Each entry in the array represents a row, with each Unicode character representing a column. This creates a [bitmap](https://www.britannica.com/technology/bitmap) where each item is mapped to the corresponding spot in the reference file. For example, the character "i" in `ascii.png` is located at the 7th row and 10th column, which corresponds to the Unicode representation `u0069` in the bitmap. Some parts of the texture are blank because `u0000` represents an empty or NULL value, acting as padding.
+Each font is constructed from a list of "providers", which are sources that provide characters to use. These providers are defined within JSON files with the same name as the aforementioned fonts. The `chars` key found within the `providers` array in a given JSON file contains sequences of Unicode characters. Each entry in the array represents a row, with each Unicode character representing a column. This creates a [bitmap](https://www.britannica.com/technology/bitmap) where each item is mapped to the corresponding spot in the reference file. For example, the character "i" in `ascii.png` is located at the 7th row and 10th column, which corresponds to the Unicode representation `u0069` in the bitmap. Some parts of the texture are blank because `u0000` represents an empty or NULL value, acting as padding.
 
 For this project, the `chars` key values are hardcoded in `textures.json`, along with bitmap names, rows, columns, and texture size.
 
@@ -97,8 +97,6 @@ Lastly, add the `--skip` argument when running the script to skip automatic text
 ```sh
 node .\script.js --path C:\Users\TheWilley\AppData\Roaming\.minecraft --name glyphs --skip
 ```
-
-After generating the JSON file, follow the README instructions in the `webpage` folder.
 
 ### Webpage
 
