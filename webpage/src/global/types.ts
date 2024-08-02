@@ -7,7 +7,7 @@ type Glyph = {
   base64Image: string;
   character: string;
   unicodeCode: string;
-  charWidth: number;
+  characterWidth: number;
   fileName: string;
   gridLocation: number[];
 };

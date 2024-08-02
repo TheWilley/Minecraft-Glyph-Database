@@ -41,7 +41,7 @@ function Table(props: Props) {
                                         {item.unicodeCode}
                                     </td>
                                     <td>
-                                        {item.charWidth}
+                                        {item.characterWidth}
                                     </td>
                                     <td className='hidden md:table-cell'>
                                         {item.gridLocation.join('-')}
