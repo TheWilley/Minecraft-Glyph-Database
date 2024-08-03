@@ -2,6 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileText, faFont, faHashtag, faImage, faLocation, faTextWidth } from '@fortawesome/free-solid-svg-icons';
 import { faCode } from '@fortawesome/free-solid-svg-icons/faCode';
 import { ConvertedData } from '../global/types';
+import Highlighter from './Highlighter';
 
 type Props = {
     data: ConvertedData
@@ -60,7 +61,7 @@ function Table(props: Props) {
                         }
                     </tbody>
                 </table>
-                <img src={props.data[texture].texture.base64Image} className="top-3 sticky z-10 p-5 rounded-md bg-base-200 hidden md:block w-full overflow-auto" />
+                <Highlighter image={props.data[texture].texture.base64Image} />
             </div>
         </>
 

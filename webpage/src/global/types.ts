@@ -25,4 +25,6 @@ type Glyph = {
 type Texture = {
   base64Image: string;
   name: string;
+  size: number[];
+  dimensions: number[];
 };
