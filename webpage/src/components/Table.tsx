@@ -11,7 +11,7 @@ type Props = {
 function Table(props: Props) {
     const TableItem = ({ texture }: { texture: keyof ConvertedData }) => (
         <>
-            <h1 className='text-3xl w-full bg-base-300 rounded-md p-3 mt-3 shadow-md'>{props.data[texture].texture.name}</h1>
+            <h1 className='text-3xl w-full rounded-md bg-base-200 p-3 mt-3'>{props.data[texture].texture.name}</h1>
             <div className='grid grid-cols-1 gap-3 pt-3 md:grid-cols-2'>
                 <table className="table table-pin-rows table-zebra">
                     <thead>
@@ -60,7 +60,7 @@ function Table(props: Props) {
                         }
                     </tbody>
                 </table>
-                <img src={props.data[texture].texture.base64Image} className="top-3 sticky z-10 p-5 rounded-md bg-base-300 hidden md:block w-full overflow-auto" />
+                <img src={props.data[texture].texture.base64Image} className="top-3 sticky z-10 p-5 rounded-md bg-base-200 hidden md:block w-full overflow-auto" />
             </div>
         </>
 
