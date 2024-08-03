@@ -11,6 +11,13 @@ export type ConvertedData = {
   nonlatin_european: GlyphTexturePair;
 }
 
+export type Texture = {
+  base64Image: string;
+  name: string;
+  size: number[];
+  dimensions: number[];
+};
+
 type GlyphTexturePair = { glyphs: Glyph[], texture: Texture }
 
 type Glyph = {
@@ -22,9 +29,3 @@ type Glyph = {
   gridLocation: number[];
 };
 
-type Texture = {
-  base64Image: string;
-  name: string;
-  size: number[];
-  dimensions: number[];
-};

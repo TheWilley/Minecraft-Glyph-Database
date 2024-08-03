@@ -3,6 +3,7 @@ import { faFileText, faFont, faHashtag, faImage, faLocation, faTextWidth } from 
 import { faCode } from '@fortawesome/free-solid-svg-icons/faCode';
 import { ConvertedData } from '../global/types';
 import Highlighter from './Highlighter';
+import { useState } from 'react';
 
 type Props = {
     data: ConvertedData
@@ -10,6 +11,8 @@ type Props = {
 }
 
 function Table(props: Props) {
+    const [highlightedArea, setHighlightedArea] = useState([0, 0]);
+
     const TableItem = ({ texture }: { texture: keyof ConvertedData }) => (
         <>
             <h1 className='text-3xl w-full rounded-md bg-base-200 p-3 mt-3'>{props.data[texture].texture.name}</h1>
@@ -31,7 +34,7 @@ function Table(props: Props) {
                             props.data[texture].glyphs.map((item, index) => {
                                 if (props.query === item.character || !props.query.length) return (
                                     (
-                                        <tr className='hover:!bg-green-900 cursor-pointer'>
+                                        <tr className='hover:!bg-green-900 cursor-pointer' onClick={() => setHighlightedArea([item.gridLocation[1], item.gridLocation[0]])}>
                                             <td>
                                                 {index}
                                             </td>
@@ -61,7 +64,7 @@ function Table(props: Props) {
                         }
                     </tbody>
                 </table>
-                <Highlighter image={props.data[texture].texture.base64Image} />
+                <Highlighter texture={props.data[texture].texture} highlightedArea={highlightedArea} />
             </div>
         </>
 
