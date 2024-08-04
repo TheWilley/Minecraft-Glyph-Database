@@ -31,25 +31,6 @@ function compareVersions(version1, version2) {
 }
 
 /**
- * Finds the newest version in an array of strings
- * @param {*} versions An array of strings
- * @returns The newest version
- */
-function findNewestVersion(versions) {
-  // Filter out invalid versions
-  const validVersions = versions.filter(isValidVersion);
-
-  // If no valid versions, return null or a message
-  if (validVersions.length === 0) {
-    return null;
-  }
-
-  return validVersions.reduce((newest, current) => {
-    return compareVersions(newest, current) > 0 ? newest : current;
-  });
-}
-
-/**
  * Extract font specific textures from a Minecraft version
  * @param {*} jarFilePath The path to the Miencraft version `.jar` file
  * @param {*} folderPath The path to the assets within the `.jar` file
@@ -86,15 +67,9 @@ function extractTexturesFromJar(jarFilePath, folderPath, outputDir) {
  * @param {*} path The path to the Minecraft game folder
  */
 function getTexturesFromMinecraft(path) {
-  const versionsPath = path + "/versions";
-  if (fs.existsSync(versionsPath)) {
-    const versions = fs.readdirSync(versionsPath);
-    const newest = findNewestVersion(versions);
-
-    const newestVersionPath =
-      versionsPath + "/" + newest + "/" + newest + ".jar";
+  if (fs.existsSync(path)) {
     extractTexturesFromJar(
-      newestVersionPath,
+      path,
       "assets/minecraft/textures/font",
       "textures"
     );

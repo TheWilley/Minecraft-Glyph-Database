@@ -70,33 +70,13 @@ Because Minecraft assets fall under copyright, you'll have to provide them yours
 - `asciilager.png`
 - `nonlatin_european.png`
 
-These are automatically extracted from Minecraft's source code when running `script.js`. Simply provide the path to Minecraft's game folder (`.minecraft`) as such:
+These are automatically extracted from Minecraft's source code when running `script.js`. Simply provide the path to a Minecraft version JAR file as such:
 
 ```sh
-node .\script.js --path C:\Users\TheWilley\AppData\Roaming\.minecraft --name glyphs
+node .\script.js --path C:\Users\TheWilley\AppData\Roaming\.minecraft\versions\1.21\1.21.jar --name glyphs
 ```
 
-This will result in a JSON file called `glyphs.json`. The name can be changed if desired.
-
-#### Finding Textures Manually
-
-If, for some reason, the script fails to find the textures, you can add them manually. The textures can be found within the `.jar` file of a Minecraft version. To find the `.jar`, navigate to Minecraft's game folder, then enter the **versions** folder. Within this folder, you should find more folders with versions in the format `x.x.x`, where `x` is a number.
-
-![Minecraft Versions](readme/Screenshot%201.png)  
-_Screenshot of Minecraft Versions_
-
-In this case, `1.20.6` is the latest release. In this folder, you will find the `.jar` file with the same name as the folder. Open it using an archive manager, and follow this path: `assets > minecraft > textures > font`. In this folder, you'll find the aforementioned image files.
-
-![Font Textures in 7zip](readme/Screenshot%202.png)  
-_Screenshot of Font Textures in 7zip_
-
-Move them to a folder called "textures" in the root directory of this part of the project (`generator`).
-
-Lastly, add the `--skip` argument when running the script to skip automatic texture extraction.
-
-```sh
-node .\script.js --path C:\Users\TheWilley\AppData\Roaming\.minecraft --name glyphs --skip
-```
+This will result in a JSON file called `glyphs.json`. The name can be changed using the `--name` argument.
 
 ### Webpage
 

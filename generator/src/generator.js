@@ -4,7 +4,7 @@ const createJson = require("./helpers/jsonHelper");
 
 /**
  * The primary function
- * @param {*} path The path to the game folder
+ * @param {*} path The path to a Minecraft version JAR file
  * @param {*} name The name of the output JSON
  * @param {*} skip If we shouldn't extract textures automatically
  */

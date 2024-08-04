@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "adm-zip": "^0.5.12",
-    "canvas": "^2.11.2",
-    "command-line-args": "^5.2.1"
+    "canvas": "^3.0.0-rc2",
+    "command-line-args": "^6.0.0"
   }
 }
