@@ -9,16 +9,16 @@ export type ConvertedData = {
   asciillager: GlyphTexturePair;
   accented: GlyphTexturePair;
   nonlatin_european: GlyphTexturePair;
-}
+};
 
 export type Texture = {
   base64Image: string;
   name: string;
-  size: [number, number];
-  dimensions: [number, number];
+  size: { x: number; y: number };
+  dimensions: { x: number; y: number };
 };
 
-type GlyphTexturePair = { glyphs: Glyph[], texture: Texture }
+type GlyphTexturePair = { glyphs: Glyph[]; texture: Texture };
 
 type Glyph = {
   base64Image: string;
@@ -26,6 +26,5 @@ type Glyph = {
   unicodeCode: string;
   characterWidth: number;
   fileName: string;
-  gridLocation: [number, number];
+  gridLocation: { y: number; x: number };
 };
-

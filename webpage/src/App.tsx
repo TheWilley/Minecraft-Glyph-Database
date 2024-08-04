@@ -1,4 +1,3 @@
-
 import ScrollToTop from 'react-scroll-to-top';
 import Container from './components/Container';
 import Header from './components/Header';
@@ -20,7 +19,10 @@ function App() {
           <Header />
           <Search setQuery={setQuery} />
           <TablesList data={data} />
-          <ScrollToTop smooth className='flex justify-center items-center m-auto opacity-30 hover:opacity-100' />
+          <ScrollToTop
+            smooth
+            className='flex justify-center items-center m-auto opacity-30 hover:opacity-100'
+          />
           <Footer />
         </>
       ) : (
