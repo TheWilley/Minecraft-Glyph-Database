@@ -2,7 +2,7 @@
 import ScrollToTop from 'react-scroll-to-top';
 import Container from './components/Container';
 import Header from './components/Header';
-import Table from './components/Table';
+import TablesList from './components/TablesList';
 import Search from './components/Search';
 import useData from './hooks/useData';
 import Error from './components/Error';
@@ -19,7 +19,7 @@ function App() {
         <>
           <Header />
           <Search setQuery={setQuery} />
-          <Table data={data} query={query} />
+          <TablesList data={data} />
           <ScrollToTop smooth className='flex justify-center items-center m-auto opacity-30 hover:opacity-100' />
           <Footer />
         </>

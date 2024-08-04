@@ -14,8 +14,8 @@ export type ConvertedData = {
 export type Texture = {
   base64Image: string;
   name: string;
-  size: number[];
-  dimensions: number[];
+  size: [number, number];
+  dimensions: [number, number];
 };
 
 type GlyphTexturePair = { glyphs: Glyph[], texture: Texture }
@@ -26,6 +26,6 @@ type Glyph = {
   unicodeCode: string;
   characterWidth: number;
   fileName: string;
-  gridLocation: number[];
+  gridLocation: [number, number];
 };
 
