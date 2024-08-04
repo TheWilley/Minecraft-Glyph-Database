@@ -53,7 +53,7 @@ function generateGlyphObject(texture) {
           const base64Image = cellCanvas.toDataURL("image/png");
           const fileName = texture.name + ".png";
           const unicodeCode = "U+" + getRawCodePoints(character);
-          const gridLocation = [rowIndex, columnIndex];
+          const gridLocation = { x: rowIndex, y: columnIndex };
 
           if (characterWidth > 0) {
             glyphDataArray.push({
@@ -90,6 +90,8 @@ function generateTextureObject(texture) {
       const textureData = {
         name: texture.name,
         base64Image,
+        size: { x: texture.size[0], y: texture.size[1] },
+        dimensions: { x: texture.dimensions[0], y: texture.dimensions[1] }
       };
       resolve(textureData);
     });
