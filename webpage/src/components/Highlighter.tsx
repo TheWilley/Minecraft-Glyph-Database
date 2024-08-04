@@ -12,7 +12,7 @@ function Highlighter({ texture, highlightedArea }: Props) {
     useHighlight(texture, highlightedArea, canvasRef);
 
     return (
-        <canvas ref={canvasRef} width={texture.size[0]} height={texture.size[1]} className="top-3 sticky z-10 p-5 rounded-md bg-base-200 hidden md:block w-full overflow-auto" />
+        <canvas ref={canvasRef} width={texture.size[0]} height={texture.size[1]} className="top-[70px] sticky z-10 p-5 rounded-md bg-base-200 hidden md:block w-full overflow-auto" />
     );
 }
 

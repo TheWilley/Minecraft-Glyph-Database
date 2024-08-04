@@ -27,18 +27,17 @@ function Table(props: Props) {
 
     return (
         <>
-            <h1 className='text-3xl w-full rounded-md bg-base-200 p-3 mt-3'>{props.data[props.textureKey].texture.name}</h1>
+            <h1 className='text-3xl w-full rounded-md bg-base-300 p-3 mt-3 sticky top-0 z-30 shadow-md'>{props.data[props.textureKey].texture.name}</h1>
             <div className='grid grid-cols-1 gap-3 pt-3 md:grid-cols-2'>
                 <table className="table table-pin-rows table-zebra" onMouseOut={resetHighlitedArea}>
                     <thead>
-                        <tr>
+                        <tr className='top-[60px]'>
                             <th> <div className='tooltip tooltip-bottom' data-tip="Index">  <FontAwesomeIcon icon={faHashtag} /> </div> </th>
                             <th> <div className='tooltip tooltip-bottom' data-tip="Glyph">  <FontAwesomeIcon icon={faImage} /> </div> </th>
                             <th> <div className='tooltip tooltip-bottom' data-tip="Character">  <FontAwesomeIcon icon={faFont} /> </div></th>
                             <th> <div className='tooltip tooltip-bottom' data-tip="Unicode">  <FontAwesomeIcon icon={faCode} /> </div></th>
                             <th>  <div className='tooltip tooltip-bottom' data-tip="Width"> <FontAwesomeIcon icon={faTextWidth} /></div> </th>
                             <th className='hidden md:table-cell'>  <div className='tooltip tooltip-bottom' data-tip="Location"> <FontAwesomeIcon icon={faLocation} /></div> </th>
-                            <th className='hidden md:table-cell'>  <div className='tooltip tooltip-bottom' data-tip="File"> <FontAwesomeIcon icon={faFileText} /></div> </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -63,9 +62,6 @@ function Table(props: Props) {
                                     </td>
                                     <td className='hidden md:table-cell'>
                                         {item.gridLocation.join('-')}
-                                    </td>
-                                    <td className='hidden md:table-cell'>
-                                        {item.fileName}
                                     </td>
                                 </tr>
                             ))
