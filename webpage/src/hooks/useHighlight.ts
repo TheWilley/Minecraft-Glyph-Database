@@ -35,8 +35,8 @@ export default function useHighlight(
         context.globalAlpha = 1.0;
 
         // Calculate the scaling factors
-        const scaleX = texture.size.x / texture.dimensions.x;
-        const scaleY = texture.size.y / texture.dimensions.y;
+        const scaleX = Math.round(texture.size.x / texture.dimensions.x);
+        const scaleY = Math.round(texture.size.y / texture.dimensions.y);
 
         // Calculate the clipping region
         const clipX = highlightedArea.x * scaleX;
