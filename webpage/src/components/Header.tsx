@@ -5,18 +5,28 @@ function Header() {
 
   return (
     <>
-      <h1 className='text-2xl font-bold mb-2'> Minecraft Glyph Database </h1>
-      <div className='mb-3'>
-        <a className='link text-blue-400' onClick={download}>
-          Download
-        </a>
-        <span> • </span>
-        <a
-          href='https://github.com/TheWilley/Minecraft-Glyph-Database'
-          className='link text-blue-400'
-        >
-          Github
-        </a>
+      <div className="navbar bg-base-200">
+        <div className="flex-1">
+          <a className="text-xl">Minecraft Glyph Database </a>
+        </div>
+        <div className="flex-none">
+          <ul className="menu menu-horizontal px-1">
+            <li><a onClick={download}>Download</a></li>
+            <li><a href='https://github.com/TheWilley/Minecraft-Glyph-Database'>Github</a></li>
+            <li>
+              <details>
+                <summary>Jump To</summary>
+                <ul className="bg-base-200 rounded-t-none p-2 z-40">
+                  <li><a href='#jumpto-ascii'>ascii</a></li>
+                  <li><a href='#jumpto-ascii_sga'>ascii_sga</a></li>
+                  <li><a href='#jumpto-asciillager'>asciillager</a></li>
+                  <li><a href='#jumpto-accented'>accented</a></li>
+                  <li><a href='#jumpto-nonlatin_european'>nonlatin_european</a></li>
+                </ul>
+              </details>
+            </li>
+          </ul>
+        </div>
       </div>
     </>
   );

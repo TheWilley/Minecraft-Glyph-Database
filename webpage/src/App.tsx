@@ -17,7 +17,6 @@ function App() {
       {data ? (
         <>
           <Header />
-          <Search setQuery={setQuery} />
           <TablesList data={data} />
           <ScrollToTop
             smooth

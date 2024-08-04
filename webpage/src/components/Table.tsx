@@ -32,7 +32,7 @@ function Table(props: Props) {
 
   return (
     <>
-      <h1 className='text-3xl w-full rounded-md bg-base-300 p-3 mt-3 sticky top-0 z-30 shadow-md'>
+      <h1 className='text-3xl w-full rounded-md bg-base-200 p-3 mt-3 sticky top-0 z-30' id={`jumpto-${props.textureKey}`}>
         {props.data[props.textureKey].texture.name}
       </h1>
       <div className='grid grid-cols-1 gap-3 pt-3 md:grid-cols-2'>
