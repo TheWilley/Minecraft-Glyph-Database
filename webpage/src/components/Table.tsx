@@ -3,7 +3,6 @@ import Highlighter from './Highlighter';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faFont,
-  faHashtag,
   faImage,
   faLocation,
   faTextWidth,
