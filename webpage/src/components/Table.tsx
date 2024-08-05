@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Highlighter from './Highlighter';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -28,6 +28,37 @@ function Table(props: Props) {
   const resetHighlitedArea = () => {
     setHighlightedArea({ x: -1, y: -1 });
   };
+
+  const scrollTo = (id: string) => {
+    // Go to the target
+    location.href = '#' + id;
+
+    // Get the element and set offset
+    const element = document.getElementById(id);
+    const headerOffset = 100;
+
+    // Try to navigate to the element
+    if (element) {
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  useEffect(() => {
+    // Extract the hash part of the URL (e.g., '#U+4C')
+    const hash = location.hash;
+
+    if (hash) {
+      // Remove the '#' character and scroll to the element with the corresponding ID
+      const id = hash.replace('#', '');
+      scrollTo(id);
+    }
+  }, []);
 
   return (
     <>
@@ -75,6 +106,9 @@ function Table(props: Props) {
                 onMouseOver={() =>
                   handleHoverChange(item.gridLocation.y, item.gridLocation.x)
                 }
+                id={props.textureKey + '-' + item.unicodeCode}
+                onClick={() => scrollTo(props.textureKey + '-' + item.unicodeCode)}
+                key={props.textureKey + '-' + item.unicodeCode}
               >
                 <td>
                   <img src={item.base64Image} className='w-12' />
