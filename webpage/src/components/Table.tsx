@@ -62,7 +62,7 @@ function Table(props: Props) {
                   <FontAwesomeIcon icon={faTextWidth} />
                 </div>
               </th>
-              <th className='hidden md:table-cell'>
+              <th>
                 <div className='tooltip tooltip-bottom' data-tip='Location'>
                   <FontAwesomeIcon icon={faLocation} />
                 </div>
@@ -83,7 +83,7 @@ function Table(props: Props) {
                 <td>{item.character}</td>
                 <td>{item.unicodeCode}</td>
                 <td>{item.characterWidth}</td>
-                <td className='hidden md:table-cell'>{`${item.gridLocation.y}-${item.gridLocation.x}`}</td>
+                <td>{`${item.gridLocation.y}-${item.gridLocation.x}`}</td>
               </tr>
             ))}
           </tbody>
