@@ -43,11 +43,6 @@ function Table(props: Props) {
           <thead>
             <tr className='top-[60px]'>
               <th>
-                <div className='tooltip tooltip-bottom' data-tip='Index'>
-                  <FontAwesomeIcon icon={faHashtag} />
-                </div>
-              </th>
-              <th>
                 <div className='tooltip tooltip-bottom' data-tip='Glyph'>
                   <FontAwesomeIcon icon={faImage} />
                 </div>
@@ -75,14 +70,13 @@ function Table(props: Props) {
             </tr>
           </thead>
           <tbody>
-            {props.data[props.textureKey].glyphs.map((item, index) => (
+            {props.data[props.textureKey].glyphs.map(item => (
               <tr
                 className='hover:!bg-green-900 cursor-pointer'
                 onMouseOver={() =>
                   handleHoverChange(item.gridLocation.y, item.gridLocation.x)
                 }
               >
-                <td>{index}</td>
                 <td>
                   <img src={item.base64Image} className='w-12' />
                 </td>
