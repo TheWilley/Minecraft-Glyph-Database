@@ -12,7 +12,8 @@ function Header(props: Props) {
     <>
       <div className="navbar bg-base-200">
         <div className="flex-1">
-          <a className="text-xl">Minecraft Glyph Database </a>
+          <h1 className="text-xl hidden md:block font-bold">Minecraft Glyph Database </h1>
+          <h1 className="text-xl block md:hidden font-bold">MGD </h1>
         </div>
         <div className="flex-none">
           <ul className="menu menu-horizontal px-1">
