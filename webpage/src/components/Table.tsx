@@ -26,7 +26,7 @@ function Table(props: Props) {
   } = useTable(props.data, props.textureKey, props.query);
 
   return (
-    filteredData?.length && (
+    filteredData?.length ? (
       <>
         <h1
           className='text-3xl w-full rounded-md bg-base-200 p-3 mt-3 sticky top-0 z-30'
@@ -96,7 +96,7 @@ function Table(props: Props) {
           />
         </div>
       </>
-    )
+    ) : (<></>)
   );
 }
 
