@@ -28,4 +28,3 @@ export type Glyph = {
 };
 
 type GlyphTexturePair = { glyphs: Glyph[]; texture: Texture };
-
