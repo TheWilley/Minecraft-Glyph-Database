@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import Highlighter from './Highlighter';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -9,58 +8,18 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { faCode } from '@fortawesome/free-solid-svg-icons/faCode';
 import { ConvertedData } from '../global/types';
+import useTable from '../hooks/useTable';
 
 type Props = {
   data: ConvertedData;
   textureKey: keyof ConvertedData;
+  query: string;
 };
 
 function Table(props: Props) {
-  const [highlightedArea, setHighlightedArea] = useState<{ x: number; y: number }>({
-    x: -1,
-    y: -1,
-  });
+  const { filteredData, handleHoverChange, highlightedArea, resetHighlitedArea, scrollTo } = useTable(props.data, props.textureKey, props.query);
 
-  const handleHoverChange = (x: number, y: number) => {
-    setHighlightedArea({ x, y });
-  };
-
-  const resetHighlitedArea = () => {
-    setHighlightedArea({ x: -1, y: -1 });
-  };
-
-  const scrollTo = (id: string) => {
-    // Go to the target
-    location.href = '#' + id;
-
-    // Get the element and set offset
-    const element = document.getElementById(id);
-    const headerOffset = 100;
-
-    // Try to navigate to the element
-    if (element) {
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      });
-    }
-  };
-
-  useEffect(() => {
-    // Extract the hash part of the URL (e.g., '#U+4C')
-    const hash = location.hash;
-
-    if (hash) {
-      // Remove the '#' character and scroll to the element with the corresponding ID
-      const id = hash.replace('#', '');
-      scrollTo(id);
-    }
-  }, []);
-
-  return (
+  return filteredData?.length && (
     <>
       <h1 className='text-3xl w-full rounded-md bg-base-200 p-3 mt-3 sticky top-0 z-30' id={`jumpto-${props.textureKey}`}>
         {props.data[props.textureKey].texture.name}
@@ -68,7 +27,7 @@ function Table(props: Props) {
       <div className='grid grid-cols-1 gap-3 pt-3 md:grid-cols-2'>
         <table
           className='table table-pin-rows table-zebra'
-          onMouseOut={resetHighlitedArea}
+          onMouseOut={() => resetHighlitedArea}
         >
           <thead>
             <tr className='top-[60px]'>
@@ -100,7 +59,7 @@ function Table(props: Props) {
             </tr>
           </thead>
           <tbody>
-            {props.data[props.textureKey].glyphs.map(item => (
+            {filteredData?.map(item => (
               <tr
                 className='hover:!bg-green-900 cursor-pointer'
                 onMouseOver={() =>

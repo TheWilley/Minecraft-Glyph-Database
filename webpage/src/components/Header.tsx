@@ -1,6 +1,11 @@
 import useDownload from '../hooks/useDownload';
+import Search from './Search';
 
-function Header() {
+type Props = {
+  setQuery: React.Dispatch<React.SetStateAction<string>>;
+};
+
+function Header(props: Props) {
   const download = useDownload();
 
   return (
@@ -27,6 +32,7 @@ function Header() {
             </li>
           </ul>
         </div>
+        <Search setQuery={props.setQuery}/>
       </div>
     </>
   );

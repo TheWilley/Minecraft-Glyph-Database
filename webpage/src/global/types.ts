@@ -18,9 +18,7 @@ export type Texture = {
   dimensions: { x: number; y: number };
 };
 
-type GlyphTexturePair = { glyphs: Glyph[]; texture: Texture };
-
-type Glyph = {
+export type Glyph = {
   base64Image: string;
   character: string;
   unicodeCode: string;
@@ -28,3 +26,6 @@ type Glyph = {
   fileName: string;
   gridLocation: { y: number; x: number };
 };
+
+type GlyphTexturePair = { glyphs: Glyph[]; texture: Texture };
+
