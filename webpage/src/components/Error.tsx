@@ -13,12 +13,10 @@ function Error() {
       <div className='h-screen flex items-center justify-center'>
         <div>
           <h1 className='font-bold text-5xl mb-5'>
-            {' '}
-            {longLoadingWarning ? 'Error' : 'Loading...'}{' '}
+            {longLoadingWarning ? 'Error' : 'Loading...'}
           </h1>
           {longLoadingWarning && (
             <p className='text-red-500'>
-              {' '}
               Could not load glyphs, does "{import.meta.env.VITE_FILE}" exist in the
               public folder?
             </p>
