@@ -17,7 +17,7 @@ function Header(props: Props) {
         </div>
         <div className='flex-none'>
           <ul className='menu menu-horizontal px-1'>
-            <li>
+            <li className='hidden sm:block'>
               <a onClick={download}>Download</a>
             </li>
             <li>
