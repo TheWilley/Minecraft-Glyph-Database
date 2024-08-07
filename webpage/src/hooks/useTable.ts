@@ -1,16 +1,16 @@
 import { useEffect, useState } from 'react';
-import { ConvertedData, Glyph } from '../global/types';
+import { Fonts, Glyph } from '../global/types';
 
 export default function useTable(
-  data: ConvertedData,
-  textureKey: keyof ConvertedData,
+  fonts: Fonts,
+  fontKey: keyof Fonts,
   query: string
 ) {
   const [highlightedArea, setHighlightedArea] = useState<{ x: number; y: number }>({
     x: -1,
     y: -1,
   });
-  const [filteredData, setFilteredData] = useState<Glyph[]>();
+  const [filteredFonts, setFilteredFonts] = useState<Glyph[]>();
   const [disableHighlightChange, setDisableHighlightChange] = useState(false);
   const [scrolledToGlyphOnInit, setScrolledToGlyphOnInit] = useState(false);
 
@@ -35,7 +35,7 @@ export default function useTable(
       const id = hash.replace('#', '');
       scrollTo(id);
     }
-  }, [filteredData, scrolledToGlyphOnInit]);
+  }, [filteredFonts, scrolledToGlyphOnInit]);
 
   const scrollTo = (id: string) => {
     // Go to the target
@@ -60,23 +60,23 @@ export default function useTable(
 
   useEffect(() => {
     if (query) {
-      const result = data[textureKey].glyphs.filter((item) => item.character === query);
-      setFilteredData(result);
+      const result = fonts[fontKey].glyphs.filter((item) => item.character === query);
+      setFilteredFonts(result);
 
       // This works, but I really need to check coordinate variables because this makes no sense
       if (result.length)
         setHighlightedArea({ x: result[0].gridLocation.y, y: result[0].gridLocation.x });
       setDisableHighlightChange(true);
     } else {
-      setFilteredData(data[textureKey].glyphs);
+      setFilteredFonts(fonts[fontKey].glyphs);
       setDisableHighlightChange(false);
       resetHighlitedArea(true);
     }
-  }, [data, textureKey, query]);
+  }, [fonts, fontKey, query]);
 
   return {
     highlightedArea,
-    filteredData,
+    filteredFonts,
     handleHoverChange,
     resetHighlitedArea,
     scrollTo,

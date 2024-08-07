@@ -7,32 +7,32 @@ import {
   faTextWidth,
 } from '@fortawesome/free-solid-svg-icons';
 import { faCode } from '@fortawesome/free-solid-svg-icons/faCode';
-import { ConvertedData } from '../global/types';
+import { Fonts } from '../global/types';
 import useTable from '../hooks/useTable';
 
 type Props = {
-  data: ConvertedData;
-  textureKey: keyof ConvertedData;
+  fonts: Fonts;
+  fontKey: keyof Fonts;
   query: string;
 };
 
 function Table(props: Props) {
   const {
-    filteredData,
+    filteredFonts,
     handleHoverChange,
     highlightedArea,
     resetHighlitedArea,
     scrollTo,
-  } = useTable(props.data, props.textureKey, props.query);
+  } = useTable(props.fonts, props.fontKey, props.query);
 
   return (
-    filteredData?.length ? (
+    filteredFonts?.length ? (
       <>
         <h1
           className='text-3xl w-full rounded-md bg-base-200 p-3 mt-3 sticky top-0 z-30'
-          id={`jumpto-${props.textureKey}`}
+          id={`jumpto-${props.fontKey}`}
         >
-          {props.data[props.textureKey].texture.name}
+          {props.fonts[props.fontKey].texture.name}
         </h1>
         <div className='grid grid-cols-1 gap-3 pt-3 md:grid-cols-2'>
           <table
@@ -69,15 +69,15 @@ function Table(props: Props) {
               </tr>
             </thead>
             <tbody>
-              {filteredData?.map((item) => (
+              {filteredFonts?.map((item) => (
                 <tr
                   className='hover:!bg-green-900 cursor-pointer'
                   onMouseOver={() =>
                     handleHoverChange(item.gridLocation.y, item.gridLocation.x)
                   }
-                  id={props.textureKey + '-' + item.unicodeCode}
-                  onClick={() => scrollTo(props.textureKey + '-' + item.unicodeCode)}
-                  key={props.textureKey + '-' + item.unicodeCode}
+                  id={props.fontKey + '-' + item.unicodeCode}
+                  onClick={() => scrollTo(props.fontKey + '-' + item.unicodeCode)}
+                  key={props.fontKey + '-' + item.unicodeCode}
                 >
                   <td>
                     <img src={item.base64Image} className='w-12' />
@@ -91,7 +91,7 @@ function Table(props: Props) {
             </tbody>
           </table>
           <Highlighter
-            texture={props.data[props.textureKey].texture}
+            texture={props.fonts[props.fontKey].texture}
             highlightedArea={highlightedArea}
           />
         </div>

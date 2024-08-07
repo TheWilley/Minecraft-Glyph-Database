@@ -1,9 +1,9 @@
-export type TextureGlyph = {
+export type Json = {
   glyphs: Glyph[];
   textures: Texture[];
 };
 
-export type ConvertedData = {
+export type Fonts = {
   ascii: GlyphTexturePair;
   ascii_sga: GlyphTexturePair;
   asciillager: GlyphTexturePair;

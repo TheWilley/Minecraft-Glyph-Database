@@ -1,21 +1,21 @@
-import { ConvertedData } from '../global/types';
+import { Fonts } from '../global/types';
 
 import Table from './Table';
 
 type Props = {
-  data: ConvertedData;
+  fonts: Fonts;
   query: string;
 };
 
 function TablesList(props: Props) {
   return (
-    props.data && (
+    props.fonts && (
       <>
-        <Table textureKey='ascii' data={props.data} query={props.query} />
-        <Table textureKey='ascii_sga' data={props.data} query={props.query} />
-        <Table textureKey='asciillager' data={props.data} query={props.query} />
-        <Table textureKey='accented' data={props.data} query={props.query} />
-        <Table textureKey='nonlatin_european' data={props.data} query={props.query} />
+        <Table fontKey='ascii' fonts={props.fonts} query={props.query} />
+        <Table fontKey='ascii_sga' fonts={props.fonts} query={props.query} />
+        <Table fontKey='asciillager' fonts={props.fonts} query={props.query} />
+        <Table fontKey='accented' fonts={props.fonts} query={props.query} />
+        <Table fontKey='nonlatin_european' fonts={props.fonts} query={props.query} />
       </>
     )
   );
