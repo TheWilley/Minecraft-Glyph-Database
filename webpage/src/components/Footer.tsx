@@ -1,3 +1,8 @@
+/**
+ * Footer component.
+ *
+ * @returns The rendered footer component.
+ */
 function Footer() {
   return (
     <footer className='mt-5 bg-base-200 w-full p-3 rounded-full opacity-70'>

@@ -5,6 +5,13 @@ type Props = {
   setQuery: React.Dispatch<React.SetStateAction<string>>;
 };
 
+/**
+ * Header component.
+ *
+ * @param props - The properties object.
+ * @param props.setQuery - Function to set the query state.
+ * @returns The rendered header component.
+ */
 function Header(props: Props) {
   const download = useDownload();
 

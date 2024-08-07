@@ -4,6 +4,13 @@ type Props = {
   children: ReactNode;
 };
 
+/**
+ * Container component.
+ *
+ * @param props - The properties object.
+ * @param props.children - The child elements to be rendered inside the container.
+ * @returns The rendered container component.
+ */
 function Container(props: Props) {
   return (
     <div className='sm:p-3'>

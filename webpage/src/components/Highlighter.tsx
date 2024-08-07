@@ -7,6 +7,16 @@ type Props = {
   highlightedArea: { x: number; y: number };
 };
 
+/**
+ * Highlighter component.
+ *
+ * @param props - The properties object.
+ * @param props.texture - The texture to be highlighted.
+ * @param props.highlightedArea - The area to highlight, specified by x and y coordinates.
+ * @param props.highlightedArea.x - The x coordinate of the highlighted area.
+ * @param props.highlightedArea.y - The y coordinate of the highlighted area.
+ * @returns The rendered highlighter component.
+ */
 function Highlighter({ texture, highlightedArea }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   useHighlight(texture, highlightedArea, canvasRef);

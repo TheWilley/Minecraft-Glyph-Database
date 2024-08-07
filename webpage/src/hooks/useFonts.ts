@@ -2,12 +2,19 @@ import { useEffect, useState } from 'react';
 import { Fonts, Json } from '../global/types';
 
 /**
- * Custom hook which 
- * @returns 
+ * Custom hook for loading and organizing fonts from a JSON file.
+ *
+ * @returns An array containing the fonts object. The array is wrapped in a tuple to ensure immutability.
  */
 export default function useFonts() {
   const [fonts, setFonts] = useState<Fonts>();
 
+  /**
+ * Extracts and organizes fonts from the given JSON data.
+ *
+ * @param {Json} json - The JSON data containing glyphs and textures.
+ * @returns {Fonts} An object containing organized fonts with different categories.
+ */
   const extractedFonts = (json: Json) => {
     const ascii = {
       glyphs: json.glyphs.filter((glyph) => glyph.fileName === 'ascii.png'),

@@ -16,6 +16,15 @@ type Props = {
   query: string;
 };
 
+/**
+ * Table component.
+ *
+ * @param props - The properties object.
+ * @param props.fonts - The collection of fonts to be displayed or used in the table.
+ * @param props.fontKey - The key of the font to be used from the fonts collection.
+ * @param props.query - The search query or filter term to apply to the table.
+ * @returns The rendered table component.
+ */
 function Table(props: Props) {
   const {
     filteredFonts,

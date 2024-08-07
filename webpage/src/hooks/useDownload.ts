@@ -1,3 +1,8 @@
+/**
+ * Custom hook for handling file download.
+ *
+ * @returns A function that triggers the download of a file.
+ */
 export default function useDownload() {
   const handleDownload = () => {
     const jsonUrl = import.meta.env.VITE_FILE;

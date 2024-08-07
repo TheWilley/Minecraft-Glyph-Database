@@ -1,6 +1,13 @@
 import { MutableRefObject, useEffect, useRef } from 'react';
 import { Texture } from '../global/types';
 
+/**
+ * Custom hook to handle highlighting a specific area on a canvas based on a texture.
+ *
+ * @param texture - The texture containing the image data to be highlighted.
+ * @param highlightedArea - The coordinates of the area to highlight.
+ * @param canvasRef - A mutable ref object pointing to the canvas element.
+ */
 export default function useHighlight(
   texture: Texture,
   highlightedArea: { x: number; y: number },

@@ -1,5 +1,10 @@
 import { useEffect, useState } from 'react';
 
+/**
+ * Error component.
+ *
+ * @returns The rendered error component.
+ */
 function Error() {
   const [longLoadingWarning, setLongLoadingWarning] = useState(false);
   const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
