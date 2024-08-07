@@ -7,12 +7,8 @@ import { Fonts, Glyph } from '../global/types';
  * @param fonts - The collection of fonts, indexed by font key.
  * @param fontKey - The key for the specific font in the fonts collection.
  * @param query - The search query to filter glyphs.
-*/
-export default function useTable(
-  fonts: Fonts,
-  fontKey: keyof Fonts,
-  query: string
-) {
+ */
+export default function useTable(fonts: Fonts, fontKey: keyof Fonts, query: string) {
   const [highlightedArea, setHighlightedArea] = useState<{ x: number; y: number }>({
     x: -1,
     y: -1,

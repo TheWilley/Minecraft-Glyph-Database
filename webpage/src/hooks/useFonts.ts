@@ -10,11 +10,11 @@ export default function useFonts() {
   const [fonts, setFonts] = useState<Fonts>();
 
   /**
- * Extracts and organizes fonts from the given JSON data.
- *
- * @param {Json} json - The JSON data containing glyphs and textures.
- * @returns {Fonts} An object containing organized fonts with different categories.
- */
+   * Extracts and organizes fonts from the given JSON data.
+   *
+   * @param {Json} json - The JSON data containing glyphs and textures.
+   * @returns {Fonts} An object containing organized fonts with different categories.
+   */
   const extractedFonts = (json: Json) => {
     const ascii = {
       glyphs: json.glyphs.filter((glyph) => glyph.fileName === 'ascii.png'),

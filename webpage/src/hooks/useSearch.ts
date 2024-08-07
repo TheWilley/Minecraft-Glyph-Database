@@ -1,6 +1,5 @@
 import { useState } from 'react';
 
-
 /**
  * Custom hook for managing a search query state.
  *
