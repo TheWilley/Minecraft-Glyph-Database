@@ -28,6 +28,15 @@ export default function useHighlight(
     const context = canvas?.getContext('2d');
     const image = imageRef.current;
 
+    // Invert if in light mode
+    // https://stackoverflow.com/a/57795495
+    if (
+      window.matchMedia &&
+      window.matchMedia('(prefers-color-scheme: light)').matches
+    ) {
+      context!.filter = 'invert(100%)';
+    }
+
     if (context && canvas && image) {
       const draw = () => {
         // We don't want the texture to appear blurry
@@ -61,6 +70,8 @@ export default function useHighlight(
         context.drawImage(image, 0, 0, texture.size.x, texture.size.y);
         context.restore(); // Restore the previous state of the context
       };
+
+
 
       if (image.complete) {
         draw();
