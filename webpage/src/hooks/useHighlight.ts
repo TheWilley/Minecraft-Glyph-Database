@@ -30,10 +30,7 @@ export default function useHighlight(
 
     // Invert if in light mode
     // https://stackoverflow.com/a/57795495
-    if (
-      window.matchMedia &&
-      window.matchMedia('(prefers-color-scheme: light)').matches
-    ) {
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
       context!.filter = 'invert(100%)';
     }
 
@@ -70,8 +67,6 @@ export default function useHighlight(
         context.drawImage(image, 0, 0, texture.size.x, texture.size.y);
         context.restore(); // Restore the previous state of the context
       };
-
-
 
       if (image.complete) {
         draw();
