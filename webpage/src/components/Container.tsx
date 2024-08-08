@@ -15,7 +15,7 @@ function Container(props: Props) {
   return (
     <div className='sm:p-3'>
       <div className='flex justify-center'>
-        <div className='max-w-5/12'>{props.children}</div>
+        <div className='w-full'>{props.children}</div>
       </div>
     </div>
   );
