@@ -45,7 +45,7 @@ function Table(props: Props) {
       <div className='grid grid-cols-1 gap-3 pt-3 md:grid-cols-2'>
         <table
           className='table table-pin-rows table-zebra'
-          onMouseOut={() => resetHighlitedArea}
+          onMouseOut={() => resetHighlitedArea()}
         >
           <thead>
             <tr className='top-[60px]'>
