@@ -79,7 +79,7 @@ function Table(props: Props) {
           <tbody>
             {filteredFonts?.map((item) => (
               <tr
-                className='hover:!bg-green-900 cursor-pointer'
+                className='hover:bg-green-300 dark:hover:!bg-green-900 cursor-pointer'
                 onMouseOver={() =>
                   handleHoverChange(item.gridLocation.y, item.gridLocation.x)
                 }
