@@ -52,9 +52,11 @@ function Header(props: Props) {
                 </ul>
               </details>
             </li>
+            <li>
+              <Search setQuery={props.setQuery} />
+            </li>
           </ul>
         </div>
-        <Search setQuery={props.setQuery} />
       </div>
     </>
   );
