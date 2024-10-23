@@ -1,8 +1,13 @@
-# Minecraft Glyph Database (MGD)
+<h1 align="center">
+<br>
+<img src="readme/Screenshot.png">
+<br>
+Minecraft Glyph Database (MGD)
+<br>
+</h1>
 
-The **Minecraft Glyph Database (MGD)** is a comprehensive, searchable list of all default glyphs in Java-Minecraft's font textures.
+<h4 align="center"> A comprehensive, searchable list of all default glyphs in Java-Minecraft's font textures. </h4>
 
-![screenshot](readme/Screenshot.png)
 
 <p align="center">
   <a href="#what-fonts-are-included">What fonts are included</a> · <a href="#self-hosting">Self Hosting</a> · <a href="#disclaimer">Disclaimer</a> · <a href="#license">License</a>
