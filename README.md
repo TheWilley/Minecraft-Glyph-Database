@@ -26,12 +26,12 @@ By default, Java Edition includes four fonts, but only three are included in the
 * uniform
 * illageralt*
 
-All fonts reference files which contain the textures required for that specific font, usually PNG files. In these, you'll find a grid-like arrangement of glyphs, used in combination with a [provider](https://minecraft.wiki/w/Font#Providers) in order to map a given glyph to a character, which is how the database extrapolate glyph-character pairs. The simply reason uniform is not included is because it acts as fallback, referencing a ZIP file containing a copy of GNU Unifont, which is not unique to Minecraft.
+All fonts reference files which contain the textures required for that specific font, usually PNG files. In these, you'll find a grid-like arrangement of glyphs, used in combination with a [provider](https://minecraft.wiki/w/Font#Providers) in order to map a given glyph to a character, which is how the database extrapolate glyph-character pairs. The simple reason uniform is not included is because it acts as fallback, referencing a ZIP file containing a copy of GNU Unifont, which is not unique to Minecraft.
 
 The aforementioned fonts reference a total of five files in combination:
 - accented.png (default)
 - nonlatin_european.png (default)
-- ascii.png`(default)
+- ascii.png (default)
 - ascii_sga.png (alt)
 - asciilager.png (illageralt)
 
