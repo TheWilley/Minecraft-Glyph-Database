@@ -1,6 +1,5 @@
 <h1 align="center">
 <br>
-<br>
 Minecraft Glyph Database (MGD)
 <br>
 </h1>
