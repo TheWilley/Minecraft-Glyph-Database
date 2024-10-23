@@ -14,8 +14,9 @@ Minecraft Glyph Database (MGD)
   <a href="#what-fonts-are-included">What fonts are included</a> · <a href="#self-hosting">Self Hosting</a> · <a href="#disclaimer">Disclaimer</a> · <a href="#license">License</a>
 </p>
 
+<div align="center">
 <img src="readme/Screenshot.png">
-
+</div>
 ## What fonts are included
 The [Minecraft Wiki](https://minecraft.wiki/w/Font#Java_Edition) contains a excelent overview of Minecraft's font system, but I'll describe it here briefly to give you an idea of what is going on behind the scenes.
 
