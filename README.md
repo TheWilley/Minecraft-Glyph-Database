@@ -4,13 +4,31 @@ The **Minecraft Glyph Database (MGD)** is a comprehensive, searchable list of al
 
 ![screenshot](readme/Screenshot.png)
 
-## Table of Contents
+<p align="center">
+  <a href="#what-fonts-are-included">What fonts are included</a> · <a href="#self-hosting">Self Hosting</a> · <a href="#disclaimer">Disclaimer</a> · <a href="#license">License</a>
+</p>
 
-1. [Self Hosting](#self-hosting)
-   - [Generator](#generator)
-   - [Webpage](#webpage)
-2. [Disclaimer](#disclaimer)
-3. [License](#license)
+
+## What fonts are included
+The [Minecraft Wiki](https://minecraft.wiki/w/Font#Java_Edition) contains a excelent overview of Minecraft's font system, but I'll describe it here briefly to give you an idea of what is going on behind the scenes.
+
+By default, Java Edition includes four fonts, but only three are included in the database (marked with a *):
+
+* default*
+* alt*
+* uniform
+* illageralt*
+
+All fonts reference files which contain the textures required for that specific font, usually PNG files. In these, you'll find a grid-like arrangement of glyphs, used in combination with a [provider](https://minecraft.wiki/w/Font#Providers) in order to map a given glyph to a character, which is how the database extrapolate glyph-character pairs. The simply reason uniform is not included is because it acts as fallback, referencing a ZIP file containing a copy of GNU Unifont, which is not unique to Minecraft.
+
+The aforementioned fonts reference a total of five files in combination:
+- accented.png (default)
+- nonlatin_european.png (default)
+- ascii.png`(default)
+- ascii_sga.png (alt)
+- asciilager.png (illageralt)
+
+*These are the glyphs displayed in the database*.
 
 ## Self Hosting
 
@@ -40,16 +58,7 @@ The generator creates a JSON file containing:
    ```sh
    npm i
    ```
-2. You must provide the necessary Minecraft asset files yourself due to copyright restrictions. The required files are:
-   - `accented.png`
-   - `ascii_sga.png`
-   - `ascii.png`
-   - `asciilager.png`
-   - `nonlatin_european.png`
-
-   These files are extracted from Minecraft's source code when running `generator.js`. 
-
-3. Run the following command, specifying the path to the Minecraft version JAR file:
+2. You must provide the necessary Minecraft asset files yourself due to copyright restrictions. These files are extracted from Minecraft's source code when running `generator.js`, specifying the path to the Minecraft version JAR file:
    ```sh
    node .\generator.js --path C:\Users\YourUsername\AppData\Roaming\.minecraft\versions\1.21\1.21.jar --name glyphs
    ```
@@ -78,6 +87,7 @@ The webpage allows users to interact with and view the glyphs.
    ```
    You can also upload the built files to your own static host.
 6. (Optional) Use `npm run dev` to start the development server for local testing.
+
 
 ## Disclaimer
 
