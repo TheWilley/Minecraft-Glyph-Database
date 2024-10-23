@@ -54,7 +54,7 @@ The generator creates a JSON file containing:
    node .\generator.js --path C:\Users\YourUsername\AppData\Roaming\.minecraft\versions\1.21\1.21.jar --name glyphs
    ```
 
-    This command generates a JSON file called `glyphs.json`. You can change the output file name using the `--name` argument.
+    This command generates a JSON file called `glyphs.json` inside the `dist` folder. You can change the output file name using the `--name` argument.
 
 ### Webpage
 
@@ -66,7 +66,7 @@ The webpage allows users to interact with and view the glyphs.
    ```sh
    npm i
    ```
-2. Move the generated JSON file into the `public` folder inside the `webpage` directory.
+2. Move the generated JSON file from the `dist` folder inside the `generator` directory into the `public` folder inside the `webpage` directory.
 3. In the `.env` file, set the `VITE_FILE` variable to the name of your JSON file (default is `glyphs.json`).
 4. Build the webpage:
    ```sh
