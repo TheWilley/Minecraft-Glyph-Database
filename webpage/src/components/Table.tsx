@@ -88,7 +88,7 @@ function Table(props: Props) {
                 key={props.fontKey + '-' + item.unicodeCode}
               >
                 <td>
-                  <img src={item.base64Image} className='w-12 invert dark:invert-0' />
+                  <img src={item.base64Image} className='w-12 invert dark:invert-0' alt={item.character} />
                 </td>
                 <td>{item.character}</td>
                 <td>{item.unicodeCode}</td>
