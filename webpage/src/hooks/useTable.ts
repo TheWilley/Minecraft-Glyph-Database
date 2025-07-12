@@ -8,7 +8,11 @@ import { Fonts, Glyph } from '../global/types';
  * @param fontKey - The key for the specific font in the fonts collection.
  * @param query - The search query to filter glyphs.
  */
-export default function useTable(fonts: Fonts, fontKey: keyof Fonts, query: string) {
+export default function useTable(
+  fonts: Fonts | undefined,
+  fontKey: keyof Fonts,
+  query: string
+) {
   const [highlightedArea, setHighlightedArea] = useState<{ x: number; y: number }>({
     x: -1,
     y: -1,
@@ -62,20 +66,25 @@ export default function useTable(fonts: Fonts, fontKey: keyof Fonts, query: stri
   };
 
   useEffect(() => {
-    if (query) {
-      // Only get character from query
-      const result = fonts[fontKey].glyphs.filter((item) => item.character === query);
-      setFilteredFonts(result);
+    if (fonts) {
+      if (query) {
+        // Only get character from query
+        const result = fonts[fontKey].glyphs.filter((item) => item.character === query);
+        setFilteredFonts(result);
 
-      // This works, but I really need to check coordinate variables because this makes no sense
-      // Ideally x and y should be reversed here, but I'll keep it for now
-      if (result.length)
-        setHighlightedArea({ x: result[0].gridLocation.y, y: result[0].gridLocation.x });
-      setDisableHighlightChange(true);
-    } else {
-      setFilteredFonts(fonts[fontKey].glyphs);
-      setDisableHighlightChange(false);
-      resetHighlitedArea(true);
+        // This works, but I really need to check coordinate variables because this makes no sense
+        // Ideally x and y should be reversed here, but I'll keep it for now
+        if (result.length)
+          setHighlightedArea({
+            x: result[0].gridLocation.y,
+            y: result[0].gridLocation.x,
+          });
+        setDisableHighlightChange(true);
+      } else {
+        setFilteredFonts(fonts[fontKey].glyphs);
+        setDisableHighlightChange(false);
+        resetHighlitedArea(true);
+      }
     }
   }, [fonts, fontKey, query]);
 

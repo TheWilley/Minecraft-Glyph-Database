@@ -9,11 +9,13 @@ import {
 import { faCode } from '@fortawesome/free-solid-svg-icons/faCode';
 import { Fonts } from '../global/types';
 import useTable from '../hooks/useTable';
+import { Dispatch, SetStateAction, useEffect, useRef } from 'react';
 
 type Props = {
-  fonts: Fonts;
+  fonts: Fonts | undefined;
   fontKey: keyof Fonts;
   query: string;
+  setLoadedCount: Dispatch<SetStateAction<number>>;
 };
 
 /**
@@ -33,8 +35,16 @@ function Table(props: Props) {
     resetHighlitedArea,
     scrollTo,
   } = useTable(props.fonts, props.fontKey, props.query);
+  const hasCountedRef = useRef(false);
 
-  return filteredFonts?.length ? (
+  useEffect(() => {
+    if (!hasCountedRef.current) {
+      props.setLoadedCount((prev) => prev + 1);
+      hasCountedRef.current = true;
+    }
+  }, []);
+
+  return props.fonts && filteredFonts?.length ? (
     <>
       <h1
         className='text-3xl w-full rounded-md bg-base-200 p-3 mt-3 sticky top-0 z-30'
@@ -88,7 +98,11 @@ function Table(props: Props) {
                 key={props.fontKey + '-' + item.unicodeCode}
               >
                 <td>
-                  <img src={item.base64Image} className='w-12 invert dark:invert-0' alt={item.character} />
+                  <img
+                    src={item.base64Image}
+                    className='w-12 invert dark:invert-0'
+                    alt={item.character}
+                  />
                 </td>
                 <td>{item.character}</td>
                 <td>{item.unicodeCode}</td>
