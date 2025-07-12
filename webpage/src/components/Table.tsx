@@ -46,12 +46,14 @@ function Table(props: Props) {
 
   return props.fonts && filteredFonts?.length ? (
     <>
-      <h1
+      <div
         className='text-3xl w-full rounded-md bg-base-200 p-3 mt-3 sticky top-0 z-30'
         id={`jumpto-${props.fontKey}`}
       >
-        {props.fonts[props.fontKey].texture.name}
-      </h1>
+        <span className='badge text-lg p-5 font-mono'>
+          {props.fonts[props.fontKey].texture.name}.png
+        </span>
+      </div>
       <div className='grid grid-cols-1 gap-3 pt-3 md:grid-cols-2'>
         <table
           className='table table-pin-rows table-zebra'
