@@ -18,7 +18,7 @@ function Header(props: Props) {
   return (
     <>
       <div className='navbar bg-base-200'>
-        <div className='flex-1'>
+        <div className='flex-1 text-left'>
           <h1 className='text-xl hidden md:block font-bold'>Minecraft Glyph Database </h1>
           <h1 className='text-xl block md:hidden font-bold'>MGD </h1>
         </div>
