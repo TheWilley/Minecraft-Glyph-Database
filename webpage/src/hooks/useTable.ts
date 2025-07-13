@@ -21,6 +21,7 @@ export default function useTable(
   const [filteredFonts, setFilteredFonts] = useState<Glyph[]>();
   const [disableHighlightChange, setDisableHighlightChange] = useState(false);
   const [scrolledToGlyphOnInit, setScrolledToGlyphOnInit] = useState(false);
+  const [hash, setHash] = useState<string | null>('');
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -47,6 +48,7 @@ export default function useTable(
 
   const scrollTo = (id: string) => {
     navigate(`#${id}`);
+    setHash(id);
     const element = document.getElementById(id);
     const headerOffset = 100;
 
@@ -68,7 +70,13 @@ export default function useTable(
       if (query) {
         // Only get character from query
         const result = fonts[fontKey].glyphs.filter((item) => item.character === query);
+        const glyphUnicode =
+          fonts[fontKey].glyphs.find((glyph) =>
+            result.some((res) => res.character === glyph.character)
+          )?.unicodeCode || '?';
         setFilteredFonts(result);
+        navigate(`#${glyphUnicode}`);
+        setHash(glyphUnicode);
 
         // This works, but I really need to check coordinate variables because this makes no sense
         // Ideally x and y should be reversed here, but I'll keep it for now
@@ -82,6 +90,8 @@ export default function useTable(
         setFilteredFonts(fonts[fontKey].glyphs);
         setDisableHighlightChange(false);
         resetHighlitedArea(true);
+        navigate('');
+        setHash(null);
       }
     }
   }, [fonts, fontKey, query]);
@@ -89,7 +99,7 @@ export default function useTable(
   return {
     highlightedArea,
     filteredFonts,
-    location: location.hash,
+    hash,
     handleHoverChange,
     resetHighlitedArea,
     scrollTo,

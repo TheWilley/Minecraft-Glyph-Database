@@ -30,7 +30,7 @@ type Props = {
 function Table(props: Props) {
   const {
     filteredFonts,
-    location,
+    hash,
     handleHoverChange,
     highlightedArea,
     resetHighlitedArea,
@@ -80,14 +80,21 @@ function Table(props: Props) {
           <div className='flex items-center gap-2'>
             <div className='breadcrumbs text-sm'>
               <ul>
-                <li>{currentFonts.texture.name}</li>
-
+                <li>
+                  {' '}
+                  <span
+                    className='hover:underline cursor-pointer'
+                    onClick={() => scrollTo('')}
+                  >
+                    {currentFonts.texture.name}
+                  </span>
+                </li>
                 <li>
                   <span
                     className='hover:underline cursor-pointer'
-                    onClick={() => scrollTo(location.replace('#', ''))}
+                    onClick={() => hash && scrollTo(hash)}
                   >
-                    {location || '?'}
+                    {hash || '?'}
                   </span>
                 </li>
               </ul>
