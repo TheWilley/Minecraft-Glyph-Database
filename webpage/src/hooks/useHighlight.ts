@@ -16,11 +16,9 @@ export default function useHighlight(
   const imageRef = useRef<HTMLImageElement | null>(null);
 
   useEffect(() => {
-    if (!imageRef.current) {
-      const img = new Image();
-      img.src = texture.base64Image;
-      imageRef.current = img;
-    }
+    const img = new Image();
+    img.src = texture.base64Image;
+    imageRef.current = img;
   }, [texture]);
 
   useEffect(() => {

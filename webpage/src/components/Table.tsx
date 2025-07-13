@@ -9,13 +9,13 @@ import {
 import { faCode } from '@fortawesome/free-solid-svg-icons/faCode';
 import { Fonts } from '../global/types';
 import useTable from '../hooks/useTable';
-import { Dispatch, SetStateAction, useEffect, useRef } from 'react';
+import { Dispatch, SetStateAction, useEffect } from 'react';
 
 type Props = {
   fonts: Fonts | undefined;
   fontKey: keyof Fonts;
   query: string;
-  setLoadedCount: Dispatch<SetStateAction<number>>;
+  setIsLoaded: Dispatch<SetStateAction<boolean>>;
 };
 
 /**
@@ -35,21 +35,14 @@ function Table(props: Props) {
     resetHighlitedArea,
     scrollTo,
   } = useTable(props.fonts, props.fontKey, props.query);
-  const hasCountedRef = useRef(false);
 
   useEffect(() => {
-    if (!hasCountedRef.current) {
-      props.setLoadedCount((prev) => prev + 1);
-      hasCountedRef.current = true;
-    }
+    props.setIsLoaded(true);
   }, []);
 
   return props.fonts && filteredFonts?.length ? (
     <>
-      <div
-        className='text-3xl w-full rounded-md bg-base-200 p-3 mt-3 sticky top-0 z-30'
-        id={`jumpto-${props.fontKey}`}
-      >
+      <div className='text-3xl w-full rounded-md bg-base-200 p-3 mt-3 sticky top-0 z-30'>
         <span className='badge text-lg p-5 font-mono'>
           {props.fonts[props.fontKey].texture.name}.png
         </span>
@@ -95,9 +88,9 @@ function Table(props: Props) {
                 onMouseOver={() =>
                   handleHoverChange(item.gridLocation.y, item.gridLocation.x)
                 }
-                id={props.fontKey + '-' + item.unicodeCode}
-                onClick={() => scrollTo(props.fontKey + '-' + item.unicodeCode)}
-                key={props.fontKey + '-' + item.unicodeCode}
+                id={item.unicodeCode}
+                onClick={() => scrollTo(item.unicodeCode)}
+                key={item.unicodeCode}
               >
                 <td>
                   <img

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Fonts, Glyph } from '../global/types';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 /**
  * Custom hook for managing font glyphs in a table, including highlighting and filtering.
@@ -20,6 +21,8 @@ export default function useTable(
   const [filteredFonts, setFilteredFonts] = useState<Glyph[]>();
   const [disableHighlightChange, setDisableHighlightChange] = useState(false);
   const [scrolledToGlyphOnInit, setScrolledToGlyphOnInit] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const handleHoverChange = (x: number, y: number) => {
     if (!disableHighlightChange) {
@@ -34,25 +37,19 @@ export default function useTable(
   };
 
   useEffect(() => {
-    // Extract the hash part of the URL (e.g., '#U+4C')
     const hash = location.hash;
 
     if (hash && !scrolledToGlyphOnInit) {
-      // Remove the '#' character and scroll to the element with the corresponding ID
       const id = hash.replace('#', '');
       scrollTo(id);
     }
-  }, [filteredFonts, scrolledToGlyphOnInit]);
+  }, [filteredFonts, location.hash, scrolledToGlyphOnInit]);
 
   const scrollTo = (id: string) => {
-    // Go to the target
-    location.href = '#' + id;
-
-    // Get the element and set offset
+    navigate(`#${id}`);
     const element = document.getElementById(id);
     const headerOffset = 100;
 
-    // Try to navigate to the element
     if (element) {
       const elementPosition = element.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
@@ -61,6 +58,7 @@ export default function useTable(
         top: offsetPosition,
         behavior: 'smooth',
       });
+
       setScrolledToGlyphOnInit(true);
     }
   };

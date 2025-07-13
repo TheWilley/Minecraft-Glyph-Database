@@ -1,5 +1,7 @@
+import { Link } from 'react-router-dom';
 import useDownload from '../hooks/useDownload';
 import Search from './Search';
+import { useCallback, useState } from 'react';
 
 type Props = {
   setQuery: React.Dispatch<React.SetStateAction<string>>;
@@ -14,6 +16,8 @@ type Props = {
  */
 function Header(props: Props) {
   const download = useDownload();
+  const [goToOpen, setGoToOpen] = useState(false);
+  const toggleOpen = useCallback(() => setGoToOpen(false), []);
 
   return (
     <>
@@ -31,23 +35,36 @@ function Header(props: Props) {
               <a href='https://github.com/TheWilley/Minecraft-Glyph-Database'>Github</a>
             </li>
             <li>
-              <details>
-                <summary>Jump To</summary>
-                <ul className='bg-base-200 rounded-t-none p-2 z-40'>
+              <details open={goToOpen}>
+                <summary>Go To</summary>
+                <ul
+                  className='bg-base-200 rounded-t-none p-2 z-40'
+                  onClick={() => setGoToOpen((prev) => !prev)}
+                >
                   <li>
-                    <a href='#jumpto-ascii'>ascii</a>
+                    <Link to='ascii' onClick={toggleOpen}>
+                      ascii
+                    </Link>
                   </li>
                   <li>
-                    <a href='#jumpto-ascii_sga'>ascii_sga</a>
+                    <Link to='ascii_sga' onClick={toggleOpen}>
+                      ascii_sga
+                    </Link>
                   </li>
                   <li>
-                    <a href='#jumpto-asciillager'>asciillager</a>
+                    <Link to='asciillager' onClick={toggleOpen}>
+                      asciillager
+                    </Link>
                   </li>
                   <li>
-                    <a href='#jumpto-accented'>accented</a>
+                    <Link to='accented' onClick={toggleOpen}>
+                      accented
+                    </Link>
                   </li>
                   <li>
-                    <a href='#jumpto-nonlatin_european'>nonlatin_european</a>
+                    <Link to='nonlatin_european' onClick={toggleOpen}>
+                      nonlatin_european
+                    </Link>
                   </li>
                 </ul>
               </details>
