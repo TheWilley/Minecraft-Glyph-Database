@@ -89,6 +89,7 @@ export default function useTable(
   return {
     highlightedArea,
     filteredFonts,
+    location: location.hash,
     handleHoverChange,
     resetHighlitedArea,
     scrollTo,

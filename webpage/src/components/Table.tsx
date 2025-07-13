@@ -9,7 +9,7 @@ import {
 import { faCode } from '@fortawesome/free-solid-svg-icons/faCode';
 import { Fonts } from '../global/types';
 import useTable from '../hooks/useTable';
-import { Dispatch, SetStateAction, useEffect } from 'react';
+import { Dispatch, SetStateAction, useEffect, useMemo } from 'react';
 
 type Props = {
   fonts: Fonts | undefined;
@@ -30,22 +30,70 @@ type Props = {
 function Table(props: Props) {
   const {
     filteredFonts,
+    location,
     handleHoverChange,
     highlightedArea,
     resetHighlitedArea,
     scrollTo,
   } = useTable(props.fonts, props.fontKey, props.query);
 
+  const currentFonts = useMemo(
+    () => props.fonts && props.fonts[props.fontKey],
+    [props.fontKey, props.fonts]
+  );
+
   useEffect(() => {
     props.setIsLoaded(true);
   }, []);
 
-  return props.fonts && filteredFonts?.length ? (
+  return currentFonts && filteredFonts?.length ? (
     <>
-      <div className='text-3xl w-full rounded-md bg-base-200 p-3 mt-3 sticky top-0 z-30'>
-        <span className='badge text-lg p-5 font-mono'>
-          {props.fonts[props.fontKey].texture.name}.png
-        </span>
+      <div className='w-full rounded-md bg-base-200 p-4 mt-3 sticky top-0 z-30 shadow-md'>
+        <div className='flex flex-wrap items-center justify-between gap-4'>
+          {/* Font Name */}
+          <div className='flex items-center gap-3'>
+            <span className='badge badge-primary text-lg px-4 py-2 font-mono'>
+              {currentFonts.texture.name}
+            </span>
+          </div>
+
+          {/* Metadata Section */}
+          <div className='flex items-center gap-6 text-sm text-base-content/80'>
+            <div>
+              <span className='font-semibold'>Size:</span> {currentFonts.texture.size.x} x{' '}
+              {currentFonts.texture.size.y}
+            </div>
+            <div>
+              <span className='font-semibold'>Dimensions:</span>{' '}
+              {currentFonts.texture.dimensions.x - 1} x{' '}
+              {currentFonts.texture.dimensions.y - 1}
+            </div>
+            <div>
+              <span className='font-semibold'>Glyphs:</span> {currentFonts.glyphs.length}
+            </div>
+            <div>
+              <span className='font-semibold'>Format:</span> PNG
+            </div>
+          </div>
+
+          {/* Action Buttons */}
+          <div className='flex items-center gap-2'>
+            <div className='breadcrumbs text-sm'>
+              <ul>
+                <li>{currentFonts.texture.name}</li>
+
+                <li>
+                  <span
+                    className='hover:underline cursor-pointer'
+                    onClick={() => scrollTo(location.replace('#', ''))}
+                  >
+                    {location || '?'}
+                  </span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
       </div>
       <div className='grid grid-cols-1 gap-3 pt-3 md:grid-cols-2'>
         <table
@@ -107,10 +155,7 @@ function Table(props: Props) {
             ))}
           </tbody>
         </table>
-        <Highlighter
-          texture={props.fonts[props.fontKey].texture}
-          highlightedArea={highlightedArea}
-        />
+        <Highlighter texture={currentFonts.texture} highlightedArea={highlightedArea} />
       </div>
     </>
   ) : (
