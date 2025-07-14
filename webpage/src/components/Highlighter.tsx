@@ -1,6 +1,8 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { Texture } from '../global/types';
 import useHighlight from '../hooks/useHighlight';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 type Props = {
   texture: Texture;
@@ -20,15 +22,40 @@ type Props = {
 function Highlighter({ texture, highlightedArea }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   useHighlight(texture, highlightedArea, canvasRef);
+  const [isTextureDisplayed, setIsTextureDisplayed] = useState(false); // Initialize to false as checkbox is unchecked by default
 
-  return (
-    <div className='overflow-auto max-h-[calc(100vh-80px)] top-[70px] sticky z-10 hidden md:block rounded-md'>
+  // Handle the change event of the checkbox
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setIsTextureDisplayed(event.target.checked);
+  };
+
+  const canvasElement = (
+    <div className='rounded-md overflow-auto'>
       <canvas
         ref={canvasRef}
         width={texture.size.x}
         height={texture.size.y}
         className='w-full bg-base-200 p-5'
       />
+    </div>
+  );
+
+  return (
+    <div>
+      {/* Mobile view: collapsible texture display */}
+      <div className='md:hidden collapse bg-base-100 border-base-300 border fixed w-screen bottom-0 left-0 z-30'>
+        <input type='checkbox' onChange={handleCheckboxChange} />
+        <div className='collapse-title font-semibold'>
+          <FontAwesomeIcon icon={isTextureDisplayed ? faEyeSlash : faEye} />{' '}
+          {isTextureDisplayed ? 'Hide Texture' : 'Display Texture'}
+        </div>
+        <div className='collapse-content'>{canvasElement}</div>
+      </div>
+
+      {/* Desktop view: always display texture */}
+      <div className='overflow-auto max-h-[calc(100vh-80px)] top-[130px] lg:top-[70px] sticky z-10'>
+        {canvasElement}
+      </div>
     </div>
   );
 }

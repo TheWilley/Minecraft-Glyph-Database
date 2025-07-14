@@ -5,11 +5,78 @@ import {
   faImage,
   faLocation,
   faTextWidth,
+  faCode,
 } from '@fortawesome/free-solid-svg-icons';
-import { faCode } from '@fortawesome/free-solid-svg-icons/faCode';
 import { Fonts } from '../global/types';
 import useTable from '../hooks/useTable';
 import { Dispatch, SetStateAction, useEffect, useMemo } from 'react';
+
+// --- New Components for Readability ---
+
+/**
+ * Displays key metadata about the font texture.
+ */
+function FontMetadata({ currentFonts }: { currentFonts: Fonts[keyof Fonts] }) {
+  return (
+    <div className='items-center gap-1 text-sm text-base-content/80 overflow-x-auto text-nowrap'>
+      <div className='badge'>
+        <span className='font-semibold'>Size:</span> {currentFonts.texture.size.x} x{' '}
+        {currentFonts.texture.size.y}
+      </div>
+      <div className='badge'>
+        <span className='font-semibold'>Dimensions:</span>{' '}
+        {currentFonts.texture.dimensions.x - 1} x {currentFonts.texture.dimensions.y - 1}
+      </div>
+      <div className='badge'>
+        <span className='font-semibold'>Glyphs:</span> {currentFonts.glyphs.length}
+      </div>
+      <div className='badge'>
+        <span className='font-semibold'>Format:</span> PNG
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Renders breadcrumbs for navigation within the font display.
+ */
+function Breadcrumbs({
+  fontName,
+  hash,
+  scrollTo,
+  isHiddenLg = false,
+}: {
+  fontName: string;
+  hash: string | null;
+  scrollTo: (id: string) => void;
+  isHiddenLg?: boolean;
+}) {
+  return (
+    <div
+      className={`badge badge-secondary ${isHiddenLg ? 'flex lg:hidden w-full mb-2' : 'hidden lg:flex'}`}
+    >
+      <div className='breadcrumbs text-sm'>
+        <ul>
+          <li>
+            <span className='hover:underline cursor-pointer' onClick={() => scrollTo('')}>
+              {fontName}
+            </span>
+          </li>
+          <li>
+            <span
+              className='hover:underline cursor-pointer'
+              onClick={() => hash && scrollTo(hash)}
+            >
+              {hash || '?'}
+            </span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  );
+}
+
+// --- Main Table Component ---
 
 type Props = {
   fonts: Fonts | undefined;
@@ -19,7 +86,7 @@ type Props = {
 };
 
 /**
- * Table component.
+ * Table component for displaying font glyphs and their properties.
  *
  * @param props - The properties object.
  * @param props.fonts - The collection of fonts to be displayed or used in the table.
@@ -46,60 +113,37 @@ function Table(props: Props) {
     props.setIsLoaded(true);
   }, []);
 
-  return currentFonts && filteredFonts?.length ? (
+  // Early return if no fonts or filtered fonts are available
+  if (!currentFonts || !filteredFonts?.length) {
+    return <></>;
+  }
+
+  return (
     <>
       <div className='w-full rounded-md bg-base-200 p-4 mt-3 sticky top-0 z-30 shadow-md'>
-        <div className='flex flex-wrap items-center justify-between gap-4'>
+        <div className='items-center justify-between lg:flex overflow-x-auto '>
           {/* Font Name */}
-          <div className='flex items-center gap-3'>
-            <span className='badge badge-primary text-lg px-4 py-2 font-mono'>
-              {currentFonts.texture.name}
-            </span>
+          <div className='badge badge-primary w-full lg:w-fit text-lg px-4 py-2 font-mono mb-2 lg:mb-0'>
+            {currentFonts.texture.name}
           </div>
+
+          {/* Current Path - Mobile & Tablet */}
+          <Breadcrumbs
+            fontName={currentFonts.texture.name}
+            hash={hash}
+            scrollTo={scrollTo}
+            isHiddenLg={true}
+          />
 
           {/* Metadata Section */}
-          <div className='flex items-center gap-6 text-sm text-base-content/80'>
-            <div>
-              <span className='font-semibold'>Size:</span> {currentFonts.texture.size.x} x{' '}
-              {currentFonts.texture.size.y}
-            </div>
-            <div>
-              <span className='font-semibold'>Dimensions:</span>{' '}
-              {currentFonts.texture.dimensions.x - 1} x{' '}
-              {currentFonts.texture.dimensions.y - 1}
-            </div>
-            <div>
-              <span className='font-semibold'>Glyphs:</span> {currentFonts.glyphs.length}
-            </div>
-            <div>
-              <span className='font-semibold'>Format:</span> PNG
-            </div>
-          </div>
+          <FontMetadata currentFonts={currentFonts} />
 
-          {/* Action Buttons */}
-          <div className='flex items-center gap-2'>
-            <div className='breadcrumbs text-sm'>
-              <ul>
-                <li>
-                  {' '}
-                  <span
-                    className='hover:underline cursor-pointer'
-                    onClick={() => scrollTo('')}
-                  >
-                    {currentFonts.texture.name}
-                  </span>
-                </li>
-                <li>
-                  <span
-                    className='hover:underline cursor-pointer'
-                    onClick={() => hash && scrollTo(hash)}
-                  >
-                    {hash || '?'}
-                  </span>
-                </li>
-              </ul>
-            </div>
-          </div>
+          {/* Current Path - Desktop */}
+          <Breadcrumbs
+            fontName={currentFonts.texture.name}
+            hash={hash}
+            scrollTo={scrollTo}
+          />
         </div>
       </div>
       <div className='grid grid-cols-1 gap-3 pt-3 md:grid-cols-2'>
@@ -108,7 +152,7 @@ function Table(props: Props) {
           onMouseOut={() => resetHighlitedArea()}
         >
           <thead>
-            <tr className='top-[60px]'>
+            <tr className='top-[120px] lg:top-[55px]'>
               <th>
                 <div className='tooltip tooltip-bottom' data-tip='Glyph'>
                   <FontAwesomeIcon icon={faImage} />
@@ -137,7 +181,7 @@ function Table(props: Props) {
             </tr>
           </thead>
           <tbody>
-            {filteredFonts?.map((item) => (
+            {filteredFonts.map((item) => (
               <tr
                 className='hover:bg-green-300 dark:hover:!bg-green-900 cursor-pointer'
                 onMouseOver={() =>
@@ -165,8 +209,6 @@ function Table(props: Props) {
         <Highlighter texture={currentFonts.texture} highlightedArea={highlightedArea} />
       </div>
     </>
-  ) : (
-    <></>
   );
 }
 

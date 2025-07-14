@@ -67,7 +67,7 @@ function App() {
         </Routes>
         <ScrollToTop
           smooth
-          className='flex justify-center items-center m-auto opacity-30 hover:opacity-100'
+          className='flex justify-center items-center m-auto opacity-30 hover:opacity-100 mb-8 md:mb-0'
         />
         <Footer />
       </Container>
