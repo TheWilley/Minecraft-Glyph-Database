@@ -3,6 +3,7 @@ import { Texture } from '../global/types';
 import useHighlight from '../hooks/useHighlight';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { useMediaQuery } from '@react-hook/media-query';
 
 type Props = {
   texture: Texture;
@@ -20,8 +21,9 @@ type Props = {
  * @returns The rendered highlighter component.
  */
 function Highlighter({ texture, highlightedArea }: Props) {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  useHighlight(texture, highlightedArea, canvasRef);
+  const canvasRef = useRef(null);
+  const isMobile = useMediaQuery('(max-width: 767px)');
+  useHighlight(texture, highlightedArea, canvasRef, isMobile);
   const [isTextureDisplayed, setIsTextureDisplayed] = useState(false); // Initialize to false as checkbox is unchecked by default
 
   // Handle the change event of the checkbox
@@ -39,23 +41,22 @@ function Highlighter({ texture, highlightedArea }: Props) {
       />
     </div>
   );
-
   return (
     <div>
-      {/* Mobile view: collapsible texture display */}
-      <div className='md:hidden collapse bg-base-100 border-base-300 border fixed w-screen bottom-0 left-0 z-30'>
-        <input type='checkbox' onChange={handleCheckboxChange} />
-        <div className='collapse-title font-semibold'>
-          <FontAwesomeIcon icon={isTextureDisplayed ? faEyeSlash : faEye} />{' '}
-          {isTextureDisplayed ? 'Hide Texture' : 'Display Texture'}
+      {isMobile ? (
+        <div className='collapse bg-base-100 border-base-300 border fixed w-screen bottom-0 left-0 z-30'>
+          <input type='checkbox' onChange={handleCheckboxChange} />
+          <div className='collapse-title font-semibold'>
+            <FontAwesomeIcon icon={isTextureDisplayed ? faEyeSlash : faEye} />{' '}
+            {isTextureDisplayed ? 'Hide Texture' : 'Display Texture'}
+          </div>
+          <div className='collapse-content'>{canvasElement}</div>
         </div>
-        <div className='collapse-content'>{canvasElement}</div>
-      </div>
-
-      {/* Desktop view: always display texture */}
-      <div className='overflow-auto max-h-[calc(100vh-80px)] top-[130px] lg:top-[70px] sticky z-10'>
-        {canvasElement}
-      </div>
+      ) : (
+        <div className='overflow-auto max-h-[calc(100vh-80px)] top-[130px] lg:top-[70px] sticky z-10'>
+          {canvasElement}
+        </div>
+      )}
     </div>
   );
 }

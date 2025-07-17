@@ -11,7 +11,8 @@ import { Texture } from '../global/types';
 export default function useHighlight(
   texture: Texture,
   highlightedArea: { x: number; y: number },
-  canvasRef: MutableRefObject<HTMLCanvasElement | null>
+  canvasRef: MutableRefObject<HTMLCanvasElement | null>,
+  isMobile: boolean
 ) {
   const imageRef = useRef<HTMLImageElement | null>(null);
 
@@ -72,5 +73,5 @@ export default function useHighlight(
         image.onload = draw;
       }
     }
-  }, [highlightedArea, canvasRef, texture.size, texture.dimensions]);
+  }, [highlightedArea, canvasRef, texture.size, texture.dimensions, isMobile]);
 }
