@@ -96,7 +96,7 @@ function Table(props: Props) {
     hash,
     handleHoverChange,
     highlightedArea,
-    resetHighlitedArea,
+    resetHighlightedArea,
     scrollTo,
   } = useTable(props.fonts, props.fontKey, props.query);
 
@@ -145,7 +145,7 @@ function Table(props: Props) {
       <div className='grid grid-cols-1 gap-3 pt-3 md:grid-cols-2'>
         <table
           className='table table-pin-rows table-zebra'
-          onMouseOut={() => resetHighlitedArea()}
+          onMouseOut={() => resetHighlightedArea()}
         >
           <thead>
             <tr className='top-[120px] lg:top-[55px]'>

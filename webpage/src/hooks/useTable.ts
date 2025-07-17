@@ -1,28 +1,20 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Fonts, Glyph } from '../global/types';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-/**
- * Custom hook for managing font glyphs in a table, including highlighting and filtering.
- *
- * @param fonts - The collection of fonts, indexed by font key.
- * @param fontKey - The key for the specific font in the fonts collection.
- * @param query - The search query to filter glyphs.
- */
 export default function useTable(
   fonts: Fonts | undefined,
   fontKey: keyof Fonts,
   query: string
 ) {
-  const [highlightedArea, setHighlightedArea] = useState<{ x: number; y: number }>({
-    x: -1,
-    y: -1,
-  });
+  const [highlightedArea, setHighlightedArea] = useState({ x: -1, y: -1 });
   const [filteredFonts, setFilteredFonts] = useState<Glyph[]>();
   const [disableHighlightChange, setDisableHighlightChange] = useState(false);
   const [hash, setHash] = useState<string | null>('');
-  const scrolledToGlyphOnInit = useRef(false);
-  const previousSearchValue = useRef('');
+
+  const hasScrolledToGlyph = useRef(false);
+  const previousQuery = useRef('');
+
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -32,79 +24,86 @@ export default function useTable(
     }
   };
 
-  const resetHighlitedArea = (skipCheck?: boolean) => {
-    if (!disableHighlightChange || skipCheck === true) {
-      setHighlightedArea({ x: -1, y: -1 });
-    }
-  };
+  const resetHighlightedArea = useCallback(
+    (forceReset = false) => {
+      if (!disableHighlightChange || forceReset) {
+        setHighlightedArea({ x: -1, y: -1 });
+      }
+    },
+    [disableHighlightChange]
+  );
 
+  const scrollTo = useCallback(
+    (id: string) => {
+      navigate(`#${id}`);
+      setHash(id);
+
+      const element = document.getElementById(id);
+      const offset = 100;
+
+      if (element) {
+        const top = element.getBoundingClientRect().top + window.pageYOffset - offset;
+
+        window.scrollTo({
+          top,
+          behavior: 'smooth',
+        });
+
+        hasScrolledToGlyph.current = true;
+      }
+    },
+    [navigate]
+  );
+
+  // Scroll on initial load if there's a hash
   useEffect(() => {
-    if (location.hash && !scrolledToGlyphOnInit.current) {
-      const id = location.hash.replace('#', '');
+    if (location.hash && !hasScrolledToGlyph.current) {
+      const id = location.hash.slice(1);
       scrollTo(id);
     }
-  }, [filteredFonts, location.hash, scrolledToGlyphOnInit.current]);
+  }, [location.hash, filteredFonts, scrollTo]);
 
-  const scrollTo = (id: string) => {
-    navigate(`#${id}`);
-    setHash(id);
-    const element = document.getElementById(id);
-    const headerOffset = 100;
-
-    if (element) {
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth',
-      });
-
-      scrolledToGlyphOnInit.current = true;
-    }
-  };
-
+  // Filter glyphs based on query and handle highlight
   useEffect(() => {
-    if (fonts) {
-      if (query) {
-        // Only get character from query
-        const result = fonts[fontKey].glyphs.filter((item) => item.character === query);
-        const glyphUnicode =
-          fonts[fontKey].glyphs.find((glyph) =>
-            result.some((res) => res.character === glyph.character)
-          )?.unicodeCode || '?';
+    if (!fonts) return;
+
+    const glyphs = fonts[fontKey].glyphs;
+
+    if (query) {
+      const result = glyphs.filter((g) => g.character === query);
+      const matchedGlyph = result[0];
+
+      if (matchedGlyph) {
         setFilteredFonts(result);
-        navigate(`#${glyphUnicode}`);
-        setHash(glyphUnicode);
-
-        // This works, but I really need to check coordinate variables because this makes no sense
-        // Ideally x and y should be reversed here, but I'll keep it for now
-        if (result.length)
-          setHighlightedArea({
-            x: result[0].gridLocation.y,
-            y: result[0].gridLocation.x,
-          });
+        setHighlightedArea({
+          x: matchedGlyph.gridLocation.y,
+          y: matchedGlyph.gridLocation.x,
+        });
         setDisableHighlightChange(true);
-        previousSearchValue.current = query;
-      } else {
-        setFilteredFonts(fonts[fontKey].glyphs);
-        setDisableHighlightChange(false);
-        resetHighlitedArea(true);
+        previousQuery.current = query;
 
-        if (previousSearchValue.current) {
-          navigate('');
-          setHash(null);
-        }
+        navigate(`#${matchedGlyph.unicodeCode}`);
+        setHash(matchedGlyph.unicodeCode);
+      }
+    } else {
+      setFilteredFonts(glyphs);
+      resetHighlightedArea(true);
+      setDisableHighlightChange(false);
+
+      if (previousQuery.current) {
+        navigate('');
+        setHash(null);
+        previousQuery.current = '';
       }
     }
-  }, [fonts, fontKey, query, scrolledToGlyphOnInit.current, navigate]);
+  }, [fonts, fontKey, query, navigate, resetHighlightedArea]);
 
   return {
     highlightedArea,
     filteredFonts,
     hash,
     handleHoverChange,
-    resetHighlitedArea,
+    resetHighlightedArea,
     scrollTo,
   };
 }
