@@ -3,7 +3,6 @@ import ScrollToTop from 'react-scroll-to-top';
 import Container from './components/Container';
 import Header from './components/Header';
 import useFonts from './hooks/useFonts';
-import Footer from './components/Footer';
 import useSearch from './hooks/useSearch';
 import Table from './components/Table';
 import { useState } from 'react';
@@ -69,7 +68,6 @@ function App() {
           smooth
           className='flex justify-center items-center m-auto opacity-30 hover:opacity-100 mb-8 md:mb-0'
         />
-        <Footer />
       </Container>
     </HashRouter>
   );
