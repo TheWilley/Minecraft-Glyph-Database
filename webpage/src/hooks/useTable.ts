@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Fonts, Glyph } from '../global/types';
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -20,8 +20,9 @@ export default function useTable(
   });
   const [filteredFonts, setFilteredFonts] = useState<Glyph[]>();
   const [disableHighlightChange, setDisableHighlightChange] = useState(false);
-  const [scrolledToGlyphOnInit, setScrolledToGlyphOnInit] = useState(false);
   const [hash, setHash] = useState<string | null>('');
+  const scrolledToGlyphOnInit = useRef(false);
+  const previousSearchValue = useRef('');
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -38,13 +39,11 @@ export default function useTable(
   };
 
   useEffect(() => {
-    const hash = location.hash;
-
-    if (hash && !scrolledToGlyphOnInit) {
-      const id = hash.replace('#', '');
+    if (location.hash && !scrolledToGlyphOnInit.current) {
+      const id = location.hash.replace('#', '');
       scrollTo(id);
     }
-  }, [filteredFonts, location.hash, scrolledToGlyphOnInit]);
+  }, [filteredFonts, location.hash, scrolledToGlyphOnInit.current]);
 
   const scrollTo = (id: string) => {
     navigate(`#${id}`);
@@ -61,7 +60,7 @@ export default function useTable(
         behavior: 'smooth',
       });
 
-      setScrolledToGlyphOnInit(true);
+      scrolledToGlyphOnInit.current = true;
     }
   };
 
@@ -86,15 +85,19 @@ export default function useTable(
             y: result[0].gridLocation.x,
           });
         setDisableHighlightChange(true);
+        previousSearchValue.current = query;
       } else {
         setFilteredFonts(fonts[fontKey].glyphs);
         setDisableHighlightChange(false);
         resetHighlitedArea(true);
-        navigate('');
-        setHash(null);
+
+        if (previousSearchValue.current) {
+          navigate('');
+          setHash(null);
+        }
       }
     }
-  }, [fonts, fontKey, query]);
+  }, [fonts, fontKey, query, scrolledToGlyphOnInit.current, navigate]);
 
   return {
     highlightedArea,

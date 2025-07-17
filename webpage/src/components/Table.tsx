@@ -11,8 +11,6 @@ import { Fonts } from '../global/types';
 import useTable from '../hooks/useTable';
 import { Dispatch, SetStateAction, useEffect, useMemo } from 'react';
 
-// --- New Components for Readability ---
-
 /**
  * Displays key metadata about the font texture.
  */
@@ -75,8 +73,6 @@ function Breadcrumbs({
     </div>
   );
 }
-
-// --- Main Table Component ---
 
 type Props = {
   fonts: Fonts | undefined;
