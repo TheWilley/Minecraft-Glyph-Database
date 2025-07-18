@@ -1,6 +1,12 @@
 const path = require("path");
 const AdmZip = require("adm-zip");
 
+/**
+ * Converts an ArrayBuffer to a Base64 encoded string.
+ *
+ * @param {ArrayBuffer} buffer - The ArrayBuffer to convert.
+ * @returns {string} The Base64 encoded string representation of the buffer.
+ */
 function arrayBufferToBase64(buffer) {
   var binary = '';
   var bytes = new Uint8Array(buffer);

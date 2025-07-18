@@ -100,6 +100,21 @@ function generateTextureObject(texture) {
   });
 }
 
+/**
+ * Generates a JSON array combining texture metadata and provider character data.
+ *
+ * @param {Array<{fileName: string, base64: string, buffer: Buffer}>} textures - 
+ *   An array of texture objects containing file names, base64-encoded images, and buffers.
+ * @param {Object<string, {providers: Array<{type: string, chars: string[][]}>}>} providers - 
+ *   An object mapping names to provider data with type and character arrays.
+ * @returns {Array<{
+ *   name: string,
+ *   chars: string[][],
+ *   dimensions: [number, number],
+ *   size: [number, number],
+ *   buffer: Buffer
+ * }>} An array of combined objects including name, character grid, dimensions, size, and buffer.
+ */
 function generateDocumentedJson(textures, providers) {
   const textureResults = [];
 
