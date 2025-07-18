@@ -2,6 +2,8 @@ const fs = require("fs");
 const { getRawCodePoints, splitIntoCharacters } = require("./unicodeHelper");
 const { get2DImageData, getCharWidth } = require("./textureHelper");
 const { createCanvas, loadImage } = require("canvas");
+const { imageSize } = require('image-size');
+const { get2dArrayDimensions } = require("./miscellaneousHelper");
 
 /**
  * Generates an object containing glyph information
@@ -18,7 +20,7 @@ function generateGlyphObject(texture) {
     const columns = texture.dimensions[0];
     const rows = texture.dimensions[1];
 
-    loadImage(texture.image_path).then((image) => {
+    loadImage(texture.buffer).then((image) => {
       const glyphDataArray = [];
 
       // Define variables for cell dimensions
@@ -98,40 +100,72 @@ function generateTextureObject(texture) {
   });
 }
 
+function generateDocumentedJson(textures, providers) {
+  const textureResults = [];
+
+  // Getting image widths and heights
+  for (const texture of textures) {
+    try {
+      const buffer = Buffer.from(texture.base64, 'base64');
+      const dimensions = imageSize(buffer);
+
+      textureResults.push({
+        fileName: texture.fileName,
+        width: dimensions.width,
+        height: dimensions.height,
+        buffer: texture.buffer,
+      });
+    } catch (err) {
+      console.error(`Error reading image ${texture.fileName}: ${err.message}`);
+    }
+  }
+
+  // Combining providers
+  const finalResults = []
+
+  for (const [key, value] of Object.entries(providers)) {
+    const targetTexture = textureResults.find(textureResult => textureResult.fileName.replace('.png', '' === key))
+    const targetProvider = value.providers.find(provider => provider.type === 'bitmap')
+
+    if (targetProvider) {
+      const combinedObj = {
+        name: key,
+        chars: targetProvider.chars,
+        dimensions: [get2dArrayDimensions(targetProvider.chars)],
+        size: [targetTexture.width, targetTexture.height],
+        buffer: targetTexture.buffer,
+      }
+
+      finalResults.push(combinedObj)
+    }
+  }
+
+  return finalResults;
+}
+
 /**
  * Generates JSON from `textures.json`
  * @param {*} outputFileName The name of the generated JSON file
  */
-async function createJson(outputFileName) {
-  const texturesJson = readJson("./textures.json");
-  const texturesArray = JSON.parse(texturesJson);
+async function createJson(outputFileName, textures, providers) {
+  const texturesJson = generateDocumentedJson(textures, providers)
 
-  const textures = [];
-  const glyphs = [];
+  const generatedTextures = [];
+  const generatedGlyphs = [];
 
-  for (const texture of texturesArray) {
+  for (const texture of texturesJson) {
     const glyphObject = await generateGlyphObject(texture);
     const textureObject = await generateTextureObject(texture);
-    glyphs.push(glyphObject);
-    textures.push(textureObject);
+    generatedGlyphs.push(glyphObject);
+    generatedTextures.push(textureObject);
   }
 
   const outputData = {
-    textures: textures.flat(),
-    glyphs: glyphs.flat(),
+    textures: generatedTextures.flat(),
+    glyphs: generatedGlyphs.flat(),
   };
 
   fs.writeFileSync("../dist/" + outputFileName + ".json", JSON.stringify(outputData));
-}
-
-/**
- * Reads a JSON file from the given path
- * @param {*} filePath The path to a JSON file
- * @returns The contents of the JSON file
- */
-function readJson(filePath) {
-  const fileData = fs.readFileSync(filePath);
-  if (fileData) return fileData;
 }
 
 module.exports = createJson;
