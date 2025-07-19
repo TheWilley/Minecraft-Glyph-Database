@@ -50,8 +50,8 @@ function get2dArrayDimensions(arr, ignores) {
     }, 0);
 
     return {
-        rows: rows + 1,
-        columns: columns + 1
+        rows: rows,
+        columns: columns
     };
 }
 
