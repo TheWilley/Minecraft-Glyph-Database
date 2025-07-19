@@ -2,23 +2,6 @@ const path = require("path");
 const AdmZip = require("adm-zip");
 
 /**
- * Converts an ArrayBuffer to a Base64 encoded string.
- *
- * @param {ArrayBuffer} buffer - The ArrayBuffer to convert.
- * @returns {string} The Base64 encoded string representation of the buffer.
- */
-function arrayBufferToBase64(buffer) {
-  var binary = '';
-  var bytes = new Uint8Array(buffer);
-  var len = bytes.byteLength;
-  for (var i = 0; i < len; i++) {
-    binary += String.fromCharCode(bytes[i]);
-  }
-  return btoa(binary);
-}
-
-
-/**
  * Extract font specific textures from a Minecraft version
  * @param {*} jarFilePath The path to the Miencraft version `.jar` file
  * @param {*} folderPath The path to the assets within the `.jar` file
@@ -34,7 +17,7 @@ function extractTexturesFromJar(jarFilePath, folderPath) {
       if (entry.entryName.startsWith(folderPath) && !entry.isDirectory) {
         const fileName = path.basename(entry.entryName);
 
-        textures.push({ fileName, base64: arrayBufferToBase64(zip.readFile(entry)) })
+        textures.push({ fileName, buffer: zip.readFile(entry) })
 
       }
     });

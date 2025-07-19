@@ -86,7 +86,7 @@ function generateTextureObject(texture) {
     const context = canvas.getContext("2d");
     context.imageSmoothingEnabled = false;
 
-    loadImage(texture.image_path).then((image) => {
+    loadImage(texture.buffer).then((image) => {
       context.drawImage(image, 0, 0);
       const base64Image = canvas.toDataURL("image/png");
       const textureData = {
@@ -103,7 +103,7 @@ function generateTextureObject(texture) {
 /**
  * Generates a JSON array combining texture metadata and provider character data.
  *
- * @param {Array<{fileName: string, base64: string, buffer: Buffer}>} textures - 
+ * @param {Array<{fileName: string, buffer: Buffer}>} textures - 
  *   An array of texture objects containing file names, base64-encoded images, and buffers.
  * @param {Object<string, {providers: Array<{type: string, chars: string[][]}>}>} providers - 
  *   An object mapping names to provider data with type and character arrays.
@@ -121,7 +121,7 @@ function generateDocumentedJson(textures, providers) {
   // Getting image widths and heights
   for (const texture of textures) {
     try {
-      const buffer = Buffer.from(texture.base64, 'base64');
+      const buffer = texture.buffer
       const dimensions = imageSize(buffer);
 
       textureResults.push({
@@ -146,7 +146,7 @@ function generateDocumentedJson(textures, providers) {
       const combinedObj = {
         name: key,
         chars: targetProvider.chars,
-        dimensions: [get2dArrayDimensions(targetProvider.chars)],
+        dimensions: get2dArrayDimensions(targetProvider.chars),
         size: [targetTexture.width, targetTexture.height],
         buffer: targetTexture.buffer,
       }
