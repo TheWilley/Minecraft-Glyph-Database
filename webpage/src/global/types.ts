@@ -1,4 +1,6 @@
 export type Json = {
+  timestamp: number,
+  minecraftVersion: string,
   glyphs: Glyph[];
   textures: Texture[];
 };

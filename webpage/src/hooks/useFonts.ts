@@ -7,7 +7,15 @@ import { Fonts, Json } from '../global/types';
  * @returns An array containing the fonts object. The array is wrapped in a tuple to ensure immutability.
  */
 export default function useFonts() {
+  const [metadata, setMetadata] = useState<{timestamp: number, minecraftVersion: string}>();
   const [fonts, setFonts] = useState<Fonts>();
+
+  const extractedMetadata = (json: Json) => {
+    return {
+      timestamp: json.timestamp,
+      minecraftVersion: json.minecraftVersion
+    };
+  };
 
   /**
    * Extracts and organizes fonts from the given JSON data.
@@ -51,9 +59,10 @@ export default function useFonts() {
       .then((res) => res.json())
       .then((res) => {
         setFonts(extractedFonts(res));
+        setMetadata(extractedMetadata(res));
       })
       .catch((_) => console.log(_));
   }, []);
 
-  return [fonts] as const;
+  return [fonts, metadata] as const;
 }

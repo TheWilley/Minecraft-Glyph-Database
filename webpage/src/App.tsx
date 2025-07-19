@@ -45,7 +45,7 @@ function FontTableWrapper({ fonts, query }: { fonts: Fonts | undefined; query: s
 }
 
 function App() {
-  const [fonts] = useFonts();
+  const [fonts, metadata] = useFonts();
   const [query, setQuery] = useSearch();
 
   return (
@@ -56,7 +56,7 @@ function App() {
       }}
     >
       <Container>
-        <Header setQuery={setQuery} />
+        <Header setQuery={setQuery} timestamp={metadata?.timestamp} minecraftVersion={metadata?.minecraftVersion} />
         <Routes>
           <Route path='/' element={<Navigate to={`/${fontKeys[0]}`} replace />} />
           <Route

@@ -76,8 +76,8 @@ export default function useTable(
       if (matchedGlyph) {
         setFilteredFonts(result);
         setHighlightedArea({
-          x: matchedGlyph.gridLocation.y,
-          y: matchedGlyph.gridLocation.x,
+          x: matchedGlyph.gridLocation.x,
+          y: matchedGlyph.gridLocation.y,
         });
         setDisableHighlightChange(true);
         previousQuery.current = query;
