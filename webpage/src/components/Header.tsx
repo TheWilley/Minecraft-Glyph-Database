@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import useDownload from '../hooks/useDownload';
 import Search from './Search';
-import { useCallback, useState } from 'react';
 
 type Props = {
   setQuery: React.Dispatch<React.SetStateAction<string>>;
@@ -18,8 +17,6 @@ type Props = {
  */
 function Header(props: Props) {
   const download = useDownload();
-  const [goToOpen, setGoToOpen] = useState(false);
-  const toggleOpen = useCallback(() => setGoToOpen(false), []);
 
   return (
     <>
@@ -39,34 +36,33 @@ function Header(props: Props) {
               <a href='https://github.com/TheWilley/Minecraft-Glyph-Database'>Github</a>
             </li>
             <li>
-              <details open={goToOpen}>
+              <details>
                 <summary>Go To</summary>
                 <ul
                   className='bg-base-200 rounded-t-none p-2 z-40'
-                  onClick={() => setGoToOpen((prev) => !prev)}
                 >
                   <li>
-                    <Link to='ascii' onClick={toggleOpen}>
+                    <Link to='ascii'>
                       ascii
                     </Link>
                   </li>
                   <li>
-                    <Link to='ascii_sga' onClick={toggleOpen}>
+                    <Link to='ascii_sga'>
                       ascii_sga
                     </Link>
                   </li>
                   <li>
-                    <Link to='asciillager' onClick={toggleOpen}>
+                    <Link to='asciillager'>
                       asciillager
                     </Link>
                   </li>
                   <li>
-                    <Link to='accented' onClick={toggleOpen}>
+                    <Link to='accented'>
                       accented
                     </Link>
                   </li>
                   <li>
-                    <Link to='nonlatin_european' onClick={toggleOpen}>
+                    <Link to='nonlatin_european'>
                       nonlatin_european
                     </Link>
                   </li>
