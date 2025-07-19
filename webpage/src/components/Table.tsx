@@ -23,7 +23,7 @@ function FontMetadata({ currentFonts }: { currentFonts: Fonts[keyof Fonts] }) {
       </div>
       <div className='badge'>
         <span className='font-semibold'>Dimensions:</span>{' '}
-        {currentFonts.texture.dimensions.rows - 1} x {currentFonts.texture.dimensions.columns - 1}
+        {currentFonts.texture.dimensions.rows} x {currentFonts.texture.dimensions.columns}
       </div>
       <div className='badge'>
         <span className='font-semibold'>Glyphs:</span> {currentFonts.glyphs.length}
