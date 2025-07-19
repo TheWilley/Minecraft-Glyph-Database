@@ -24,7 +24,7 @@ function extractTexturesFromJar(jarFilePath, folderPath) {
 
     return textures
   } catch (err) {
-    console.error(`Error extracting folder from JAR file: ${err}`);
+    console.error(`Error extracting textures from JAR file: ${err}`);
   }
 }
 
@@ -56,9 +56,11 @@ function extractVersionFromMinecraft(jarFilePath) {
 }
 
 /**
- * Extracts font provider JSONs from a Minecraft JAR and maps them to logical names.
+ * Extracts all bitmap font providers from known font files inside a Minecraft JAR,
+ * and adds a `name` field derived from the file path (after /font/).
+ *
  * @param {string} jarFilePath - Path to the Minecraft .jar file.
- * @returns {Object<string, any>} Mapped providers as { name: jsonContent }
+ * @returns {Array<Object>} An array of bitmap provider objects with `name` fields.
  */
 function extractProvidersFromMinecraft(jarFilePath) {
   try {
@@ -72,7 +74,7 @@ function extractProvidersFromMinecraft(jarFilePath) {
       'assets/minecraft/font/include/space.json': 'space',
     };
 
-    const result = {};
+    const bitmapProviders = [];
 
     zipEntries.forEach((entry) => {
       if (
@@ -81,22 +83,29 @@ function extractProvidersFromMinecraft(jarFilePath) {
         providerMap.hasOwnProperty(entry.entryName)
       ) {
         const json = JSON.parse(entry.getData().toString('utf8'));
-        const mappedName = providerMap[entry.entryName];
+        const providers = json.providers;
 
-        if (Array.isArray(mappedName)) {
-          mappedName.forEach((name) => {
-            result[name] = json;
+        if (Array.isArray(providers)) {
+          providers.forEach((provider) => {
+            if (provider.type === 'bitmap' && typeof provider.file === 'string') {
+              const match = provider.file.match(/font\/(.+?)\.png/);
+              if (match && match[1]) {
+                provider.name = match[1];
+              } else {
+                provider.name = 'unknown';
+              }
+
+              bitmapProviders.push(provider);
+            }
           });
-        } else {
-          result[mappedName] = json;
         }
       }
     });
 
-    return result;
+    return bitmapProviders;
   } catch (err) {
-    console.error(`Error extracting font providers from JAR: ${err}`);
-    return {};
+    console.error(`Error extracting bitmap providers from JAR: ${err}`);
+    return [];
   }
 }
 

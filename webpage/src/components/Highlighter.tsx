@@ -35,8 +35,8 @@ function Highlighter({ texture, highlightedArea }: Props) {
     <div className='rounded-md overflow-auto'>
       <canvas
         ref={canvasRef}
-        width={texture.size.x}
-        height={texture.size.y}
+        width={texture.size.width}
+        height={texture.size.height}
         className='w-full bg-base-200 p-5'
       />
     </div>

@@ -14,10 +14,10 @@ export type Fonts = {
 };
 
 export type Texture = {
-  base64Image: string;
+  base64: string;
   name: string;
-  size: { x: number; y: number };
-  dimensions: { x: number; y: number };
+  size: { width: number; height: number };
+  dimensions: { rows: number; columns: number };
 };
 
 export type Glyph = {

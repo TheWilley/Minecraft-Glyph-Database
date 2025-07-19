@@ -18,12 +18,12 @@ function FontMetadata({ currentFonts }: { currentFonts: Fonts[keyof Fonts] }) {
   return (
     <div className='items-center gap-1 text-sm text-base-content/80 overflow-x-auto text-nowrap'>
       <div className='badge'>
-        <span className='font-semibold'>Size:</span> {currentFonts.texture.size.x} x{' '}
-        {currentFonts.texture.size.y}
+        <span className='font-semibold'>Size:</span> {currentFonts.texture.size.width} x{' '}
+        {currentFonts.texture.size.height}
       </div>
       <div className='badge'>
         <span className='font-semibold'>Dimensions:</span>{' '}
-        {currentFonts.texture.dimensions.x - 1} x {currentFonts.texture.dimensions.y - 1}
+        {currentFonts.texture.dimensions.rows - 1} x {currentFonts.texture.dimensions.columns - 1}
       </div>
       <div className='badge'>
         <span className='font-semibold'>Glyphs:</span> {currentFonts.glyphs.length}
@@ -181,7 +181,7 @@ function Table(props: Props) {
               <tr
                 className='hover:bg-green-300 dark:hover:!bg-green-900 cursor-pointer'
                 onMouseOver={() =>
-                  handleHoverChange(item.gridLocation.y, item.gridLocation.x)
+                  handleHoverChange(item.gridLocation.x, item.gridLocation.y)
                 }
                 id={item.unicodeCode}
                 onClick={() => scrollTo(item.unicodeCode)}
@@ -197,7 +197,7 @@ function Table(props: Props) {
                 <td>{item.character}</td>
                 <td>{item.unicodeCode}</td>
                 <td>{item.characterWidth}</td>
-                <td>{`${item.gridLocation.y}-${item.gridLocation.x}`}</td>
+                <td>{`${item.gridLocation.x}-${item.gridLocation.y}`}</td>
               </tr>
             ))}
           </tbody>

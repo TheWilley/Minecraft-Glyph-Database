@@ -15,10 +15,10 @@ function generateGlyphObject(texture) {
     const charactersArray = texture.chars.map((character) =>
       splitIntoCharacters(character)
     );
-    const canvasWidth = texture.size[0];
-    const canvasHeight = texture.size[1];
-    const columns = texture.dimensions[0];
-    const rows = texture.dimensions[1];
+    const canvasWidth = texture.size.width;
+    const canvasHeight = texture.size.height;
+    const columns = texture.dimensions.columns;
+    const rows = texture.dimensions.rows;
 
     loadImage(texture.buffer).then((image) => {
       const glyphDataArray = [];
@@ -55,7 +55,7 @@ function generateGlyphObject(texture) {
           const base64Image = cellCanvas.toDataURL("image/png");
           const fileName = texture.name + ".png";
           const unicodeCode = "U+" + getRawCodePoints(character);
-          const gridLocation = { x: rowIndex, y: columnIndex };
+          const gridLocation = { y: rowIndex, x: columnIndex };
 
           if (characterWidth > 0) {
             glyphDataArray.push({
@@ -82,18 +82,18 @@ function generateGlyphObject(texture) {
  */
 function generateTextureObject(texture) {
   return new Promise((resolve) => {
-    const canvas = createCanvas(texture.size[0], texture.size[1]);
+    const canvas = createCanvas(texture.size.width, texture.size.height);
     const context = canvas.getContext("2d");
     context.imageSmoothingEnabled = false;
 
     loadImage(texture.buffer).then((image) => {
       context.drawImage(image, 0, 0);
-      const base64Image = canvas.toDataURL("image/png");
+      const base64 = canvas.toDataURL("image/png");
       const textureData = {
         name: texture.name,
-        base64Image,
-        size: { x: texture.size[0], y: texture.size[1] },
-        dimensions: { x: texture.dimensions[0], y: texture.dimensions[1] }
+        base64,
+        size: { width: texture.size.width, height: texture.size.height },
+        dimensions: { columns: texture.dimensions.columns, rows: texture.dimensions.rows }
       };
       resolve(textureData);
     });
@@ -138,16 +138,15 @@ function generateDocumentedJson(textures, providers) {
   // Combining providers
   const finalResults = []
 
-  for (const [key, value] of Object.entries(providers)) {
-    const targetTexture = textureResults.find(textureResult => textureResult.fileName.replace('.png', '' === key))
-    const targetProvider = value.providers.find(provider => provider.type === 'bitmap')
+  for (const provider of providers) {
+    const targetTexture = textureResults.find(textureResult => textureResult.fileName.replace('.png', '') === provider.name)
 
-    if (targetProvider) {
+    if (targetTexture) {
       const combinedObj = {
-        name: key,
-        chars: targetProvider.chars,
-        dimensions: get2dArrayDimensions(targetProvider.chars),
-        size: [targetTexture.width, targetTexture.height],
+        name: provider.name,
+        chars: provider.chars,
+        dimensions: get2dArrayDimensions(provider.chars, ['\ud800']),
+        size: { width: targetTexture.width, height: targetTexture.height },
         buffer: targetTexture.buffer,
       }
 

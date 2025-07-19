@@ -26,15 +26,15 @@ export default function useFonts() {
   const extractedFonts = (json: Json) => {
     const ascii = {
       glyphs: json.glyphs.filter((glyph) => glyph.fileName === 'ascii.png'),
-      texture: json.textures[0],
+      texture: json.textures[4],
     };
     const ascii_sga = {
       glyphs: json.glyphs.filter((glyph) => glyph.fileName === 'ascii_sga.png'),
-      texture: json.textures[1],
+      texture: json.textures[0],
     };
     const asciillager = {
       glyphs: json.glyphs.filter((glyph) => glyph.fileName === 'asciillager.png'),
-      texture: json.textures[2],
+      texture: json.textures[1],
     };
     const accented = {
       glyphs: json.glyphs.filter((glyph) => glyph.fileName === 'accented.png'),
@@ -42,7 +42,7 @@ export default function useFonts() {
     };
     const nonlatin_european = {
       glyphs: json.glyphs.filter((glyph) => glyph.fileName === 'nonlatin_european.png'),
-      texture: json.textures[4],
+      texture: json.textures[2],
     };
 
     return {

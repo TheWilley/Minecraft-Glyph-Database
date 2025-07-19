@@ -18,7 +18,7 @@ export default function useHighlight(
 
   useEffect(() => {
     const img = new Image();
-    img.src = texture.base64Image;
+    img.src = texture.base64;
     imageRef.current = img;
   }, [texture]);
 
@@ -41,14 +41,14 @@ export default function useHighlight(
 
         // Draw the entire image with reduced opacity
         context.globalAlpha = 0.2;
-        context.drawImage(image, 0, 0, texture.size.x, texture.size.y);
+        context.drawImage(image, 0, 0, texture.size.width, texture.size.height);
 
         // Define the clipping region for the area with full opacity
         context.globalAlpha = 1.0;
 
         // Calculate the scaling factors
-        const scaleX = Math.round(texture.size.x / texture.dimensions.x);
-        const scaleY = Math.round(texture.size.y / texture.dimensions.y);
+        const scaleX = Math.round(texture.size.width / texture.dimensions.columns);
+        const scaleY = Math.round(texture.size.height / texture.dimensions.rows);
 
         // Calculate the clipping region
         const clipX = highlightedArea.x * scaleX;
@@ -63,7 +63,7 @@ export default function useHighlight(
         context.clip();
 
         // Draw the image within the clipping region
-        context.drawImage(image, 0, 0, texture.size.x, texture.size.y);
+        context.drawImage(image, 0, 0, texture.size.width, texture.size.height);
         context.restore(); // Restore the previous state of the context
       };
 
