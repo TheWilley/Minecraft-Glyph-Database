@@ -67,7 +67,7 @@ The generator creates a JSON file containing:
    ```
 2. You must provide the necessary Minecraft asset files yourself due to copyright restrictions. These files are extracted from Minecraft's source code when running `generator.js`, specifying the path to the Minecraft version JAR file:
    ```sh
-   node .\generator.js --path C:\Users\YourUsername\AppData\Roaming\.minecraft\versions\1.21\1.21.jar --name glyphs
+   node .\generator.js --path C:\Users\YourUsername\AppData\Roaming\.minecraft\versions\1.21\1.21.jar
    ```
 
     This command generates a JSON file called `glyphs.json` inside the `dist` folder. You can change the output file name using the `--name` argument.
@@ -82,18 +82,17 @@ The webpage allows users to interact with and view the glyphs.
    ```sh
    npm i
    ```
-2. Move the generated JSON file from the `dist` folder inside the `generator` directory into the `public` folder inside the `webpage` directory.
-3. In the `.env` file, set the `VITE_FILE` variable to the name of your JSON file (default is `glyphs.json`).
-4. Build the webpage:
+2. Move the generated JSON file (`glyphs.json`) from the `dist` folder inside the `generator` directory into the `public` folder inside the `webpage` directory.
+3. Build the webpage:
    ```sh
    npm run build
    ```
-5. To preview the webpage, run:
+4. To preview the webpage, run:
    ```sh
    npm run preview
    ```
    You can also upload the built files to your own static host.
-6. (Optional) Use `npm run dev` to start the development server for local testing.
+5. (Optional) Use `npm run dev` to start the development server for local testing.
 
 
 ## Disclaimer

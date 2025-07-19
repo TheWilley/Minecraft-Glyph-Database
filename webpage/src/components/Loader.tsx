@@ -17,7 +17,7 @@ function Loader() {
     <>
       {longLoadingWarning ? (
         <p className=' mt-5 text-error text-xl'>
-          ERROR: Could not load glyphs, does "{import.meta.env.VITE_FILE}" exist in the
+          ERROR: Could not load glyphs, does "glyphs.json" exist in the
           public folder?
         </p>
       ) : (

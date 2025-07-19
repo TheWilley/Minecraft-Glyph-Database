@@ -5,10 +5,10 @@
  */
 export default function useDownload() {
   const handleDownload = () => {
-    const jsonUrl = import.meta.env.VITE_FILE;
+    const jsonUrl = 'glyphs.json';
     const link = document.createElement('a');
     link.href = jsonUrl;
-    link.download = import.meta.env.VITE_FILE;
+    link.download = 'glyphs.json';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
