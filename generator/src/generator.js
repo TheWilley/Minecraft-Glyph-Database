@@ -1,5 +1,5 @@
 const commandLineArgs = require("command-line-args");
-const { extractTexturesFromJar, extractProvidersFromMinecraft } = require("./helpers/jarHelper");
+const { extractTexturesFromJar, extractProvidersFromMinecraft, extractVersionFromMinecraft } = require("./helpers/jarHelper");
 const createJson = require("./helpers/jsonHelper");
 const { checkPath } = require('./helpers/miscellaneousHelper')
 
@@ -13,6 +13,9 @@ function main(path, name) {
     return
   }
 
+  const version = extractVersionFromMinecraft(
+    path,
+  )
   const textures = extractTexturesFromJar(
     path,
     "assets/minecraft/textures/font",
@@ -22,7 +25,7 @@ function main(path, name) {
     "assets/minecraft/font"
   )
 
-  createJson(name, textures, providers);
+  createJson(name, version, textures, providers);
 
   console.log('Done!')
 }

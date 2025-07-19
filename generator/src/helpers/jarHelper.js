@@ -46,6 +46,33 @@ function extractTexturesFromJar(jarFilePath, folderPath) {
 }
 
 /**
+ * Extracts the Minecraft version ID from a version JAR file.
+ *
+ * Looks for a file named "version.json" in the root of the JAR and returns
+ * the value of its "id" field, which typically contains the version string (e.g., "1.20.1").
+ *
+ * @param {string} jarFilePath The path to the Minecraft version JAR file.
+ * @returns {string|null} The version ID if found, otherwise null.
+ */
+function extractVersionFromMinecraft(jarFilePath) {
+  try {
+    const zip = new AdmZip(jarFilePath);
+    const versionEntry = zip.getEntry('version.json');
+
+    if (versionEntry) {
+      const data = versionEntry.getData().toString('utf8');
+      const json = JSON.parse(data);
+      return json.id || null;
+    }
+
+    return null;
+  } catch (err) {
+    console.error(`Error extracting version from JAR: ${err}`);
+    return null;
+  }
+}
+
+/**
  * Extracts font provider JSONs from a Minecraft JAR and maps them to logical names.
  * @param {string} jarFilePath - Path to the Minecraft .jar file.
  * @returns {Object<string, any>} Mapped providers as { name: jsonContent }
@@ -90,4 +117,4 @@ function extractProvidersFromMinecraft(jarFilePath) {
   }
 }
 
-module.exports = { extractTexturesFromJar, extractProvidersFromMinecraft };
+module.exports = { extractTexturesFromJar, extractProvidersFromMinecraft, extractVersionFromMinecraft };
