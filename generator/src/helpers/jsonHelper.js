@@ -164,13 +164,12 @@ function generateDocumentedJson(textures, providers) {
  * then generates glyph and texture objects asynchronously, and finally
  * writes the combined data to a JSON file.
  *
- * @param {string} outputFileName The name of the generated JSON file (without extension).
  * @param {string} version The Minecraft version string to include in the output.
  * @param {Array} textures Array of texture data objects to process.
  * @param {Object} providers Object containing provider data for textures.
  * @returns {Promise<void>} A promise that resolves when the file has been written.
  */
-async function createJson(outputFileName, version, textures, providers) {
+async function createJson(version, textures, providers) {
   const texturesJson = generateDocumentedJson(textures, providers)
 
   const generatedTextures = [];
@@ -190,7 +189,7 @@ async function createJson(outputFileName, version, textures, providers) {
     glyphs: generatedGlyphs.flat(),
   };
 
-  fs.writeFileSync("../dist/" + outputFileName + ".json", JSON.stringify(outputData));
+  fs.writeFileSync("../dist/" + "glyphs.json", JSON.stringify(outputData));
 }
 
 module.exports = createJson;
