@@ -17,8 +17,7 @@ function Loader() {
     <>
       {longLoadingWarning ? (
         <p className=' mt-5 text-error text-xl'>
-          ERROR: Could not load glyphs, does "glyphs.json" exist in the
-          public folder?
+          ERROR: Could not load glyphs, does "glyphs.json" exist in the public folder?
         </p>
       ) : (
         <>
