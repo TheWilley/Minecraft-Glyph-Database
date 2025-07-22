@@ -4,8 +4,8 @@ import Search from './Search';
 
 type Props = {
   setQuery: React.Dispatch<React.SetStateAction<string>>;
-  timestamp: number | undefined,
-  minecraftVersion: string | undefined
+  timestamp: number | undefined;
+  minecraftVersion: string | undefined;
 };
 
 /**
@@ -24,8 +24,15 @@ function Header(props: Props) {
         <div className='flex-1 text-left'>
           <h1 className='text-xl hidden md:block font-bold'>Minecraft Glyph Database </h1>
           <h1 className='text-xl block md:hidden font-bold'>MGD </h1>
-          <div className='text-gray-400 text-sm'>Minecraft Version <b>{props.minecraftVersion || '?'}</b></div>
-          <div className='text-gray-400 text-sm'>Updated on <b>{props.timestamp ? new Date(props.timestamp).toLocaleDateString() : '?'}</b></div>
+          <div className='text-gray-400 text-sm'>
+            Minecraft Version <b>{props.minecraftVersion || '?'}</b>
+          </div>
+          <div className='text-gray-400 text-sm'>
+            Updated on{' '}
+            <b>
+              {props.timestamp ? new Date(props.timestamp).toLocaleDateString() : '?'}
+            </b>
+          </div>
         </div>
         <div className='flex-none'>
           <ul className='menu menu-horizontal px-1'>
@@ -36,35 +43,27 @@ function Header(props: Props) {
               <a href='https://github.com/TheWilley/Minecraft-Glyph-Database'>Github</a>
             </li>
             <li>
+              {' '}
+              <Link to='/about'>About</Link>{' '}
+            </li>
+            <li>
               <details>
                 <summary>Go To</summary>
-                <ul
-                  className='bg-base-200 rounded-t-none p-2 z-40'
-                >
+                <ul className='bg-base-200 rounded-t-none p-2 z-40'>
                   <li>
-                    <Link to='ascii'>
-                      ascii
-                    </Link>
+                    <Link to='ascii'>ascii</Link>
                   </li>
                   <li>
-                    <Link to='ascii_sga'>
-                      ascii_sga
-                    </Link>
+                    <Link to='ascii_sga'>ascii_sga</Link>
                   </li>
                   <li>
-                    <Link to='asciillager'>
-                      asciillager
-                    </Link>
+                    <Link to='asciillager'>asciillager</Link>
                   </li>
                   <li>
-                    <Link to='accented'>
-                      accented
-                    </Link>
+                    <Link to='accented'>accented</Link>
                   </li>
                   <li>
-                    <Link to='nonlatin_european'>
-                      nonlatin_european
-                    </Link>
+                    <Link to='nonlatin_european'>nonlatin_european</Link>
                   </li>
                 </ul>
               </details>

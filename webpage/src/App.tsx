@@ -8,6 +8,7 @@ import Table from './components/Table';
 import { useState } from 'react';
 import Loader from './components/Loader';
 import { Fonts } from './global/types';
+import About from './About';
 
 const fontKeys = [
   'ascii',
@@ -56,9 +57,14 @@ function App() {
       }}
     >
       <Container>
-        <Header setQuery={setQuery} timestamp={metadata?.timestamp} minecraftVersion={metadata?.minecraftVersion} />
+        <Header
+          setQuery={setQuery}
+          timestamp={metadata?.timestamp}
+          minecraftVersion={metadata?.minecraftVersion}
+        />
         <Routes>
           <Route path='/' element={<Navigate to={`/${fontKeys[0]}`} replace />} />
+          <Route path='/about' element={<About />} />
           <Route
             path='/:fontKey'
             element={<FontTableWrapper fonts={fonts} query={query} />}
