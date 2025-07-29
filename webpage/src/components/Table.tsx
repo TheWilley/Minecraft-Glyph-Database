@@ -144,7 +144,7 @@ function Table(props: Props) {
       </div>
       <div className='grid grid-cols-1 gap-3 pt-3 md:grid-cols-2'>
         <table
-          className='table table-pin-rows table-zebra'
+          className='table table-pin-rows table-zebra h-fit'
           onMouseOut={() => resetHighlightedArea()}
         >
           <thead>
