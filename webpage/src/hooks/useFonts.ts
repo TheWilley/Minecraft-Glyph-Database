@@ -27,10 +27,11 @@ export default function useFonts() {
    * @param {Json} json - The JSON data containing glyphs and textures.
    * @returns {Fonts | null} An object containing organized fonts with different categories, or null if a texture is missing.
    */
-  const extractFonts = (json: Json): Fonts | null => { // <--- Modified return type
+  const extractFonts = (json: Json): Fonts | null => {
+    // <--- Modified return type
     const asciiTexture = json.textures.find((texture) => texture.name === 'ascii');
     if (!asciiTexture) {
-      console.error('Missing \'ascii\' texture.');
+      console.error("Missing 'ascii' texture.");
       return null;
     }
     const ascii = {
@@ -38,9 +39,11 @@ export default function useFonts() {
       texture: asciiTexture,
     };
 
-    const ascii_sgaTexture = json.textures.find((texture) => texture.name === 'ascii_sga');
+    const ascii_sgaTexture = json.textures.find(
+      (texture) => texture.name === 'ascii_sga'
+    );
     if (!ascii_sgaTexture) {
-      console.error('Missing \'ascii_sga\' texture.');
+      console.error("Missing 'ascii_sga' texture.");
       return null;
     }
     const ascii_sga = {
@@ -48,9 +51,11 @@ export default function useFonts() {
       texture: ascii_sgaTexture,
     };
 
-    const asciillagerTexture = json.textures.find((texture) => texture.name === 'asciillager');
+    const asciillagerTexture = json.textures.find(
+      (texture) => texture.name === 'asciillager'
+    );
     if (!asciillagerTexture) {
-      console.error('Missing \'asciillager\' texture.');
+      console.error("Missing 'asciillager' texture.");
       return null;
     }
     const asciillager = {
@@ -60,7 +65,7 @@ export default function useFonts() {
 
     const accentedTexture = json.textures.find((texture) => texture.name === 'accented');
     if (!accentedTexture) {
-      console.error('Missing \'accented\' texture.');
+      console.error("Missing 'accented' texture.");
       return null;
     }
     const accented = {
@@ -68,9 +73,11 @@ export default function useFonts() {
       texture: accentedTexture,
     };
 
-    const nonlatin_europeanTexture = json.textures.find((texture) => texture.name === 'nonlatin_european');
+    const nonlatin_europeanTexture = json.textures.find(
+      (texture) => texture.name === 'nonlatin_european'
+    );
     if (!nonlatin_europeanTexture) {
-      console.error('Missing \'nonlatin_european\' texture.');
+      console.error("Missing 'nonlatin_european' texture.");
       return null;
     }
     const nonlatin_european = {

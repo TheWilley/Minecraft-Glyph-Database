@@ -10,6 +10,7 @@ import {
 import { Fonts } from '../global/types';
 import useTable from '../hooks/useTable';
 import { Dispatch, SetStateAction, useEffect, useMemo } from 'react';
+import { Link } from 'react-router-dom';
 
 /**
  * Displays key metadata about the font texture.
@@ -94,6 +95,8 @@ function Table(props: Props) {
   const {
     filteredFonts,
     hash,
+    noQueryMatch,
+    queryMatches,
     handleHoverChange,
     highlightedArea,
     resetHighlightedArea,
@@ -143,8 +146,30 @@ function Table(props: Props) {
         </div>
       </div>
       <div className='grid grid-cols-1 gap-3 pt-3 md:grid-cols-2'>
+        <div style={{ display: noQueryMatch ? 'block' : 'none' }}>
+          {props.query && (
+            <div className='text-left bg-base-200 w-wull h-fit p-5 rounded'>
+              <div className='text-xl'>
+                Glyph <b>"{props.query}"</b> does not exist in this texture
+              </div>
+              {queryMatches?.length && (
+                <div className='mt-5'>
+                  It does however exist in these texture(s):
+                  <ul className='list-disc ml-4'>
+                    {queryMatches?.map((match) => (
+                      <li className='list-item link'>
+                        <Link to={'/' + match}> {match}</Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
         <table
           className='table table-pin-rows table-zebra h-fit'
+          style={{ display: noQueryMatch ? 'none' : 'table' }}
           onMouseOut={() => resetHighlightedArea()}
         >
           <thead>

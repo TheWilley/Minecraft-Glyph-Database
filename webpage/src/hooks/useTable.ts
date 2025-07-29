@@ -11,6 +11,8 @@ export default function useTable(
   const [filteredFonts, setFilteredFonts] = useState<Glyph[]>();
   const [disableHighlightChange, setDisableHighlightChange] = useState(false);
   const [hash, setHash] = useState<string | null>('');
+  const [noQueryMatch, setNoQueryMatch] = useState(false);
+  const [queryMatches, setQueryMatches] = useState<string[]>();
 
   const hasScrolledToGlyph = useRef(false);
   const previousQuery = useRef('');
@@ -84,6 +86,24 @@ export default function useTable(
 
         navigate(`#${matchedGlyph.unicodeCode}`);
         setHash(matchedGlyph.unicodeCode);
+        setNoQueryMatch(false);
+      } else {
+        setNoQueryMatch(true);
+        setQueryMatches(
+          Object.entries(fonts)
+            .map(([key, value]) => {
+              const matchingGlyphs = value.glyphs.filter(
+                (glyph) => glyph.character === query
+              );
+
+              if (matchingGlyphs.length > 0) {
+                return key;
+              } else {
+                return '';
+              }
+            })
+            .filter((str) => /\w+/.test(str))
+        );
       }
     } else {
       setFilteredFonts(glyphs);
@@ -95,13 +115,22 @@ export default function useTable(
         setHash(null);
         previousQuery.current = '';
       }
+      setNoQueryMatch(false);
     }
   }, [fonts, fontKey, query, navigate, resetHighlightedArea]);
+
+  useEffect(() => {
+    if (noQueryMatch) {
+      setHighlightedArea({ x: -1, y: -1 });
+    }
+  }, [noQueryMatch]);
 
   return {
     highlightedArea,
     filteredFonts,
     hash,
+    noQueryMatch,
+    queryMatches,
     handleHoverChange,
     resetHighlightedArea,
     scrollTo,
