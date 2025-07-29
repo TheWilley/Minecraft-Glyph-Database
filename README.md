@@ -24,7 +24,8 @@ You can read more about the project in the [ABOUT document](ABOUT.md).
 
 
 ## Self-Hosting
-> [!NOTE] [Node.js](https://nodejs.org/en) is required to run this project.
+> [!NOTE] 
+> [Node.js](https://nodejs.org/en) is required to run this project.
 
 This project is divided into two main components: the **Generator** (a JSON compiler) and the **Webpage** (the GUI/Frontend).
 
