@@ -20,9 +20,11 @@ Minecraft Glyph Database (MGD)
 
 The Minecraft Glyph Database (MGD) provides a comprehensive and searchable collection of all default glyphs found within Java Edition of Minecraft's font textures. This project aims to offer an easy way to explore and understand the intricate font system used in the game. It was initially built for [Text2Book](https://github.com/TheWilley/Text2Book).
 
+You can read more about the project in the [ABOUT document](ABOUT.md).
+
 
 ## Self-Hosting
-> **Note:** [Node.js](https://nodejs.org/en) is required to run this project.
+> [!NOTE] [Node.js](https://nodejs.org/en) is required to run this project.
 
 This project is divided into two main components: the **Generator** (a JSON compiler) and the **Webpage** (the GUI/Frontend).
 

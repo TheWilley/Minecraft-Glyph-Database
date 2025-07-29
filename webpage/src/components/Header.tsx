@@ -43,10 +43,6 @@ function Header(props: Props) {
               <a href='https://github.com/TheWilley/Minecraft-Glyph-Database'>Github</a>
             </li>
             <li>
-              {' '}
-              <Link to='/about'>About</Link>{' '}
-            </li>
-            <li>
               <details>
                 <summary>Go To</summary>
                 <ul className='bg-base-200 rounded-t-none p-2 z-40'>
