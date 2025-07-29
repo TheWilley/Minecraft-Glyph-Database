@@ -43,21 +43,22 @@ The generator script creates a `glyphs.json` file. This JSON file contains data 
   * The bitmap file where the glyph is located
   * The position of the glyph within its bitmap
 
-#### Generator Setup Steps
+#### Generator Setup
 
-1.  Navigate to the `generator/src` folder in your terminal:
-    ```bash
-    cd generator/src
-    ```
-2.  Install the necessary Node.js packages:
-    ```bash
-    npm install
-    ```
-3.  You must provide the Minecraft version JAR file yourself due to copyright restrictions. This file contains the assets needed for glyph extraction. Run the `generator.js` script, specifying the path to your Minecraft JAR:
-    ```bash
-    node .\generator.js --path "C:\Users\YourUsername\AppData\Roaming\.minecraft\versions\1.21\1.21.jar"
-    ```
-    This command will generate a `glyphs.json` file inside the `dist` folder.
+To set up the generator and extract Minecraft glyphs, follow these steps:
+
+```bash
+# 1. Navigate to the generator's source directory
+cd generator/src
+
+# 2. Install required Node.js packages
+npm install
+
+# 3. Generate glyphs.json
+#    Provide the full path to your Minecraft version JAR file.
+#    This command will create a 'glyphs.json' file in 'generator/dist/'.
+node .\generator.js --path "C:\Users\YourUsername\AppData\Roaming\.minecraft\versions\1.21\1.21.jar"
+```
 
 ### Webpage
 
@@ -65,37 +66,31 @@ The webpage provides the interactive user interface for viewing and searching th
 
 #### Webpage Setup Steps
 
-1.  Navigate to the `webpage` folder in your terminal:
-    ```bash
-    cd webpage
-    ```
-2.  Install the necessary Node.js packages:
-    ```bash
-    npm install
-    ```
-3.  Move the `glyphs.json` file you generated (from `generator/dist/`) into the `public` folder located within the `webpage` directory.
-4.  Build the webpage for production:
-    ```bash
-    npm run build
-    ```
-5.  To preview the built webpage locally:
-    ```bash
-    npm run preview
-    ```
-    Alternatively, you can upload the contents of the `dist` folder (created by `npm run build`) to your preferred static web host.
-    
+```bash
+# 1. Navigate to the webpage directory
+cd webpage
+
+# 2. Install required Node.js packages
+npm install
+
+# 3. Move the generated glyphs.json file
+#    Copy 'glyphs.json' from 'generator/dist/' to 'webpage/public/'.
+#    This step can be done manually or with a copy command
+copy ..\generator\dist\glyphs.json public
+
+# 4. Build the webpage for production
+npm run build
+
+# 5. Preview the built webpage locally
+#    Alternatively, upload the contents of the 'dist' folder (created by 'npm run build')
+#    to your preferred static web host
+npm run preview
+```
+
 ## Disclaimer
 
-While the compiled [GitHub Pages](https://pages.github.com/) webpage may include copyrighted textures, the sole intention of this project is educational. This project:
-
-1.  Was created exclusively for educational purposes.
-2.  Is not monetized in any way.
-3.  Does not negatively impact Minecraft's trademark or brand.
-
-However, should Mojang or Microsoft request its removal, the webpage will be taken down immediately to comply with copyright laws.
-
-**Note:** This project is not affiliated with or endorsed by Mojang Studios or Microsoft Corporation.
+This project, made for educational purposes, is not affiliated with Mojang Studios or Microsoft, may contain copyrighted textures. It is not monetized and does not negatively impact Minecraft's brand. Should Mojang or Microsoft request its removal, the webpage will be taken down immediately.
 
 ## License
 
-This project is licensed under the MIT License.
+[MIT](LICENSE)
