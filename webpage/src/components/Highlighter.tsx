@@ -51,7 +51,7 @@ function Highlighter({ texture, highlightedArea }: Props) {
             <FontAwesomeIcon icon={isTextureDisplayed ? faEyeSlash : faEye} />{' '}
             {isTextureDisplayed ? 'Hide Texture' : 'Display Texture'}
           </div>
-          <div className='collapse-content'>{canvasElement}</div>
+          <div className='collapse-content max-h-[calc(100vh-55px)] overflow-auto'>{canvasElement}</div>
         </div>
       ) : (
         <div className='overflow-auto max-h-[calc(100vh-80px)] top-[130px] lg:top-[70px] sticky z-10'>
