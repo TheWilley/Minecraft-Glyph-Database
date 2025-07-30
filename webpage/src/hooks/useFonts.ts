@@ -31,7 +31,7 @@ export default function useFonts() {
     // <--- Modified return type
     const asciiTexture = json.textures.find((texture) => texture.name === 'ascii');
     if (!asciiTexture) {
-      console.error("Missing 'ascii' texture.");
+      console.error('Missing \'ascii\' texture.');
       return null;
     }
     const ascii = {
@@ -43,7 +43,7 @@ export default function useFonts() {
       (texture) => texture.name === 'ascii_sga'
     );
     if (!ascii_sgaTexture) {
-      console.error("Missing 'ascii_sga' texture.");
+      console.error('Missing \'ascii_sga\' texture.');
       return null;
     }
     const ascii_sga = {
@@ -55,7 +55,7 @@ export default function useFonts() {
       (texture) => texture.name === 'asciillager'
     );
     if (!asciillagerTexture) {
-      console.error("Missing 'asciillager' texture.");
+      console.error('Missing \'asciillager\' texture.');
       return null;
     }
     const asciillager = {
@@ -65,7 +65,7 @@ export default function useFonts() {
 
     const accentedTexture = json.textures.find((texture) => texture.name === 'accented');
     if (!accentedTexture) {
-      console.error("Missing 'accented' texture.");
+      console.error('Missing \'accented\' texture.');
       return null;
     }
     const accented = {
@@ -77,7 +77,7 @@ export default function useFonts() {
       (texture) => texture.name === 'nonlatin_european'
     );
     if (!nonlatin_europeanTexture) {
-      console.error("Missing 'nonlatin_european' texture.");
+      console.error('Missing \'nonlatin_european\' texture.');
       return null;
     }
     const nonlatin_european = {
