@@ -38,6 +38,7 @@ function Highlighter({ texture, highlightedArea }: Props) {
         width={texture.size.width}
         height={texture.size.height}
         className='w-full bg-base-200 p-5'
+        style={{imageRendering: 'pixelated'}}
       />
     </div>
   );
