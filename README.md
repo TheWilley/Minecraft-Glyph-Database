@@ -43,10 +43,6 @@ The generator script creates a `glyphs.json` file. This JSON file contains data 
   * The bitmap file where the glyph is located
   * The position of the glyph within its bitmap
 
-#### Generator Setup
-
-To set up the generator and extract Minecraft glyphs, follow these steps:
-
 ```bash
 # 1. Navigate to the generator's source directory
 cd generator/src
@@ -63,8 +59,6 @@ node .\generator.js --path "C:\Users\YourUsername\AppData\Roaming\.minecraft\ver
 ### Webpage
 
 The webpage provides the interactive user interface for viewing and searching the generated glyphs.
-
-#### Webpage Setup Steps
 
 ```bash
 # 1. Navigate to the webpage directory
