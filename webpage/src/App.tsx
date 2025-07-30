@@ -49,12 +49,7 @@ function App() {
   const [query, setQuery] = useSearch();
 
   return (
-    <HashRouter
-      future={{
-        v7_startTransition: true,
-        v7_relativeSplatPath: true,
-      }}
-    >
+    <HashRouter>
       <Container>
         <Header
           setQuery={setQuery}
