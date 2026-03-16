@@ -1,50 +1,11 @@
-import type {
-  Glyph,
-  Proivder,
-  Texture,
-  TextureBuffer,
-} from "../global/types.js";
+import type { Proivder, TextureBuffer } from "../global/types.js";
 
 import fs from "fs";
-import { getRawCodePoints, splitIntoCharacters } from "./unicodeHelper.js";
-import { get2DImageData, getCharWidth } from "./textureHelper.js";
-import { createCanvas, loadImage } from "canvas";
 import { imageSize } from "image-size";
 import { get2dArrayDimensions } from "./miscellaneousHelper.js";
 import { generateGlyphObject } from "./generateGlyphObject.js";
 import path from "path";
-
-/**
- * Generates an object containing texture information
- * @param texture A texture object
- * @returns An object containing texture information
- */
-function generateTextureObject(texture: Texture) {
-  return new Promise((resolve) => {
-    const canvas = createCanvas(texture.size.width, texture.size.height);
-    const context = canvas.getContext("2d");
-    context.imageSmoothingEnabled = false;
-
-    if (!texture.buffer) {
-      return;
-    }
-
-    loadImage(texture.buffer).then((image) => {
-      context.drawImage(image, 0, 0);
-      const base64 = canvas.toDataURL("image/png");
-      const textureData = {
-        name: texture.name,
-        base64,
-        size: { width: texture.size.width, height: texture.size.height },
-        dimensions: {
-          columns: texture.dimensions.columns,
-          rows: texture.dimensions.rows,
-        },
-      };
-      resolve(textureData);
-    });
-  });
-}
+import { generateTextureObject } from "./generateTextureObject.js";
 
 /**
  * Generates a JSON array combining texture metadata and provider character data.
@@ -132,7 +93,7 @@ export async function createJson(
       ]);
 
       // Handle results
-      if (glyphs.ok === false) {
+      if (glyphs.ok === false || textureMetadata.ok === false) {
         return null;
       }
 

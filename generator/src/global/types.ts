@@ -37,6 +37,19 @@ export type Texture = {
   chars?: string[];
 };
 
+export type TextureJson = {
+  name: string;
+  base64: string;
+  size: {
+    width: number;
+    height: number;
+  };
+  dimensions: {
+    columns: number;
+    rows: number;
+  };
+};
+
 type Success<T> = {
   ok: true;
   value: T;
