@@ -1,4 +1,4 @@
-import type { Proivder, TextureBuffer } from "../global/types.js";
+import type { Proivder, Result, TextureBuffer } from "../global/types.js";
 
 import fs from "fs";
 import { generateGlyphObject } from "./generators/generateGlyphObject.js";
@@ -22,12 +22,11 @@ export async function createJson(
   version: string,
   textures: TextureBuffer[],
   providers: Proivder[],
-) {
+): Promise<Result<string, string>> {
   const texturesJson = generateProviders(textures, providers);
 
   if (!texturesJson.length) {
-    console.warn("No textures found to process.");
-    return;
+    return { ok: false, error: "No textures found to process." };
   }
 
   // We process textures in parallel for better performance
@@ -69,4 +68,6 @@ export async function createJson(
   const outputPath = path.join(distPath, "glyphs.json");
 
   fs.writeFileSync(outputPath, JSON.stringify(outputData));
+
+  return { ok: true, value: outputPath };
 }

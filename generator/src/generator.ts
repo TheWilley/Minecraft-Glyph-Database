@@ -11,7 +11,7 @@ import { checkFolderPath } from "./utils/IOUtils.js";
  * Program entry
  * @param jarFilePath The path to a Minecraft version JAR file
  */
-function main(jarFilePath: string) {
+async function main(jarFilePath: string) {
   // Check that the path exists at all
   if (!checkFolderPath(jarFilePath)) {
     console.error("Error:", "Folder does not exist, is the path correct?");
@@ -45,9 +45,18 @@ function main(jarFilePath: string) {
     process.exit(1);
   }
 
-  createJson(version.value, textures.value, providers.value);
+  // CreateJson handling
+  const createdPath = await createJson(
+    version.value,
+    textures.value,
+    providers.value,
+  );
+  if (!createdPath.ok) {
+    console.error("Error:", createdPath.error);
+    process.exit(1);
+  }
 
-  console.log("Done!");
+  console.log("-->", createdPath.value);
 }
 
 // Define options and run main function with parameters
