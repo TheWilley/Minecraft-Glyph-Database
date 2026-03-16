@@ -1,8 +1,8 @@
 /**
  * split string into characters, handling surrogate pairs
- * @param str Astring of UTF-8 characters
+ * @param str A string of UTF-8 characters
  * */
-function splitIntoCharacters(str) {
+export function splitIntoCharacters(str: string) {
   let result = [];
   for (let i = 0; i < str.length; i++) {
     let char = str.charAt(i);
@@ -19,9 +19,9 @@ function splitIntoCharacters(str) {
 
 /**
  * Get raw Unicode code point of a given character
- * The character
+ * @param char The character to get unicode for
  */
-function getRawCodePoints(char) {
+export function getRawCodePoints(char: string) {
   // Check if the character is part of a surrogate pair
   if (char.length === 2) {
     // Calculate the code point of the surrogate pair
@@ -33,8 +33,8 @@ function getRawCodePoints(char) {
   } else {
     // Get the code point of the regular character
     let codePoint = char.codePointAt(0);
-    return codePoint.toString(16).toUpperCase(); // Convert to hexadecimal string
+    if (codePoint) {
+      return codePoint.toString(16).toUpperCase(); // Convert to hexadecimal string
+    }
   }
 }
-
-module.exports = {splitIntoCharacters, getRawCodePoints}

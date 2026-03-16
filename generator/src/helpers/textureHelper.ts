@@ -1,9 +1,11 @@
+import type { Pixel } from "../global/types.js";
+
 /**
  * Converts the image data from a canvas context into a 2D array of RGBA values.
- * @param {CanvasRenderingContext2D} ctx - The canvas rendering context.
- * @returns {Array} A 2D array where each element is an object with r, g, b, and a properties.
+ * @param ctx The canvas rendering context.
+ * @returns A 2D array where each element is an object with r, g, b, and a properties.
  */
-function get2DImageData(ctx) {
+export function get2DImageData(ctx: CanvasRenderingContext2D) {
   // Get the dimensions of the canvas
   const width = ctx.canvas.width;
   const height = ctx.canvas.height;
@@ -27,7 +29,7 @@ function get2DImageData(ctx) {
       const index = (y * width + x) * 4;
 
       // Create an object representing the RGBA values of the current pixel
-      const pixel = {
+      const pixel: Pixel = {
         r: data[index], // Red component
         g: data[index + 1], // Green component
         b: data[index + 2], // Blue component
@@ -48,24 +50,30 @@ function get2DImageData(ctx) {
 
 /**
  * Calculates the width of a characters based on it's alpha values provided by `get2DImageData`
- * @param {number[]} alphaValues The alpha values provded by `get2DImageData`
+ * @param alphaValues The alpha values provded by `get2DImageData`
  * @returns The width of a character
  */
-function getCharWidth(alphaValues, character) {
-  // Edge case for spaces
+export function getCharWidth(alphaValues: Pixel[][], character: string) {
+  // Space has a set value of 4
   if (character === " ") return 4;
 
-  // Calculate based on the most right pixel with an alpha above 0
-  const lengths = [];
-  for (let y = 0; y < alphaValues.length; y++) {
-    let lastAlphaValue = 0;
-    for (let x = 0; x < alphaValues[y].length; x++) {
-      if (alphaValues[y][x].a > 0) lastAlphaValue = x + 1;
-    }
-    lengths.push(lastAlphaValue);
-  }
-  const final = Math.max(...lengths);
-  return final;
-}
+  const lengths: number[] = [];
 
-module.exports = { get2DImageData, getCharWidth };
+  for (const row of alphaValues) {
+    let rowMaxX = 0;
+
+    // Iterate from right to left
+    for (let x = row.length - 1; x >= 0; x--) {
+      const pixel = row[x];
+
+      if (pixel && pixel.a && pixel.a > 0) {
+        rowMaxX = x + 1;
+        break; // Found the rightmost pixel, stop looking at this row
+      }
+    }
+    lengths.push(rowMaxX);
+  }
+
+  // Handle empty alphaValues by providing 0 as a default to Math.max
+  return lengths.length > 0 ? Math.max(...lengths) : 0;
+}

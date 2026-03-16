@@ -1,8 +1,15 @@
 {
+  "type": "module",
   "dependencies": {
     "adm-zip": "^0.5.12",
     "canvas": "^3.0.0-rc2",
     "command-line-args": "^6.0.0",
     "image-size": "^2.0.2"
+  },
+  "devDependencies": {
+    "@types/adm-zip": "^0.5.7",
+    "@types/command-line-args": "^5.2.3",
+    "@types/node": "^25.5.0",
+    "typescript": "^5.9.3"
   }
 }
