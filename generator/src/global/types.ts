@@ -36,3 +36,15 @@ export type Texture = {
   glyphs?: string[];
   chars?: string[];
 };
+
+type Success<T> = {
+  ok: true;
+  value: T;
+};
+
+type Failure<E> = {
+  ok: false;
+  error: E;
+};
+
+export type Result<T, E = Error> = Success<T> | Failure<E>;

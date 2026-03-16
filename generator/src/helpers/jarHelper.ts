@@ -1,33 +1,38 @@
 import path from "path";
 import AdmZip from "adm-zip";
-import type { Proivder, TextureBuffer } from "../global/types.js";
+import type { Proivder, Result, TextureBuffer } from "../global/types.js";
+import { paths } from "../static/paths.js";
+import { PROVIDER_MAP } from "../static/providers.js";
 
 /**
  * Extract font specific textures from a Minecraft version
- * @param jarFilePath The path to the Miencraft version `.jar` file
- * @param folderPath The path to the assets within the `.jar` file
+ * @param jarFilePath The path to the Minecraft version `.jar` file
  */
 export function extractTexturesFromJar(
   jarFilePath: string,
-  folderPath: string,
-) {
+): Result<TextureBuffer[], string> {
   try {
-    const textures: TextureBuffer[] = [];
+    // Create zip instance
+    const textureBuffers: TextureBuffer[] = [];
     const zip = new AdmZip(jarFilePath);
     const zipEntries = zip.getEntries();
 
     zipEntries.forEach((entry) => {
-      // Check if the entry is within the specified folder
-      if (entry.entryName.startsWith(folderPath) && !entry.isDirectory) {
+      if (
+        entry.entryName.startsWith(paths.FONT_TEXTURES_PATH) &&
+        !entry.isDirectory
+      ) {
         const fileName = path.basename(entry.entryName);
-
-        textures.push({ fileName, buffer: zip.readFile(entry) });
+        textureBuffers.push({ fileName, buffer: zip.readFile(entry) });
       }
     });
 
-    return textures;
+    return { ok: true, value: textureBuffers };
   } catch (err) {
-    console.error(`Error extracting textures from JAR file: ${err}`);
+    return {
+      ok: false,
+      error: `Could not extract textures from JAR file: ${err}`,
+    };
   }
 }
 
@@ -40,21 +45,24 @@ export function extractTexturesFromJar(
  * @param jarFilePath The path to the Minecraft version JAR file.
  * @returns The version ID if found, otherwise null.
  */
-export function extractVersionFromMinecraft(jarFilePath: string) {
+export function extractVersionFromMinecraft(
+  jarFilePath: string,
+): Result<string, string> {
   try {
+    // Create zip instance
     const zip = new AdmZip(jarFilePath);
     const versionEntry = zip.getEntry("version.json");
 
-    if (versionEntry) {
-      const data = versionEntry.getData().toString("utf8");
-      const json = JSON.parse(data);
-      return json.id || null;
+    // We may not be able to find versions should a generic JAR be read
+    if (!versionEntry) {
+      return { ok: false, error: "Could not find versions.json in JAR" };
     }
 
-    return null;
+    const data = versionEntry.getData().toString("utf8");
+    const json: { id: string } = JSON.parse(data);
+    return { ok: true, value: json.id };
   } catch (err) {
-    console.error(`Error extracting version from JAR: ${err}`);
-    return null;
+    return { ok: false, error: `Could not extract version from JAR: ${err}` };
   }
 }
 
@@ -65,29 +73,23 @@ export function extractVersionFromMinecraft(jarFilePath: string) {
  * @param jarFilePath - Path to the Minecraft .jar file.
  * @returns An array of bitmap provider objects with `name` fields.
  */
-export function extractProvidersFromMinecraft(jarFilePath: string): Proivder[] {
+export function extractProvidersFromMinecraft(
+  jarFilePath: string,
+): Result<Proivder[], string> {
   try {
+    // Create zip instance
     const zip = new AdmZip(jarFilePath);
     const zipEntries = zip.getEntries();
 
-    const providerMap = {
-      "assets/minecraft/font/alt.json": "ascii_sga",
-      "assets/minecraft/font/illageralt.json": "asciillager",
-      "assets/minecraft/font/include/default.json": [
-        "nonlatin_european",
-        "accented",
-        "ascii",
-      ],
-      "assets/minecraft/font/include/space.json": "space",
-    };
-
+    // Used later
     const bitmapProviders: Proivder[] = [];
 
+    // Loop trough each entry
     zipEntries.forEach((entry) => {
       if (
         !entry.isDirectory &&
         entry.entryName.endsWith(".json") &&
-        providerMap.hasOwnProperty(entry.entryName)
+        PROVIDER_MAP.hasOwnProperty(entry.entryName)
       ) {
         const json = JSON.parse(entry.getData().toString("utf8"));
         const providers = json.providers as Proivder;
@@ -112,9 +114,11 @@ export function extractProvidersFromMinecraft(jarFilePath: string): Proivder[] {
       }
     });
 
-    return bitmapProviders;
+    return { ok: true, value: bitmapProviders };
   } catch (err) {
-    console.error(`Error extracting bitmap providers from JAR: ${err}`);
-    return [];
+    return {
+      ok: false,
+      error: `Could not extract bitmap providers from JAR: ${err}`,
+    };
   }
 }

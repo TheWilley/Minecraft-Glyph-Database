@@ -5,34 +5,52 @@ import {
   extractVersionFromMinecraft,
 } from "./helpers/jarHelper.js";
 import { createJson } from "./helpers/jsonHelper.js";
-import { checkPath } from "./helpers/miscellaneousHelper.js";
+import { checkFolderPath } from "./helpers/miscellaneousHelper.js";
 
 /**
- * The primary function
- * @param path The path to a Minecraft version JAR file
+ * Program entry
+ * @param jarFilePath The path to a Minecraft version JAR file
  */
-function main(path: string) {
-  if (!checkPath(path)) {
-    console.error('error: "versions" folder not found, is the path correct?');
-    return;
+function main(jarFilePath: string) {
+  // Check that the path exists at all
+  if (!checkFolderPath(jarFilePath)) {
+    console.error("Error:", "Folder does not exist, is the path correct?");
+    process.exit(1);
   }
 
-  const version = extractVersionFromMinecraft(path);
-  const textures = extractTexturesFromJar(
-    path,
-    "assets/minecraft/textures/font",
-  );
-  const providers = extractProvidersFromMinecraft(path);
-
-  if (textures) {
-    createJson(version, textures, providers);
-    console.log("Done!");
-  } else {
-    console.error("Could not load textures");
-    process.exit();
+  // Version handling
+  const version = extractVersionFromMinecraft(jarFilePath);
+  if (!version.ok) {
+    console.error("Error:", version.error);
+    process.exit(1);
   }
+
+  // Textures handling
+  const textures = extractTexturesFromJar(jarFilePath);
+  if (!textures.ok) {
+    console.error("Error:", textures.error);
+    process.exit(1);
+  }
+
+  // Providers handling
+  const providers = extractProvidersFromMinecraft(jarFilePath);
+  if (!providers.ok) {
+    console.error("Error:", providers.error);
+    process.exit(1);
+  }
+
+  // Check that there are textures to process
+  if (!textures.value.length) {
+    console.error("Error:", "Textures are empty");
+    process.exit(1);
+  }
+
+  createJson(version.value, textures.value, providers.value);
+
+  console.log("Done!");
 }
 
+// Define options and run main function with parameters
 const optionDefinitions = [{ name: "path", type: String, defaultOption: true }];
 const options = commandLineArgs(optionDefinitions);
 main(options.path);
