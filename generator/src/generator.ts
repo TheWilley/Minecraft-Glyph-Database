@@ -3,9 +3,9 @@ import {
   extractTexturesFromJar,
   extractProvidersFromMinecraft,
   extractVersionFromMinecraft,
-} from "./helpers/jarHelper.js";
-import { createJson } from "./helpers/jsonHelper.js";
-import { checkFolderPath } from "./helpers/miscellaneousHelper.js";
+} from "./utils/jarUtils.js";
+import { createJson } from "./utils/jsonUtils.js";
+import { checkFolderPath } from "./utils/IOUtils.js";
 
 /**
  * Program entry

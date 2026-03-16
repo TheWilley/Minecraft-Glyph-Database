@@ -1,6 +1,6 @@
 import { imageSize } from "image-size";
-import type { Proivder, TextureBuffer } from "../global/types.js";
-import { get2dArrayDimensions } from "./miscellaneousHelper.js";
+import type { Proivder, TextureBuffer } from "../../global/types.js";
+import { get2dArrayDimensions } from "../textureUtils.js";
 
 /**
  * Generates a JSON array combining texture metadata and provider character data.

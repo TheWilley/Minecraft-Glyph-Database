@@ -1,10 +1,10 @@
 import type { Proivder, TextureBuffer } from "../global/types.js";
 
 import fs from "fs";
-import { generateGlyphObject } from "./generateGlyphObject.js";
+import { generateGlyphObject } from "./generators/generateGlyphObject.js";
 import path from "path";
-import { generateTextureObject } from "./generateTextureObject.js";
-import { generateProviders } from "./generateProviders.js";
+import { generateTextureObject } from "./generators/generateTextureObject.js";
+import { generateProviders } from "./generators/generateProviders.js";
 
 /**
  * Generates a JSON file from texture and provider data, including glyph and texture objects.

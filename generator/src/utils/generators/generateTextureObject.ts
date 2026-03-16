@@ -1,4 +1,4 @@
-import type { Result, Texture, TextureJson } from "../global/types.js";
+import type { Result, Texture, TextureJson } from "../../global/types.js";
 import { Canvas, loadImage } from "skia-canvas";
 
 export async function generateTextureObject(

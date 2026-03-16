@@ -4,9 +4,9 @@ import {
   type CanvasRenderingContext2D,
   type Image,
 } from "skia-canvas";
-import type { Glyph, Result, Texture } from "../global/types.js";
-import { get2DImageData, getCharWidth } from "./textureHelper.js";
-import { getRawCodePoints, splitIntoCharacters } from "./unicodeHelper.js";
+import type { Glyph, Result, Texture } from "../../global/types.js";
+import { get2DImageData, getCharWidth } from "../textureUtils.js";
+import { getRawCodePoints, splitIntoCharacters } from "../unicodeUtils.js";
 
 /**
  * Main entry point to process a texture into individual glyph objects.
