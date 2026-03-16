@@ -2,9 +2,9 @@
   "type": "module",
   "dependencies": {
     "adm-zip": "^0.5.12",
-    "canvas": "^3.0.0-rc2",
     "command-line-args": "^6.0.0",
-    "image-size": "^2.0.2"
+    "image-size": "^2.0.2",
+    "skia-canvas": "^3.0.8"
   },
   "devDependencies": {
     "@types/adm-zip": "^0.5.7",

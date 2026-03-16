@@ -1,10 +1,10 @@
-import { createCanvas, loadImage } from "canvas";
 import type { Result, Texture, TextureJson } from "../global/types.js";
+import { Canvas, loadImage } from "skia-canvas";
 
 export async function generateTextureObject(
   texture: Texture,
 ): Promise<Result<TextureJson, string>> {
-  const canvas = createCanvas(texture.size.width, texture.size.height);
+  const canvas = new Canvas(texture.size.width, texture.size.height);
   const context = canvas.getContext("2d");
   context.imageSmoothingEnabled = false;
 
@@ -14,7 +14,7 @@ export async function generateTextureObject(
 
   const image = await loadImage(texture.buffer);
   context.drawImage(image, 0, 0);
-  const base64 = canvas.toDataURL("image/png");
+  const base64 = canvas.toDataURL("png");
   const textureData = {
     name: texture.name,
     base64,

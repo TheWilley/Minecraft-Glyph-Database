@@ -1,8 +1,6 @@
 import type { Proivder, TextureBuffer } from "../global/types.js";
 
 import fs from "fs";
-import { imageSize } from "image-size";
-import { get2dArrayDimensions } from "./miscellaneousHelper.js";
 import { generateGlyphObject } from "./generateGlyphObject.js";
 import path from "path";
 import { generateTextureObject } from "./generateTextureObject.js";
