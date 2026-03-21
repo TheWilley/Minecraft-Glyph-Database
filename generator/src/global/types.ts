@@ -1,7 +1,4 @@
-export type TextureBuffer = {
-  fileName: string;
-  buffer: Buffer<ArrayBufferLike> | null;
-};
+// --- Minecraft Specific Types ---
 
 export type Glyph = {
   base64: string; // Base 64 representation of the glyph
@@ -21,35 +18,6 @@ export type Proivder = {
   name: string;
 };
 
-export type Pixel = {
-  r: number | undefined;
-  g: number | undefined;
-  b: number | undefined;
-  a: number | undefined;
-};
-
-export interface FinalOutput {
-  timestamp: number;
-  minecraftVersion: string;
-  textures: Success<Texture>[];
-  glyphs: Success<Glyph[]>[];
-}
-
-export interface Resolution {
-  width: number;
-  height: number;
-}
-
-export interface Grid {
-  rows: number;
-  columns: number;
-}
-
-export interface Coordinates {
-  x: number;
-  y: number;
-}
-
 export interface TextureSource {
   fileName: string;
   buffer: Buffer<ArrayBufferLike> | null;
@@ -66,6 +34,39 @@ export interface DecodedTexture {
 export type Texture = Omit<DecodedTexture, "buffer"> & {
   base64: string;
 };
+
+export interface FinalOutput {
+  timestamp: number;
+  minecraftVersion: string;
+  textures: Success<Texture>[];
+  glyphs: Success<Glyph[]>[];
+}
+
+// --- Generic Data Types ---
+
+export type Pixel = {
+  r: number | undefined;
+  g: number | undefined;
+  b: number | undefined;
+  a: number | undefined;
+};
+
+export interface Resolution {
+  width: number;
+  height: number;
+}
+
+export interface Grid {
+  rows: number;
+  columns: number;
+}
+
+export interface Coordinates {
+  x: number;
+  y: number;
+}
+
+// --- Error Handling Types ---
 
 type Success<T> = {
   ok: true;
