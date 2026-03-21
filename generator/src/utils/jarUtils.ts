@@ -1,6 +1,6 @@
 import path from "path";
 import AdmZip from "adm-zip";
-import type { Proivder, Result, TextureBuffer } from "../global/types.js";
+import type { Proivder, Result, TextureSource } from "../global/types.js";
 import { paths } from "../static/paths.js";
 import { PROVIDER_MAP } from "../static/providers.js";
 
@@ -10,10 +10,10 @@ import { PROVIDER_MAP } from "../static/providers.js";
  */
 export function extractTexturesFromJar(
   jarFilePath: string,
-): Result<TextureBuffer[], string> {
+): Result<TextureSource[], string> {
   try {
     // Create zip instance
-    const textureBuffers: TextureBuffer[] = [];
+    const textureBuffers: TextureSource[] = [];
     const zip = new AdmZip(jarFilePath);
     const zipEntries = zip.getEntries();
 

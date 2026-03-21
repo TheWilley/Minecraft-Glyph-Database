@@ -1,10 +1,15 @@
-import type { Proivder, Result, TextureBuffer } from "../global/types.js";
+import type {
+  FinalOutput,
+  Proivder,
+  Result,
+  TextureSource,
+} from "../global/types.js";
 
 import fs from "fs";
-import { generateGlyphObject } from "./generators/generateGlyphObject.js";
+import { encodeGlyphs } from "./generators/generateGlyphObject.js";
 import path from "path";
-import { generateTextureObject } from "./generators/generateTextureObject.js";
-import { generateProviders } from "./generators/generateProviders.js";
+import { encodeTexture } from "./generators/generateTextureObject.js";
+import { createDecodedTextures } from "./generators/generateProviders.js";
 
 /**
  * Generates a JSON file from texture and provider data, including glyph and texture objects.
@@ -14,27 +19,33 @@ import { generateProviders } from "./generators/generateProviders.js";
  * writes the combined data to a JSON file.
  *
  * @param version The Minecraft version string to include in the output.
- * @param textures Array of texture data objects to process.
+ * @param textureSources Array of texture data objects to process.
  * @param providers Object containing provider data for textures.
  * @returns A promise that resolves when the file has been written.
  */
 export async function createJson(
   version: string,
-  textures: TextureBuffer[],
+  textureSources: TextureSource[],
   providers: Proivder[],
 ): Promise<Result<string, string>> {
-  const texturesJson = generateProviders(textures, providers);
+  const decodedTextures = createDecodedTextures(textureSources, providers);
 
-  if (!texturesJson.length) {
+  if (!decodedTextures.ok) {
+    return { ok: false, error: decodedTextures.error };
+  }
+
+  if (!decodedTextures.value.length) {
     return { ok: false, error: "No textures found to process." };
   }
 
   // We process textures in parallel for better performance
-  const results = await Promise.all(
-    texturesJson.map(async (texture) => {
+  // Combine glyphs and textures into a single object
+  // using the previosly created Texture object
+  const textureGlyphPairs = await Promise.all(
+    decodedTextures.value.map(async (texture) => {
       const [glyphs, textureMetadata] = await Promise.all([
-        generateGlyphObject(texture),
-        generateTextureObject(texture),
+        encodeGlyphs(texture),
+        encodeTexture(texture),
       ]);
 
       // Handle results
@@ -46,17 +57,17 @@ export async function createJson(
     }),
   );
 
-  // We filter out all "failed" (null) glyphs
-  const successfulResults = results.filter(
+  // We filter out all "failed" (null) pairs
+  const definedPairs = textureGlyphPairs.filter(
     (r): r is NonNullable<typeof r> => r !== null,
   );
 
   // Flatten the results into the final structure
-  const outputData = {
+  const finalOutput: FinalOutput = {
     timestamp: Date.now(),
     minecraftVersion: version,
-    textures: successfulResults.flatMap((r) => r.textureMetadata),
-    glyphs: successfulResults.flatMap((r) => r.glyphs),
+    textures: definedPairs.flatMap((r) => r.textureMetadata),
+    glyphs: definedPairs.flatMap((r) => r.glyphs),
   };
 
   // Ensure distribution directory exists
@@ -67,7 +78,7 @@ export async function createJson(
 
   const outputPath = path.join(distPath, "glyphs.json");
 
-  fs.writeFileSync(outputPath, JSON.stringify(outputData));
+  fs.writeFileSync(outputPath, JSON.stringify(finalOutput));
 
   return { ok: true, value: outputPath };
 }

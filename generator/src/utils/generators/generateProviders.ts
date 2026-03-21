@@ -1,59 +1,63 @@
 import { imageSize } from "image-size";
-import type { Proivder, TextureBuffer } from "../../global/types.js";
+import type {
+  Proivder,
+  Result,
+  TextureSource,
+  DecodedTexture,
+  Resolution,
+} from "../../global/types.js";
 import { get2dArrayDimensions } from "../textureUtils.js";
 
 /**
  * Generates a JSON array combining texture metadata and provider character data.
- * @param textures An array of texture objects containing file names, base64-encoded images, and buffers.
+ * @param textureSources An array of texture objects containing file names, base64-encoded images, and buffers.
  * @param providers An object mapping names to provider data with type and character arrays.
  * @returns An array of combined objects including name, character grid, dimensions, size, and buffer.
  */
-export function generateProviders(
-  textures: TextureBuffer[],
+export function createDecodedTextures(
+  textureSources: TextureSource[],
   providers: Proivder[],
-) {
-  const textureResults = [];
+): Result<DecodedTexture[], string> {
+  const textureMap = new Map<
+    string,
+    { buffer: Uint8Array; size: Resolution }
+  >();
 
-  // Getting image widths and heights
-  for (const texture of textures) {
+  for (const tex of textureSources) {
     try {
-      const buffer = texture.buffer as Uint8Array<ArrayBufferLike>;
-      const dimensions = imageSize(buffer);
+      if (tex.buffer) {
+        const dimensions = imageSize(tex.buffer);
+        const key = tex.fileName.replace(".png", "");
 
-      textureResults.push({
-        fileName: texture.fileName,
-        width: dimensions.width,
-        height: dimensions.height,
-        buffer: texture.buffer,
-      });
+        textureMap.set(key, {
+          buffer: tex.buffer,
+          size: { width: dimensions.width, height: dimensions.height },
+        });
+      }
     } catch (err) {
-      console.error(
-        `Error reading image ${texture.fileName}: ${(err as Error).message}`,
-      );
+      return {
+        ok: false,
+        error: `Could not read image ${tex.fileName}: ${(err as Error).message}`,
+      };
     }
   }
 
-  // Combining providers
-  const finalResults = [];
+  // Combine with Providers
+  const finalResults: DecodedTexture[] = [];
 
   for (const provider of providers) {
-    const targetTexture = textureResults.find(
-      (textureResult) =>
-        textureResult.fileName.replace(".png", "") === provider.name,
-    );
+    const asset = textureMap.get(provider.name);
 
-    if (targetTexture) {
-      const combinedObj = {
+    if (asset) {
+      finalResults.push({
         name: provider.name,
         chars: provider.chars,
-        dimensions: get2dArrayDimensions(provider.chars, ["\ud800"]),
-        size: { width: targetTexture.width, height: targetTexture.height },
-        buffer: targetTexture.buffer,
-      };
-
-      finalResults.push(combinedObj);
+        grid: get2dArrayDimensions(provider.chars, ["\ud800"]),
+        resolution: asset.size,
+        buffer: asset.buffer,
+      });
     }
   }
 
-  return finalResults;
+  return { ok: true, value: finalResults };
 }

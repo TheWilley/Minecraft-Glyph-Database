@@ -4,17 +4,17 @@ import {
   type CanvasRenderingContext2D,
   type Image,
 } from "skia-canvas";
-import type { Glyph, Result, Texture } from "../../global/types.js";
+import type { Glyph, Result, DecodedTexture } from "../../global/types.js";
 import { get2DImageData, getCharWidth } from "../textureUtils.js";
 import { getRawCodePoints, splitIntoCharacters } from "../unicodeUtils.js";
 
 /**
  * Main entry point to process a texture into individual glyph objects.
  */
-export async function generateGlyphObject(
-  texture: Texture,
+export async function encodeGlyphs(
+  texture: DecodedTexture,
 ): Promise<Result<Glyph[], string>> {
-  const { buffer, chars, size, dimensions, name } = texture;
+  const { buffer, chars, resolution, grid, name } = texture;
 
   // We can only process if the buffer and chars exists
   if (!buffer || !chars)
@@ -23,8 +23,8 @@ export async function generateGlyphObject(
   const image = await loadImage(buffer);
   const charactersArray = chars.map(splitIntoCharacters);
 
-  const cellWidth = Math.floor(size.width / dimensions.columns);
-  const cellHeight = Math.floor(size.height / dimensions.rows);
+  const cellWidth = Math.floor(resolution.width / grid.columns);
+  const cellHeight = Math.floor(resolution.height / grid.rows);
 
   // Setup a reusable scratchpad canvas for individual cells
   const cellCanvas = new Canvas(cellWidth, cellHeight);
@@ -33,8 +33,8 @@ export async function generateGlyphObject(
 
   const glyphDataArray: Glyph[] = [];
 
-  for (let row = 0; row < dimensions.rows; row++) {
-    for (let col = 0; col < dimensions.columns; col++) {
+  for (let row = 0; row < grid.rows; row++) {
+    for (let col = 0; col < grid.columns; col++) {
       const char = charactersArray?.[row]?.[col];
       if (!char) continue;
 
@@ -94,9 +94,9 @@ function processCell(
   return {
     character,
     characterWidth,
-    base64Image: cellCanvas.toDataURL("png"),
+    base64: cellCanvas.toDataURL("png"),
     fileName: `${textureName}.png`,
     unicodeCode: `U+${getRawCodePoints(character)}`,
-    gridLocation: { x: col, y: row },
+    coordinates: { x: col, y: row },
   };
 }

@@ -4,11 +4,11 @@ export type TextureBuffer = {
 };
 
 export type Glyph = {
-  base64Image: string; // Base 64 representation of the glyph
+  base64: string; // Base 64 representation of the glyph
   character: string; // The character represented in UTF-8
   characterWidth: number; // The character width in pixels
   fileName: string; // From what file was the glyph derived
-  gridLocation: { x: number; y: number }; // X and Y location of the glyph in the given texture
+  coordinates: Coordinates; // X and Y location of the glyph in the given texture
   unicodeCode: string; // The character represented in unicode
 };
 
@@ -28,26 +28,43 @@ export type Pixel = {
   a: number | undefined;
 };
 
-export type Texture = {
-  name: string;
-  size: { width: number; height: number };
-  dimensions: { rows: number; columns: number };
-  buffer: Buffer<ArrayBufferLike> | null;
-  glyphs?: string[];
-  chars?: string[];
-};
+export interface FinalOutput {
+  timestamp: number;
+  minecraftVersion: string;
+  textures: Success<Texture>[];
+  glyphs: Success<Glyph[]>[];
+}
 
-export type TextureJson = {
+export interface Resolution {
+  width: number;
+  height: number;
+}
+
+export interface Grid {
+  rows: number;
+  columns: number;
+}
+
+export interface Coordinates {
+  x: number;
+  y: number;
+}
+
+export interface TextureSource {
+  fileName: string;
+  buffer: Buffer<ArrayBufferLike> | null;
+}
+
+export interface DecodedTexture {
   name: string;
+  chars: string[];
+  grid: Grid;
+  resolution: Resolution;
+  buffer: Uint8Array;
+}
+
+export type Texture = Omit<DecodedTexture, "buffer"> & {
   base64: string;
-  size: {
-    width: number;
-    height: number;
-  };
-  dimensions: {
-    columns: number;
-    rows: number;
-  };
 };
 
 type Success<T> = {

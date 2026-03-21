@@ -1,10 +1,13 @@
-import type { Result, Texture, TextureJson } from "../../global/types.js";
+import type { Result, DecodedTexture, Texture } from "../../global/types.js";
 import { Canvas, loadImage } from "skia-canvas";
 
-export async function generateTextureObject(
-  texture: Texture,
-): Promise<Result<TextureJson, string>> {
-  const canvas = new Canvas(texture.size.width, texture.size.height);
+export async function encodeTexture(
+  texture: DecodedTexture,
+): Promise<Result<Texture, string>> {
+  const canvas = new Canvas(
+    texture.resolution.width,
+    texture.resolution.height,
+  );
   const context = canvas.getContext("2d");
   context.imageSmoothingEnabled = false;
 
@@ -15,14 +18,12 @@ export async function generateTextureObject(
   const image = await loadImage(texture.buffer);
   context.drawImage(image, 0, 0);
   const base64 = canvas.toDataURL("png");
-  const textureData = {
+  const textureData: Texture = {
     name: texture.name,
+    chars: texture.chars,
+    grid: texture.grid,
+    resolution: texture.resolution,
     base64,
-    size: { width: texture.size.width, height: texture.size.height },
-    dimensions: {
-      columns: texture.dimensions.columns,
-      rows: texture.dimensions.rows,
-    },
   };
   return { ok: true, value: textureData };
 }
