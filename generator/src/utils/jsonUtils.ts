@@ -1,7 +1,8 @@
 import type {
-  FinalOutput,
+  MinecraftGlyphDatabaseOutput,
   Proivder,
   Result,
+  Text2BookOutput,
   TextureSource,
 } from "../global/types.js";
 
@@ -27,6 +28,7 @@ export async function createJson(
   version: string,
   textureSources: TextureSource[],
   providers: Proivder[],
+  text2bookReady: boolean,
 ): Promise<Result<string, string>> {
   const decodedTextures = createDecodedTextures(textureSources, providers);
 
@@ -62,13 +64,25 @@ export async function createJson(
     (r): r is NonNullable<typeof r> => r !== null,
   );
 
-  // Flatten the results into the final structure
-  const finalOutput: FinalOutput = {
-    timestamp: Date.now(),
-    minecraftVersion: version,
-    textures: definedPairs.flatMap((r) => r.textureMetadata.value),
-    glyphs: definedPairs.flatMap((r) => r.glyphs.value),
-  };
+  let output: MinecraftGlyphDatabaseOutput | Text2BookOutput;
+
+  // We're writing for Text2Book
+  if (text2bookReady) {
+    output = definedPairs
+      .flatMap((r) => r.glyphs.value)
+      .map((glyph) => ({
+        char: glyph.character,
+        pixels: glyph.characterWidth,
+      }));
+  } else {
+    // We're writing for MinecraftGlyphDatabase
+    output = {
+      timestamp: Date.now(),
+      minecraftVersion: version,
+      textures: definedPairs.flatMap((r) => r.textureMetadata.value),
+      glyphs: definedPairs.flatMap((r) => r.glyphs.value),
+    };
+  }
 
   // Ensure distribution directory exists
   const distPath = "./dist";
@@ -77,8 +91,7 @@ export async function createJson(
   }
 
   const outputPath = path.join(distPath, "glyphs.json");
-
-  fs.writeFileSync(outputPath, JSON.stringify(finalOutput));
+  fs.writeFileSync(outputPath, JSON.stringify(output));
 
   return { ok: true, value: outputPath };
 }

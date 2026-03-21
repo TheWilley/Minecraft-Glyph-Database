@@ -35,12 +35,14 @@ export type Texture = Omit<DecodedTexture, "buffer"> & {
   base64: string;
 };
 
-export interface FinalOutput {
+export interface MinecraftGlyphDatabaseOutput {
   timestamp: number;
   minecraftVersion: string;
   textures: Texture[];
   glyphs: Glyph[];
 }
+
+export type Text2BookOutput = { char: string; pixels: number }[];
 
 // --- Generic Data Types ---
 
