@@ -66,8 +66,8 @@ export async function createJson(
   const finalOutput: FinalOutput = {
     timestamp: Date.now(),
     minecraftVersion: version,
-    textures: definedPairs.flatMap((r) => r.textureMetadata),
-    glyphs: definedPairs.flatMap((r) => r.glyphs),
+    textures: definedPairs.flatMap((r) => r.textureMetadata.value),
+    glyphs: definedPairs.flatMap((r) => r.glyphs.value),
   };
 
   // Ensure distribution directory exists

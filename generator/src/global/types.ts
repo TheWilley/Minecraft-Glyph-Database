@@ -38,8 +38,8 @@ export type Texture = Omit<DecodedTexture, "buffer"> & {
 export interface FinalOutput {
   timestamp: number;
   minecraftVersion: string;
-  textures: Success<Texture>[];
-  glyphs: Success<Glyph[]>[];
+  textures: Texture[];
+  glyphs: Glyph[];
 }
 
 // --- Generic Data Types ---
