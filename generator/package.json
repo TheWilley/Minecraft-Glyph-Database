@@ -1,4 +1,7 @@
 {
+  "scripts": {
+    "lint": "eslint ./src"
+  },
   "type": "module",
   "dependencies": {
     "adm-zip": "^0.5.12",
@@ -7,9 +10,14 @@
     "skia-canvas": "^3.0.8"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "@types/adm-zip": "^0.5.7",
     "@types/command-line-args": "^5.2.3",
     "@types/node": "^25.5.0",
-    "typescript": "^5.9.3"
+    "eslint": "^10.1.0",
+    "globals": "^17.4.0",
+    "jiti": "^2.6.1",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.57.1"
   }
 }
