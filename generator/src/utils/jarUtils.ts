@@ -89,7 +89,7 @@ export function extractProvidersFromMinecraft(
       if (
         !entry.isDirectory &&
         entry.entryName.endsWith(".json") &&
-        PROVIDER_MAP.hasOwnProperty(entry.entryName)
+        Object.prototype.hasOwnProperty.call(PROVIDER_MAP, entry.entryName)
       ) {
         const json = JSON.parse(entry.getData().toString("utf8"));
         const providers = json.providers as Proivder;
