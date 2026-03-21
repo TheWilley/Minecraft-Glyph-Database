@@ -70,6 +70,7 @@ export async function createJson(
   if (text2bookReady) {
     output = definedPairs
       .flatMap((r) => r.glyphs.value)
+      .filter((glyph) => glyph.fileName === "ascii.png")
       .map((glyph) => ({
         char: glyph.character,
         pixels: glyph.characterWidth,
