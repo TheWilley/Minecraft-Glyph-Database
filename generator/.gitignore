@@ -1,5 +1,7 @@
 node_modules
-*.json
+dist/*.json
 !textures.json
 !package-lock.json
 !package.json
+build
+dist
