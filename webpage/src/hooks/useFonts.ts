@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Fonts, Json } from '../global/types'; // Assuming Fonts and Json types are defined here
+import { Fonts, Json } from '../global/types';
 
 /**
  * Custom hook for loading and organizing fonts from a JSON file.
@@ -28,7 +28,6 @@ export default function useFonts() {
    * @returns {Fonts | null} An object containing organized fonts with different categories, or null if a texture is missing.
    */
   const extractFonts = (json: Json): Fonts | null => {
-    // <--- Modified return type
     const asciiTexture = json.textures.find((texture) => texture.name === 'ascii');
     if (!asciiTexture) {
       console.error("Missing 'ascii' texture.");

@@ -16,17 +16,17 @@ export type Fonts = {
 export type Texture = {
   base64: string;
   name: string;
-  size: { width: number; height: number };
-  dimensions: { rows: number; columns: number };
+  resolution: { width: number; height: number };
+  grid: { rows: number; columns: number };
 };
 
 export type Glyph = {
-  base64Image: string;
+  base64: string;
   character: string;
   unicodeCode: string;
   characterWidth: number;
   fileName: string;
-  gridLocation: { y: number; x: number };
+  coordinates: { y: number; x: number };
 };
 
 type GlyphTexturePair = { glyphs: Glyph[]; texture: Texture };

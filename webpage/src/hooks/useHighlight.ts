@@ -41,14 +41,20 @@ export default function useHighlight(
 
         // Draw the entire image with reduced opacity
         context.globalAlpha = 0.2;
-        context.drawImage(image, 0, 0, texture.size.width, texture.size.height);
+        context.drawImage(
+          image,
+          0,
+          0,
+          texture.resolution.width,
+          texture.resolution.height
+        );
 
         // Define the clipping region for the area with full opacity
         context.globalAlpha = 1.0;
 
         // Calculate the scaling factors
-        const scaleX = Math.round(texture.size.width / texture.dimensions.columns);
-        const scaleY = Math.round(texture.size.height / texture.dimensions.rows);
+        const scaleX = Math.round(texture.resolution.width / texture.grid.columns);
+        const scaleY = Math.round(texture.resolution.height / texture.grid.rows);
 
         // Calculate the clipping region
         const clipX = highlightedArea.x * scaleX;
@@ -63,7 +69,13 @@ export default function useHighlight(
         context.clip();
 
         // Draw the image within the clipping region
-        context.drawImage(image, 0, 0, texture.size.width, texture.size.height);
+        context.drawImage(
+          image,
+          0,
+          0,
+          texture.resolution.width,
+          texture.resolution.height
+        );
         context.restore(); // Restore the previous state of the context
       };
 
@@ -73,5 +85,13 @@ export default function useHighlight(
         image.onload = draw;
       }
     }
-  }, [highlightedArea, canvasRef, texture.size, texture.dimensions, isMobile]);
+  }, [
+    highlightedArea,
+    canvasRef,
+    texture.resolution,
+    texture.grid,
+    isMobile,
+    texture.resolution.width,
+    texture.resolution.height,
+  ]);
 }

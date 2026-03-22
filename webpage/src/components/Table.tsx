@@ -19,12 +19,12 @@ function FontMetadata({ currentFonts }: { currentFonts: Fonts[keyof Fonts] }) {
   return (
     <div className='items-center gap-1 text-sm text-base-content/80 overflow-x-auto text-nowrap'>
       <div className='badge'>
-        <span className='font-semibold'>Size:</span> {currentFonts.texture.size.width} x{' '}
-        {currentFonts.texture.size.height}
+        <span className='font-semibold'>Size:</span>{' '}
+        {currentFonts.texture.resolution.width} x {currentFonts.texture.resolution.height}
       </div>
       <div className='badge'>
         <span className='font-semibold'>Dimensions:</span>{' '}
-        {currentFonts.texture.dimensions.rows} x {currentFonts.texture.dimensions.columns}
+        {currentFonts.texture.grid.rows} x {currentFonts.texture.grid.columns}
       </div>
       <div className='badge'>
         <span className='font-semibold'>Glyphs:</span> {currentFonts.glyphs.length}
@@ -206,7 +206,7 @@ function Table(props: Props) {
               <tr
                 className='hover:bg-green-300 dark:hover:!bg-green-900 cursor-pointer'
                 onMouseOver={() =>
-                  handleHoverChange(item.gridLocation.x, item.gridLocation.y)
+                  handleHoverChange(item.coordinates.x, item.coordinates.y)
                 }
                 id={item.unicodeCode}
                 onClick={() => scrollTo(item.unicodeCode)}
@@ -214,7 +214,7 @@ function Table(props: Props) {
               >
                 <td>
                   <img
-                    src={item.base64Image}
+                    src={item.base64}
                     className='w-12 invert dark:invert-0'
                     alt={item.character}
                   />
@@ -222,7 +222,7 @@ function Table(props: Props) {
                 <td>{item.character}</td>
                 <td>{item.unicodeCode}</td>
                 <td>{item.characterWidth}</td>
-                <td>{`${item.gridLocation.x}-${item.gridLocation.y}`}</td>
+                <td>{`${item.coordinates.x}-${item.coordinates.y}`}</td>
               </tr>
             ))}
           </tbody>

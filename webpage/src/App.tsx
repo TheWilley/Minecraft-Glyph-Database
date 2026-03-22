@@ -58,10 +58,12 @@ function App() {
         />
         <Routes>
           <Route path='/' element={<Navigate to={`/${fontKeys[0]}`} replace />} />
-          <Route
-            path='/:fontKey'
-            element={<FontTableWrapper fonts={fonts} query={query} />}
-          />
+          <Route path='/:version'>
+            <Route
+              path=':fontKey'
+              element={<FontTableWrapper fonts={fonts} query={query} />}
+            />
+          </Route>
         </Routes>
         <ScrollToTop
           smooth
