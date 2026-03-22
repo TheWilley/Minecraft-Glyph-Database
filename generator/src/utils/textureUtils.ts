@@ -1,3 +1,4 @@
+import type { CanvasRenderingContext2D } from "skia-canvas";
 import type { Pixel } from "../global/types.js";
 
 /**
