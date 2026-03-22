@@ -1,5 +1,6 @@
 {
   "scripts": {
+    "build": "tsc",
     "lint": "eslint ./src"
   },
   "type": "module",
