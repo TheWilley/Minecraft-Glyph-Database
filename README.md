@@ -3,10 +3,9 @@ Minecraft Glyph Database (MGD)
 <br>
 </h1>
 
-<h4 align="center"> A comprehensive, searchable list of all default glyphs in Java-Minecraft's font textures. 
+<h4 align="center"> A comprehensive, searchable list of all default glyphs in Java-Minecraft's font textures.
 
 </h4>
-
 
 <p align="center">
   <a href="#about-the-project">About the Project</a> · <a href="#self-hosting">Self Hosting</a> · <a href="#disclaimer">Disclaimer</a> · <a href="#license">License</a>
@@ -18,17 +17,16 @@ Minecraft Glyph Database (MGD)
 
 ## About the Project
 
-The Minecraft Glyph Database (MGD) provides a comprehensive and searchable collection of all default glyphs found within Java Edition of Minecraft's font textures. This project aims to offer an easy way to explore and understand the intricate font system used in the game. It was initially built for [Text2Book](https://github.com/TheWilley/Text2Book).
+The Minecraft Glyph Database (MGD) provides a comprehensive and searchable collection of all default glyphs found within Java Edition of Minecraft's font textures. This project aims to offer an easy way to explore and understand the font system used in the game. It's the sister project [Text2Book](https://github.com/TheWilley/Text2Book).
 
 You can read more about the project in the [ABOUT document](ABOUT.md).
 
-
 ## Self-Hosting
-> [!NOTE] 
+
+> [!NOTE]
 > [Node.js](https://nodejs.org/en) is required to run this project.
 
 This project is divided into two main components: the **Generator** (a JSON compiler) and the **Webpage** (the GUI/Frontend).
-
 
 To set up the webpage for self-hosting, you must first complete the steps outlined in the [Generator](https://www.google.com/search?q=%23generator) section, followed by the [Webpage](https://www.google.com/search?q=%23webpage) section.
 
@@ -36,12 +34,12 @@ To set up the webpage for self-hosting, you must first complete the steps outlin
 
 The generator script creates a `glyphs.json` file. This JSON file contains data for each glyph, including:
 
-  * Base64 encoded glyph textures
-  * Glyph character representations
-  * Unicode character representations
-  * Glyph widths
-  * The bitmap file where the glyph is located
-  * The position of the glyph within its bitmap
+- Base64 encoded glyph textures
+- Glyph character representations
+- Unicode character representations
+- Glyph widths
+- The bitmap file where the glyph is located
+- The position of the glyph within its bitmap
 
 ```bash
 # 1. Navigate to the generator's source directory
@@ -50,10 +48,20 @@ cd generator/src
 # 2. Install required Node.js packages
 npm install
 
+# 3. Compile TypeScript files to JavaScript
+#    These files will be in the 'build' folder
+#    You may also run src/generator.ts directly using something like bun
+npm run build
+
 # 3. Generate glyphs.json
 #    Provide the full path to your Minecraft version JAR file.
 #    This command will create a 'glyphs.json' file in 'generator/dist/'.
 node .\generator.js --path "C:\Users\YourUsername\AppData\Roaming\.minecraft\versions\1.21\1.21.jar"
+
+## 4. Build for Text2Book (optional)
+#     You can create json specifically for usage with Text2Book by adding the '--ttb' flag.
+#     It's a trimmed down version which only consists of characters and their widths in pixels.
+node .\generator.js --path "C:\Users\YourUsername\AppData\Roaming\.minecraft\versions\1.21\1.21.jar" --ttb
 ```
 
 ### Webpage
